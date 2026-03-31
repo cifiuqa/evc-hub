@@ -1,0 +1,10 @@
+{
+  "categories": [
+    {
+      "name": "Test",
+      "items": [
+        { "name": "Sound1", "id": "12345", "delay": 1 }
+      ]
+    }
+  ]
+}

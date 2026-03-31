@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Command Builder</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<nav id="navbar">
+  <button data-tab="audios">Audios</button>
+  <button data-tab="statuses">Statuses</button>
+  <button data-tab="morphs">Morphs</button>
+</nav>
+
+<div id="subtabs"></div>
+<main id="content"></main>
+
+<!-- Queue -->
+<div id="queue">
+  <h3>Queue</h3>
+  <input id="queueInput">
+  <button id="addQueue">Add</button>
+  <div id="queueList"></div>
+  <button id="clearQueue">Clear</button>
+</div>
+
+<!-- AETHIS -->
+<div id="aethisPanel">
+  <h3>AETHIS</h3>
+  <div id="aethisList"></div>
+  <button id="clearAethis">Clear</button>
+</div>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>

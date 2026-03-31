@@ -1,0 +1,16 @@
+{
+  "categories": [
+    {
+      "name": "Test",
+      "items": [
+        {
+          "name": "Explosion",
+          "id": "99999",
+          "volume": 1,
+          "range": 50,
+          "loop": false
+        }
+      ]
+    }
+  ]
+}
