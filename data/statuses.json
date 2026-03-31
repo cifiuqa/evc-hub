@@ -1,0 +1,12 @@
+[
+  {
+    "preview": "Status Example",
+    "text": {
+      "serious": "SERIOUS TEXT",
+      "semi": "SEMI TEXT",
+      "casual": "CASUAL TEXT"
+    },
+    "left": "255 0 0",
+    "right": "0 0 255"
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "categories": [
+    {
+      "name": "Music",
+      "items": [
+        { "name": "Track1", "id": "11111" }
+      ]
+    }
+  ]
+}

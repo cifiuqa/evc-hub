@@ -1,0 +1,17 @@
+{
+  "categories": [
+    {
+      "name": "Default",
+      "items": [
+        {
+          "name": "Morph1",
+          "file": "test",
+          "desc": "Example morph",
+          "commands": [
+            "morph <person>"
+          ]
+        }
+      ]
+    }
+  ]
+}
