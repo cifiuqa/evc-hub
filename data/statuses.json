@@ -1,112 +1,229 @@
 {
   "modeLabels": {
-    "SERIOUS":      "[SRS]",
-    "SEMI-SERIOUS": "[SS]",
-    "CASUAL":       ""
+    "SERIOUS":      "SERIOUS",
+    "SEMI-SERIOUS": "SEMI-SERIOUS",
+    "CASUAL":       "CASUAL"
   },
   "items": [
     {
-      "name": "On Duty",
+      "name": "Operational",
       "sideinfo": {
-        "text": "{mode} On Duty",
-        "gradientLeft":  [0, 229, 255],
-        "gradientRight": [0, 100, 200]
+        "text": "〔MODE - {mode}〕",
+        "gradientLeft":  [0, 170, 0],
+        "gradientRight": [0, 75, 0]
       },
       "subsideinfo": {
-        "text": "Actively patrolling",
-        "gradientLeft":  [0, 180, 220],
-        "gradientRight": [0, 80, 150]
+        "text": "〔SITE STATUS - OPERATIONAL〕",
+        "gradientLeft":  [0, 170, 0],
+        "gradientRight": [0, 75, 0]
       }
     },
     {
-      "name": "Off Duty",
+      "name": "Code Yellow",
       "sideinfo": {
-        "text": "{mode} Off Duty",
-        "gradientLeft":  [160, 160, 160],
-        "gradientRight": [80, 80, 80]
+        "text": "〔MODE - {mode}〕",
+        "gradientLeft":  [252, 186, 3],
+        "gradientRight": [252, 236, 3]
       },
       "subsideinfo": {
-        "text": "Not currently available",
-        "gradientLeft":  [130, 130, 130],
-        "gradientRight": [60, 60, 60]
+        "text": "〔SITE STATUS - CODE YELLOW〕",
+        "gradientLeft":  [252, 136, 3],
+        "gradientRight": [252, 186, 3]
       }
     },
     {
-      "name": "AFK",
+      "name": "Code Blue",
       "sideinfo": {
-        "text": "{mode} AFK",
-        "gradientLeft":  [255, 180, 0],
-        "gradientRight": [200, 100, 0]
+        "text": "〔MODE - {mode}〕",
+        "gradientLeft":  [58, 72, 232],
+        "gradientRight": [58, 122, 232]
       },
       "subsideinfo": {
-        "text": "Away from keyboard",
-        "gradientLeft":  [220, 150, 0],
-        "gradientRight": [160, 80, 0]
+        "text": "〔SITE STATUS - CODE BLUE〕",
+        "gradientLeft":  [58, 72, 232],
+        "gradientRight": [58, 122, 232]
       }
     },
     {
-      "name": "In Combat",
+      "name": "Code Superblue",
       "sideinfo": {
-        "text": "{mode} In Combat",
-        "gradientLeft":  [255, 60, 60],
-        "gradientRight": [160, 0, 0]
+        "text": "〔MODE - {mode}〕",
+        "gradientLeft":  [17, 35, 204],
+        "gradientRight": [17, 85, 204]
       },
       "subsideinfo": {
-        "text": "Engaged with a hostile",
-        "gradientLeft":  [220, 40, 40],
-        "gradientRight": [120, 0, 0]
+        "text": "〔SITE STATUS - CODE SUPERBLUE〕",
+        "gradientLeft":  [17, 35, 204],
+        "gradientRight": [17, 85, 204]
       }
     },
     {
-      "name": "Moderating",
+      "name": "Code Red",
       "sideinfo": {
-        "text": "{mode} Moderating",
-        "gradientLeft":  [80, 255, 120],
-        "gradientRight": [0, 160, 60]
+        "text": "〔MODE - {mode}〕",
+        "gradientLeft":  [232, 15, 56],
+        "gradientRight": [232, 65, 56]
       },
       "subsideinfo": {
-        "text": "Handling a sit",
-        "gradientLeft":  [60, 220, 100],
-        "gradientRight": [0, 130, 50]
+        "text": "〔SITE STATUS - CODE RED〕",
+        "gradientLeft":  [232, 15, 56],
+        "gradientRight": [232, 65, 56]
       }
     },
     {
-      "name": "Investigating",
+      "name": "Code Orange",
       "sideinfo": {
-        "text": "{mode} Investigating",
-        "gradientLeft":  [180, 100, 255],
-        "gradientRight": [100, 0, 200]
+        "text": "〔MODE - {mode}〕",
+        "gradientLeft":  [255, 103, 0],
+        "gradientRight": [255, 153, 0]
       },
       "subsideinfo": {
-        "text": "Following up on a report",
-        "gradientLeft":  [150, 80, 220],
-        "gradientRight": [80, 0, 170]
+        "text": "〔SITE STATUS - CODE ORANGE〕",
+        "gradientLeft":  [255, 103, 0],
+        "gradientRight": [255, 153, 0]
       }
     },
     {
-      "name": "Training",
+      "name": "Code Black",
       "sideinfo": {
-        "text": "{mode} Training",
-        "gradientLeft":  [255, 220, 0],
-        "gradientRight": [200, 140, 0]
+        "text": "〔MODE - {mode}〕",
+        "gradientLeft":  [0, -50, 0],
+        "gradientRight": [0, 0, 0]
       },
       "subsideinfo": {
-        "text": "Running a training exercise",
-        "gradientLeft":  [220, 190, 0],
-        "gradientRight": [170, 110, 0]
+        "text": "〔SITE STATUS - CODE BLACK〕",
+        "gradientLeft":  [0, -50, 0],
+        "gradientRight": [0, 0, 0]
       }
     },
     {
-      "name": "In RP",
+      "name": "Code Green",
       "sideinfo": {
-        "text": "{mode} In RP",
-        "gradientLeft":  [0, 200, 255],
-        "gradientRight": [0, 80, 200]
+        "text": "〔MODE - {mode}〕",
+        "gradientLeft":  [24, 66, 2],
+        "gradientRight": [24, 116, 2]
       },
       "subsideinfo": {
-        "text": "Engaged in a roleplay scenario",
-        "gradientLeft":  [0, 170, 220],
-        "gradientRight": [0, 60, 160]
+        "text": "〔SITE STATUS - CODE GREEN〕",
+        "gradientLeft":  [24, 66, 2],
+        "gradientRight": [24, 116, 2]
+      }
+    },
+    {
+      "name": "Code White",
+      "sideinfo": {
+        "text": "〔MODE - {mode}〕",
+        "gradientLeft":  [250, 200, 250],
+        "gradientRight": [250, 250, 250]
+      },
+      "subsideinfo": {
+        "text": "〔SITE STATUS - CODE WHITE〕",
+        "gradientLeft":  [250, 200, 250],
+        "gradientRight": [250, 250, 250]
+      }
+    },
+    {
+      "name": "Code Gray",
+      "sideinfo": {
+        "text": "〔MODE - {mode}〕",
+        "gradientLeft":  [79, 44, 88],
+        "gradientRight": [79, 94, 88]
+      },
+      "subsideinfo": {
+        "text": "〔SITE STATUS - CODE GRAY〕",
+        "gradientLeft":  [79, 44, 88],
+        "gradientRight": [79, 94, 88]
+      }
+    },
+    {
+      "name": "Code Silver",
+      "sideinfo": {
+        "text": "〔MODE - {mode}〕",
+        "gradientLeft":  [59, 16, 63],
+        "gradientRight": [59, 66, 63]
+      },
+      "subsideinfo": {
+        "text": "〔SITE STATUS - CODE SILVER〕",
+        "gradientLeft":  [59, 16, 63],
+        "gradientRight": [59, 66, 63]
+      }
+    },
+    {
+      "name": "Code Magenta",
+      "sideinfo": {
+        "text": "〔MODE - {mode}〕",
+        "gradientLeft":  [99, -1, 95],
+        "gradientRight": [99, 49, 95]
+      },
+      "subsideinfo": {
+        "text": "〔SITE STATUS - CODE MAGENTA〕",
+        "gradientLeft":  [99, -1, 95],
+        "gradientRight": [99, 49, 95]
+      }
+    },
+    {
+      "name": "Code Purple",
+      "sideinfo": {
+        "text": "〔MODE - {mode}〕",
+        "gradientLeft":  [126, 10, 150],
+        "gradientRight": [126, 60, 150]
+      },
+      "subsideinfo": {
+        "text": "〔SITE STATUS - CODE PURPLE〕",
+        "gradientLeft":  [126, 10, 150],
+        "gradientRight": [126, 60, 150]
+      }
+    },
+    {
+      "name": "Code Omni",
+      "sideinfo": {
+        "text": "〔MODE - {mode}〕",
+        "gradientLeft":  [80, -41, 156],
+        "gradientRight": [80, 9, 156]
+      },
+      "subsideinfo": {
+        "text": "〔SITE STATUS - CODE OMNI〕",
+        "gradientLeft":  [80, -41, 156],
+        "gradientRight": [80, 9, 156]
+      }
+    },
+    {
+      "name": "Purge Protocol",
+      "sideinfo": {
+        "text": "〔MODE - {mode}〕",
+        "gradientLeft":  [999, 444, 999],
+        "gradientRight": [999, 999, 999]
+      },
+      "subsideinfo": {
+        "text": "〔SITE STATUS - PURGE PROTOCOL〕",
+        "gradientLeft":  [999, 444, 999],
+        "gradientRight": [999, 999, 999]
+      }
+    },
+    {
+      "name": "Full Site Lockdown",
+      "sideinfo": {
+        "text": "〔MODE - {mode}〕",
+        "gradientLeft":  [0, -100, 0],
+        "gradientRight": [0, 0, 0]
+      },
+      "subsideinfo": {
+        "text": "〔SITE STATUS - FULL SITE LOCKDOWN〕",
+        "gradientLeft":  [0, -100, 0],
+        "gradientRight": [0, 0, 0]
+      }
+    },
+    {
+      "name": "Offline",
+      "sideinfo": {
+        "text": "〔MODE - {mode}〕",
+        "gradientLeft":  [200, 150, 200],
+        "gradientRight": [200, 200, 200]
+      },
+      "subsideinfo": {
+        "text": "〔SITE STATUS - OFFLINE〕",
+        "gradientLeft":  [200, 150, 200],
+        "gradientRight": [200, 200, 200]
       }
     }
   ]
