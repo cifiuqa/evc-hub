@@ -1,14 +1,65 @@
 {
   "categories": [
     {
-      "name": "Effects",
+      "id": "combat",
+      "name": "Combat",
       "items": [
         {
-          "name": "Explosion",
-          "id": "99999",
-          "volume": 1,
-          "range": 50,
-          "loop": false
+          "name": "Explosion Large",
+          "audioId": "162334521",
+          "defaults": { "volume": 1.0, "range": 100, "loop": false }
+        },
+        {
+          "name": "Gunshot Bang",
+          "audioId": "155492309",
+          "defaults": { "volume": 0.8, "range": 60, "loop": false }
+        },
+        {
+          "name": "Sword Swing",
+          "audioId": "156892340",
+          "defaults": { "volume": 1.0, "range": 40, "loop": false }
+        }
+      ]
+    },
+    {
+      "id": "environment",
+      "name": "Environment",
+      "items": [
+        {
+          "name": "Wind Loop",
+          "audioId": "131961136",
+          "defaults": { "volume": 0.5, "range": 200, "loop": true }
+        },
+        {
+          "name": "Rain Loop",
+          "audioId": "130773787",
+          "defaults": { "volume": 0.6, "range": 150, "loop": true }
+        },
+        {
+          "name": "Fire Crackle",
+          "audioId": "133456789",
+          "defaults": { "volume": 0.7, "range": 30, "loop": true }
+        }
+      ]
+    },
+    {
+      "id": "ui",
+      "name": "UI Sounds",
+      "items": [
+        {
+          "name": "Click Confirm",
+          "audioId": "142082167",
+          "defaults": { "volume": 1.0, "range": 30, "loop": false }
+        },
+        {
+          "name": "Error Buzz",
+          "audioId": "143921046",
+          "defaults": { "volume": 1.0, "range": 30, "loop": false }
+        },
+        {
+          "name": "Level Up",
+          "audioId": "145678901",
+          "defaults": { "volume": 1.0, "range": 50, "loop": false }
         }
       ]
     }

@@ -1,15 +1,98 @@
 {
   "categories": [
     {
-      "name": "Default",
+      "id": "undead",
+      "name": "Undead",
       "items": [
         {
-          "name": "Morph1",
-          "file": "test",
-          "desc": "Example morph",
-          "commands": [
-            "morph <person>"
-          ]
+          "name": "Zombie",
+          "description": "A shambling undead warrior. Slow but relentless.",
+          "imageFile": "zombie.png",
+          "commands": ["morph zombie {person}", "setteam {person} undead"]
+        },
+        {
+          "name": "Skeleton",
+          "description": "Brittle bones, razor-sharp resolve.",
+          "imageFile": "skeleton.png",
+          "commands": ["morph skeleton {person}", "setteam {person} undead"]
+        },
+        {
+          "name": "Wight",
+          "description": "An ancient undead knight of terrible power.",
+          "imageFile": "wight.png",
+          "commands": ["morph wight {person}", "setteam {person} undead", "giveweapon {person} icesword"]
+        }
+      ]
+    },
+    {
+      "id": "creatures",
+      "name": "Creatures",
+      "items": [
+        {
+          "name": "Dragon",
+          "description": "Ancient and powerful. Commands respect from all.",
+          "imageFile": "dragon.png",
+          "commands": ["morph dragon {person} large", "setscale {person} 2", "setteam {person} neutral"]
+        },
+        {
+          "name": "Wolf",
+          "description": "Pack hunter, swift and deadly.",
+          "imageFile": "wolf.png",
+          "commands": ["morph wolf {person}", "setspeed {person} 1.5"]
+        },
+        {
+          "name": "Golem",
+          "description": "Stone-forged guardian of forgotten vaults.",
+          "imageFile": "golem.png",
+          "commands": ["morph golem {person} stone", "sethealth {person} 500", "setscale {person} 1.5"]
+        }
+      ]
+    },
+    {
+      "id": "humanoid",
+      "name": "Humanoid",
+      "items": [
+        {
+          "name": "Knight",
+          "description": "Armoured warrior of honour and discipline.",
+          "imageFile": "knight.png",
+          "commands": ["morph knight {person}", "giveweapon {person} sword", "setteam {person} guard"]
+        },
+        {
+          "name": "Mage",
+          "description": "Master of arcane arts; frail but devastating.",
+          "imageFile": "mage.png",
+          "commands": ["morph mage {person}", "giveweapon {person} staff"]
+        },
+        {
+          "name": "Rogue",
+          "description": "Shadow operative. Strikes fast, vanishes faster.",
+          "imageFile": "rogue.png",
+          "commands": ["morph rogue {person}", "giveweapon {person} dagger", "setspeed {person} 1.3"]
+        },
+        {
+          "name": "Paladin",
+          "description": "Holy warrior bathed in divine light.",
+          "imageFile": "paladin.png",
+          "commands": ["morph paladin {person}", "giveweapon {person} warhammer", "setteam {person} holy"]
+        }
+      ]
+    },
+    {
+      "id": "special",
+      "name": "Special",
+      "items": [
+        {
+          "name": "Void Wraith",
+          "description": "A being from beyond the veil. Intangible. Hungry.",
+          "imageFile": "void-wraith.png",
+          "commands": ["morph wraith {person} void", "setteam {person} void", "sethealth {person} 200"]
+        },
+        {
+          "name": "Elemental",
+          "description": "Pure concentrated elemental force given form.",
+          "imageFile": "elemental.png",
+          "commands": ["morph elemental {person} fire", "setscale {person} 1.2"]
         }
       ]
     }

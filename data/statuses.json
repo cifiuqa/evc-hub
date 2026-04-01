@@ -1,12 +1,113 @@
-[
-  {
-    "preview": "Status Example",
-    "text": {
-      "serious": "SERIOUS TEXT",
-      "semi": "SEMI TEXT",
-      "casual": "CASUAL TEXT"
+{
+  "modeLabels": {
+    "SERIOUS":      "[SRS]",
+    "SEMI-SERIOUS": "[SS]",
+    "CASUAL":       ""
+  },
+  "items": [
+    {
+      "name": "On Duty",
+      "sideinfo": {
+        "text": "{mode} On Duty",
+        "gradientLeft":  [0, 229, 255],
+        "gradientRight": [0, 100, 200]
+      },
+      "subsideinfo": {
+        "text": "Actively patrolling",
+        "gradientLeft":  [0, 180, 220],
+        "gradientRight": [0, 80, 150]
+      }
     },
-    "left": "255 0 0",
-    "right": "0 0 255"
-  }
-]
+    {
+      "name": "Off Duty",
+      "sideinfo": {
+        "text": "{mode} Off Duty",
+        "gradientLeft":  [160, 160, 160],
+        "gradientRight": [80, 80, 80]
+      },
+      "subsideinfo": {
+        "text": "Not currently available",
+        "gradientLeft":  [130, 130, 130],
+        "gradientRight": [60, 60, 60]
+      }
+    },
+    {
+      "name": "AFK",
+      "sideinfo": {
+        "text": "{mode} AFK",
+        "gradientLeft":  [255, 180, 0],
+        "gradientRight": [200, 100, 0]
+      },
+      "subsideinfo": {
+        "text": "Away from keyboard",
+        "gradientLeft":  [220, 150, 0],
+        "gradientRight": [160, 80, 0]
+      }
+    },
+    {
+      "name": "In Combat",
+      "sideinfo": {
+        "text": "{mode} In Combat",
+        "gradientLeft":  [255, 60, 60],
+        "gradientRight": [160, 0, 0]
+      },
+      "subsideinfo": {
+        "text": "Engaged with a hostile",
+        "gradientLeft":  [220, 40, 40],
+        "gradientRight": [120, 0, 0]
+      }
+    },
+    {
+      "name": "Moderating",
+      "sideinfo": {
+        "text": "{mode} Moderating",
+        "gradientLeft":  [80, 255, 120],
+        "gradientRight": [0, 160, 60]
+      },
+      "subsideinfo": {
+        "text": "Handling a sit",
+        "gradientLeft":  [60, 220, 100],
+        "gradientRight": [0, 130, 50]
+      }
+    },
+    {
+      "name": "Investigating",
+      "sideinfo": {
+        "text": "{mode} Investigating",
+        "gradientLeft":  [180, 100, 255],
+        "gradientRight": [100, 0, 200]
+      },
+      "subsideinfo": {
+        "text": "Following up on a report",
+        "gradientLeft":  [150, 80, 220],
+        "gradientRight": [80, 0, 170]
+      }
+    },
+    {
+      "name": "Training",
+      "sideinfo": {
+        "text": "{mode} Training",
+        "gradientLeft":  [255, 220, 0],
+        "gradientRight": [200, 140, 0]
+      },
+      "subsideinfo": {
+        "text": "Running a training exercise",
+        "gradientLeft":  [220, 190, 0],
+        "gradientRight": [170, 110, 0]
+      }
+    },
+    {
+      "name": "In RP",
+      "sideinfo": {
+        "text": "{mode} In RP",
+        "gradientLeft":  [0, 200, 255],
+        "gradientRight": [0, 80, 200]
+      },
+      "subsideinfo": {
+        "text": "Engaged in a roleplay scenario",
+        "gradientLeft":  [0, 170, 220],
+        "gradientRight": [0, 60, 160]
+      }
+    }
+  ]
+}

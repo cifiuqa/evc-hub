@@ -1,36 +1,109 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Command Builder</title>
-  <link rel="stylesheet" href="css/styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CMD Builder</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<nav id="navbar">
-  <button data-tab="audios">Audios</button>
-  <button data-tab="statuses">Statuses</button>
-  <button data-tab="morphs">Morphs</button>
-</nav>
+  <!-- ── Navbar ────────────────────────────────────────────────── -->
+  <nav id="navbar">
+    <div class="nav-brand">
+      <span class="brand-symbol">▶</span>
+      <span class="brand-text">CMD BUILDER</span>
+    </div>
+    <div class="nav-tabs">
+      <button class="nav-tab active" data-tab="audios">AUDIOS</button>
+      <button class="nav-tab"        data-tab="statuses">STATUSES</button>
+      <button class="nav-tab"        data-tab="morphs">MORPHS</button>
+    </div>
+  </nav>
 
-<div id="subtabs"></div>
-<main id="content"></main>
+  <!-- ── Subtab Bar (Audios only) ──────────────────────────────── -->
+  <div id="subtab-bar">
+    <button class="subtab active" data-subtab="aethis">AETHIS</button>
+    <button class="subtab"        data-subtab="music">MUSIC</button>
+    <button class="subtab"        data-subtab="effects">EFFECTS</button>
+  </div>
 
-<!-- Queue -->
-<div id="queue">
-  <h3>Queue</h3>
-  <input id="queueInput">
-  <button id="addQueue">Add</button>
-  <div id="queueList"></div>
-  <button id="clearQueue">Clear</button>
-</div>
+  <!-- ── Content Row ───────────────────────────────────────────── -->
+  <div id="content-row">
 
-<!-- AETHIS -->
-<div id="aethisPanel">
-  <h3>AETHIS</h3>
-  <div id="aethisList"></div>
-  <button id="clearAethis">Clear</button>
-</div>
+    <!-- TOC Sidebar -->
+    <aside id="toc-panel">
+      <div class="toc-heading">CATEGORIES</div>
+      <nav id="toc-list"></nav>
+    </aside>
 
-<script type="module" src="js/app.js"></script>
+    <!-- Main scrollable content -->
+    <main id="main-content">
+
+      <!-- AUDIOS TAB -->
+      <div id="tab-audios" class="tab-panel">
+        <div id="subtab-aethis" class="subtab-panel"></div>
+        <div id="subtab-music"   class="subtab-panel" style="display:none"></div>
+        <div id="subtab-effects" class="subtab-panel" style="display:none"></div>
+      </div>
+
+      <!-- STATUSES TAB -->
+      <div id="tab-statuses" class="tab-panel" style="display:none"></div>
+
+      <!-- MORPHS TAB -->
+      <div id="tab-morphs" class="tab-panel" style="display:none"></div>
+
+    </main>
+  </div>
+
+  <!-- ── Bottom Panels ─────────────────────────────────────────── -->
+  <div id="bottom-panels">
+
+    <!-- Command Queue -->
+    <div id="cmd-queue-panel" class="bottom-panel">
+      <div class="panel-header">
+        <span class="panel-title">⌨ COMMAND QUEUE</span>
+        <div class="panel-controls">
+          <span id="cmd-count" class="panel-count">empty</span>
+          <button class="btn btn-sm" id="cmd-copy-btn">COPY ALL</button>
+          <button class="btn btn-sm btn-danger" id="cmd-clear-btn">CLEAR</button>
+          <button class="btn btn-icon" id="cmd-collapse-btn" title="Toggle">▼</button>
+        </div>
+      </div>
+      <div class="panel-body" id="cmd-queue-body">
+        <div id="cmd-queue-list" class="queue-list"></div>
+        <div class="cmd-input-row">
+          <input type="text" id="cmd-manual-input" class="cmd-input"
+                 placeholder="type a raw command and press ADD or Enter…">
+          <button class="btn btn-primary btn-sm" id="cmd-add-btn">ADD</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- AETHIS Queue -->
+    <div id="aethis-queue-panel" class="bottom-panel">
+      <div class="panel-header">
+        <span class="panel-title">◈ AETHIS QUEUE</span>
+        <div class="panel-controls">
+          <span id="aethis-count" class="panel-count">empty</span>
+          <button class="btn btn-sm" id="aethis-copy-btn">COPY</button>
+          <button class="btn btn-sm btn-danger" id="aethis-clear-btn">CLEAR</button>
+          <button class="btn btn-icon" id="aethis-collapse-btn" title="Toggle">▼</button>
+        </div>
+      </div>
+      <div class="panel-body" id="aethis-queue-body">
+        <div id="aethis-queue-list" class="queue-list draggable-list"></div>
+        <div class="aethis-hint">Drag to reorder · click name to copy audio ID</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Toast notification -->
+  <div id="toast" aria-live="polite"></div>
+
+  <script type="module" src="js/app.js"></script>
 </body>
 </html>

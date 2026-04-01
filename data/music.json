@@ -1,9 +1,39 @@
 {
   "categories": [
     {
-      "name": "Music",
+      "id": "epic",
+      "name": "Epic",
       "items": [
-        { "name": "Track1", "id": "11111" }
+        { "name": "Battle March",        "audioId": "1843114698" },
+        { "name": "Hero's Theme",        "audioId": "1842736401" },
+        { "name": "Final Confrontation", "audioId": "1846293847" },
+        { "name": "Victory Fanfare",     "audioId": "1849012345" }
+      ]
+    },
+    {
+      "id": "ambient",
+      "name": "Ambient",
+      "items": [
+        { "name": "Peaceful Fields",     "audioId": "1832456012" },
+        { "name": "Misty Hollow",        "audioId": "1836571234" },
+        { "name": "Ancient Library",     "audioId": "1835293847" }
+      ]
+    },
+    {
+      "id": "dramatic",
+      "name": "Dramatic",
+      "items": [
+        { "name": "Dark Revelation",     "audioId": "1852341678" },
+        { "name": "Suspense Rising",     "audioId": "1854231789" },
+        { "name": "The Descent",         "audioId": "1856789012" }
+      ]
+    },
+    {
+      "id": "combat",
+      "name": "Combat",
+      "items": [
+        { "name": "Clash of Steel",      "audioId": "1862345678" },
+        { "name": "Into the Fray",       "audioId": "1864567890" }
       ]
     }
   ]
