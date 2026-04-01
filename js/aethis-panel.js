@@ -13,11 +13,17 @@ let dragFromIndex = null;
 function buildAethisCommand(queue) {
   if (queue.length === 0) return '';
 
-  const parts = queue.map((item, i) => {
-    if (i < queue.length - 1) {
-      return `play ${item.audioId} & delay ${item.delay}`;
+  let totalDelay = 0;
+  const parts = [];
+
+  queue.forEach((item, i) => {
+    if (i === 0) {
+      parts.push(`play ${item.audioId}`);
+    } else {
+      parts.push(`& delay ${totalDelay} play ${item.audioId}`);
     }
-    return `play ${item.audioId}`;
+
+    totalDelay += item.delay;
   });
 
   return `run ${parts.join(' ')}`;
