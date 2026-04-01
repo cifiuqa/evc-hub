@@ -21,12 +21,22 @@
         <button class="nav-tab active" data-tab="audios">AUDIOS</button>
         <button class="nav-tab"        data-tab="statuses">STATUSES</button>
         <button class="nav-tab"        data-tab="morphs">MORPHS</button>
-        <button class="nav-tab"        data-tab="announcements">ANNOUNCEMENTS</button>
       </div>
-      <div id="subtab-bar">
+      <!-- Subtab bar: shown for audios tab only -->
+      <div id="subtab-bar" class="hidden">
+        <div class="subtab-divider"></div>
         <button class="subtab active" data-subtab="aethis">AETHIS</button>
         <button class="subtab"        data-subtab="music">MUSIC</button>
         <button class="subtab"        data-subtab="effects">EFFECTS</button>
+        <button class="subtab"        data-subtab="announcements">ANNOUNCEMENTS</button>
+      </div>
+      <!-- Search bar -->
+      <div id="search-bar">
+        <div class="search-wrapper">
+          <span class="search-icon">⌕</span>
+          <input type="text" id="search-input" class="search-input" placeholder="Search…" autocomplete="off">
+          <button class="search-clear hidden" id="search-clear-btn" title="Clear search">×</button>
+        </div>
       </div>
     </div>
   </div>
@@ -39,13 +49,13 @@
 
     <main id="main-content">
       <div id="tab-audios" class="tab-panel">
-        <div id="subtab-aethis"  class="subtab-panel"></div>
-        <div id="subtab-music"   class="subtab-panel" style="display:none"></div>
-        <div id="subtab-effects" class="subtab-panel" style="display:none"></div>
+        <div id="subtab-aethis"        class="subtab-panel"></div>
+        <div id="subtab-music"         class="subtab-panel" style="display:none"></div>
+        <div id="subtab-effects"       class="subtab-panel" style="display:none"></div>
+        <div id="subtab-announcements" class="subtab-panel" style="display:none"></div>
       </div>
-      <div id="tab-statuses"       class="tab-panel" style="display:none"></div>
-      <div id="tab-morphs"         class="tab-panel" style="display:none"></div>
-      <div id="tab-announcements"  class="tab-panel" style="display:none"></div>
+      <div id="tab-statuses" class="tab-panel" style="display:none"></div>
+      <div id="tab-morphs"   class="tab-panel" style="display:none"></div>
     </main>
   </div>
 
@@ -53,7 +63,6 @@
 
   <div id="bottom-panels">
 
-    <!-- Command Queue -->
     <div id="cmd-queue-panel" class="bottom-panel">
       <div class="panel-header">
         <span class="panel-title">⌨ COMMAND QUEUE</span>
@@ -75,7 +84,6 @@
 
     <div id="horizontal-resize-handle" class="resize-handle-h" title="Drag to resize"></div>
 
-    <!-- AETHIS Queue -->
     <div id="aethis-queue-panel" class="bottom-panel">
       <div class="panel-header">
         <span class="panel-title">◈ AETHIS QUEUE</span>
@@ -96,7 +104,6 @@
   </div>
 
   <div id="toast" aria-live="polite"></div>
-
   <script type="module" src="js/app.js"></script>
 </body>
 </html>

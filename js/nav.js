@@ -4,20 +4,21 @@ import { state }                    from './state.js';
 import { renderAethisTab }          from './aethis.js';
 import { renderMusicTab }           from './music.js';
 import { renderEffectsTab }         from './effects.js';
+import { renderAnnouncementsTab }   from './announcements.js';
 import { renderStatusesTab }        from './statuses.js';
 import { renderMorphsTab }          from './morphs.js';
-import { renderAnnouncementsTab }   from './announcements.js';
+import { clearSearch }              from './search.js';
 
-// Audio subtabs render once (inputs persist). Statuses/Morphs/Announcements
-// always re-render on visit so mode/person/data stays current.
+// Audio subtabs render once so input state (vol, range, loop) is preserved.
 const rendered = {
-  aethis:  false,
-  music:   false,
-  effects: false
+  aethis:        false,
+  music:         false,
+  effects:       false,
+  announcements: false
 };
 
-const ALL_TABS    = ['audios', 'statuses', 'morphs', 'announcements'];
-const ALL_SUBTABS = ['aethis', 'music', 'effects'];
+const ALL_TABS    = ['audios', 'statuses', 'morphs'];
+const ALL_SUBTABS = ['aethis', 'music', 'effects', 'announcements'];
 
 export function switchTab(tabId) {
   state.currentTab = tabId;
@@ -34,6 +35,8 @@ export function switchTab(tabId) {
     btn.classList.toggle('active', btn.dataset.tab === tabId);
   });
 
+  clearSearch();
+
   const mainContent = document.getElementById('main-content');
   if (mainContent) mainContent.scrollTop = 0;
 
@@ -48,11 +51,6 @@ export function switchTab(tabId) {
     renderMorphsTab();
     requestAnimationFrame(() => {
       if (state.data.morphs) rebuildTOC(state.data.morphs.categories);
-    });
-  } else if (tabId === 'announcements') {
-    updateTOC(true);
-    renderAnnouncementsTab().then(() => {
-      if (state.data.announcements) rebuildTOC(state.data.announcements.categories);
     });
   }
 }
@@ -69,16 +67,20 @@ export function switchSubtab(subtabId) {
     btn.classList.toggle('active', btn.dataset.subtab === subtabId);
   });
 
-  // Render-once for audio subtabs (async renderers return promises)
-  if (subtabId === 'aethis' && !rendered.aethis) {
-    renderAethisTab().then(() => rebuildAudioTOC(subtabId));
-    rendered.aethis = true;
-  } else if (subtabId === 'music' && !rendered.music) {
-    renderMusicTab().then(() => rebuildAudioTOC(subtabId));
-    rendered.music = true;
-  } else if (subtabId === 'effects' && !rendered.effects) {
-    renderEffectsTab().then(() => rebuildAudioTOC(subtabId));
-    rendered.effects = true;
+  clearSearch();
+
+  const renderMap = {
+    aethis:        () => renderAethisTab().then(() => rebuildAudioTOC(subtabId)),
+    music:         () => renderMusicTab().then(() => rebuildAudioTOC(subtabId)),
+    effects:       () => renderEffectsTab().then(() => rebuildAudioTOC(subtabId)),
+    announcements: () => renderAnnouncementsTab().then(() => {
+      if (state.data.announcements) rebuildTOC(state.data.announcements.categories);
+    })
+  };
+
+  if (!rendered[subtabId]) {
+    renderMap[subtabId]?.();
+    rendered[subtabId] = true;
   } else {
     // Already rendered — just rebuild the TOC
     requestAnimationFrame(() => rebuildAudioTOC(subtabId));
@@ -86,7 +88,12 @@ export function switchSubtab(subtabId) {
 }
 
 function rebuildAudioTOC(subtabId) {
-  const dataMap = { aethis: state.data.aethis, music: state.data.music, effects: state.data.effects };
+  const dataMap = {
+    aethis:        state.data.aethis,
+    music:         state.data.music,
+    effects:       state.data.effects,
+    announcements: state.data.announcements
+  };
   const data = dataMap[subtabId];
   if (data) rebuildTOC(data.categories);
 }
@@ -113,11 +120,7 @@ function rebuildTOC(categories) {
       e.preventDefault();
       const target = contentEl.querySelector(`[data-category-id="${cat.id}"]`);
       if (!target) return;
-
-      // scrollIntoView is more reliable than offsetTop arithmetic for nested
-      // sticky headers — it accounts for the actual rendered position.
       target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
       tocListEl.querySelectorAll('.toc-category').forEach(a => a.classList.remove('active'));
       link.classList.add('active');
     });

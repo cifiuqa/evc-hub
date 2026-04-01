@@ -76,6 +76,13 @@ body { display: flex; flex-direction: column; }
   flex-shrink: 0;
 }
 
+.subtab-divider {
+  width: 1px; height: 18px;
+  background: var(--border2);
+  margin: 0 8px;
+  flex-shrink: 0;
+}
+
 .nav-tabs {
   display: flex;
   align-items: center;
@@ -114,17 +121,14 @@ body { display: flex; flex-direction: column; }
 .nav-tab.active  { color: var(--accent); }
 .nav-tab.active::after { transform: scaleX(1); }
 
-/* Separator pseudo-element between main tabs and subtabs */
-.nav-tabs::after {
-  content: '';
-  display: block;
-  width: 1px; height: 20px;
-  background: var(--border2);
-  margin: 0 10px;
+#subtab-bar {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
 }
 
-#subtab-bar { display: flex; align-items: center; gap: 2px; }
-#subtab-bar.hidden { visibility: hidden; pointer-events: none; }
+#subtab-bar.hidden { display: none; }
 
 .subtab {
   background: transparent;
@@ -156,6 +160,66 @@ body { display: flex; flex-direction: column; }
 .subtab:hover  { color: var(--text-dim); }
 .subtab.active { color: var(--accent2); }
 .subtab.active::after { transform: scaleX(1); }
+
+/* Search bar — pushed to right end of navbar */
+#search-bar {
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.search-wrapper {
+  display: flex;
+  align-items: center;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0 6px;
+  gap: 4px;
+  transition: border-color 0.15s;
+  height: 28px;
+}
+
+.search-wrapper:focus-within {
+  border-color: var(--accent-dim);
+  box-shadow: 0 0 0 2px rgba(245, 160, 32, 0.08);
+}
+
+.search-icon {
+  color: var(--text-muted);
+  font-size: 15px;
+  line-height: 1;
+  flex-shrink: 0;
+  pointer-events: none;
+}
+
+.search-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 13px;
+  width: 160px;
+  padding: 0;
+}
+
+.search-input::placeholder { color: var(--text-muted); }
+
+.search-clear {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+  padding: 0 2px;
+  flex-shrink: 0;
+  transition: color 0.1s;
+}
+
+.search-clear:hover { color: var(--accent); }
+.search-clear.hidden { display: none; }
 
 /* ── Content Row ─────────────────────────────────────────────── */
 #content-row { flex: 1; display: flex; overflow: hidden; min-height: 0; }
@@ -285,11 +349,13 @@ body { display: flex; flex-direction: column; }
   gap: 8px;
   padding: 8px 20px;
   border-bottom: 1px solid rgba(42, 30, 14, 0.6);
-  flex-wrap: wrap;
   transition: background 0.1s;
 }
 
 .effects-item:hover { background: var(--accent-glow); }
+
+/* Spacer so the type toggle is always at the far right */
+.effects-spacer { flex: 1; }
 
 .effects-controls { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
 
@@ -469,22 +535,24 @@ body { display: flex; flex-direction: column; }
 
 .status-preview { display: flex; flex-direction: column; gap: 3px; margin-bottom: 2px; }
 
-/* Gradient text with dark outline for legibility against dark backgrounds */
+/* Gradient text. text-stroke + background-clip:text conflict in most browsers,
+   so we use multi-layer drop-shadow to create a dark halo instead — makes even
+   low-contrast gradients (grey, dark red) readable on the dark card surface. */
 .status-preview-line {
   font-family: 'Source Sans 3', 'Source Sans Pro', sans-serif;
   font-weight: 700;
-  font-size: 15px;
+  font-size: 16px;
   display: block;
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  /* paint-order + text-stroke gives us an outline that doesn't cover the fill */
-  paint-order: stroke fill;
-  -webkit-text-stroke: 3px rgba(8, 7, 5, 0.85);
-  text-stroke: 3px rgba(8, 7, 5, 0.85);
+  filter:
+    drop-shadow(0 0 4px rgba(0, 0, 0, 1))
+    drop-shadow(0 0 8px rgba(0, 0, 0, 0.9))
+    drop-shadow(0 1px 3px rgba(0, 0, 0, 0.8));
 }
 
-.status-preview-line.sub { font-size: 12px; opacity: 0.9; }
+.status-preview-line.sub { font-size: 13px; }
 
 .status-description {
   color: var(--text-muted);
@@ -874,3 +942,13 @@ body { display: flex; flex-direction: column; }
 #toast.toast-error { border-color: var(--danger); color: var(--danger); }
 
 .hidden { display: none !important; }
+.search-hidden { display: none !important; }
+
+/* No-results message shown when search finds nothing */
+.search-no-results {
+  padding: 30px 20px;
+  color: var(--text-muted);
+  font-size: 13px;
+  text-align: center;
+  letter-spacing: 0.5px;
+}

@@ -1,71 +1,350 @@
 {
-  "categories": [
-    {
-      "id": "pre_after",
-      "name": "Pre / After (Suspense)",
-      "items": [
-        { "name": "INSURGENT", "audioId": "1842908121" },
-        { "name": "CHOPPER CHASE", "audioId": "1837226462" },
-        { "name": "DEAD END", "audioId": "1843789930" },
-        { "name": "FACILITY", "audioId": "1843005255" },
-        { "name": "INTO THE MIST", "audioId": "9046928207" }
-      ]
-    },
-    {
-      "id": "build_up",
-      "name": "Build Up (Rock/Metal)",
-      "items": [
-        { "name": "MINDWINDER B", "audioId": "1838075732" },
-        { "name": "LET ME HELP YOU SURVIVE A WIN", "audioId": "9044604988" },
-        { "name": "TERMINAL VELOCITY", "audioId": "1842802436" },
-        { "name": "LETHAL CONFLICT", "audioId": "1842934882" },
-        { "name": "SKULL OF HATE", "audioId": "1837307893" },
-        { "name": "IRON WAR", "audioId": "1837284759" },
-        { "name": "HEIST", "audioId": "1836781594" },
-        { "name": "INTENSE MOTIVATION", "audioId": "1839703937" },
-        { "name": "THERE WILL BE BLOOD", "audioId": "1843513001" },
-        { "name": "OMINOUS DOOM", "audioId": "1845844491" },
-        { "name": "PEDAL TO THE METAL", "audioId": "1837247191" },
-        { "name": "NECROMANCER MADNESS", "audioId": "9047441554" },
-        { "name": "FULL FORCE", "audioId": "1842802040" }
-      ]
-    },
-    {
-      "id": "duration",
-      "name": "Duration (Combat Loop)",
-      "items": [
-        { "name": "TROUBLED", "audioId": "1847648331" },
-        { "name": "FUEL FURY", "audioId": "9042632936" },
-        { "name": "FIGHT NITE", "audioId": "9042825174" },
-        { "name": "FUEL TO THE FIRE", "audioId": "1837843587" },
-        { "name": "TOXIC", "audioId": "1842652230" },
-        { "name": "ROTTEN FLESH", "audioId": "1837294017" },
-        { "name": "METAL SPEED RACE", "audioId": "9038251495" },
-        { "name": "UNDERTAKER", "audioId": "1847016421" },
-        { "name": "POUND FOR POUND", "audioId": "1842802203" },
-        { "name": "DOOM METAL UPGRADE B", "audioId": "1845819130" },
-        { "name": "ENERGETIC FPS", "audioId": "1836137248" },
-        { "name": "CHAOS", "audioId": "1843497734" },
-        { "name": "FIGHT THROUGH ADVERSITY", "audioId": "9038254260" },
-        { "name": "METAL STORM BREAKS", "audioId": "9038254566" },
-        { "name": "WISE UP", "audioId": "1837029722" },
-        { "name": "EPIC BATTLE SIMULATOR", "audioId": "1837301451" },
-        { "name": "SONIC WEAPON", "audioId": "1837301508" },
-        { "name": "EPIC RACE", "audioId": "1837301393" }
-      ]
-    },
-    {
-      "id": "ending",
-      "name": "Ending",
-      "items": [
-        { "name": "DEATH CAR RACING", "audioId": "9039351799" },
-        { "name": "SPEED METAL OVERTURE", "audioId": "9042370693" },
-        { "name": "TORTURED MINDS", "audioId": "1837293686" },
-        { "name": "MADE OF STEEL", "audioId": "1845850812" },
-        { "name": "THE WILL TO FIGHT", "audioId": "1845793864" },
-        { "name": "WE HAVE THE POWER", "audioId": "1842113397" },
-        { "name": "THE HEIST", "audioId": "1845389634" }
-      ]
-    }
-  ]
+    "categories": [
+        {
+            "id": "pre_after",
+            "name": "Suspense",
+            "items": [
+                {
+                    "name": "20-J",
+                    "audioId": "112426988201778"
+                },
+                {
+                    "name": "INSURGENT",
+                    "audioId": "1842908121"
+                },
+                {
+                    "name": "CHOPPER CHASE",
+                    "audioId": "1837226462"
+                },
+                {
+                    "name": "DEAD END",
+                    "audioId": "1843789930"
+                },
+                {
+                    "name": "FACILITY",
+                    "audioId": "1843005255"
+                },
+                {
+                    "name": "INTO THE MIST",
+                    "audioId": "9046928207"
+                },
+                {
+                    "name": "ULTRON A",
+                    "audioId": "1841968283"
+                },
+                {
+                    "name": "CYBERIAN UNDERSCORE VERSION",
+                    "audioId": "9043678921"
+                },
+                {
+                    "name": "FUTURISTIC WAR TENSION SCENE 1",
+                    "audioId": "1836097009"
+                },
+                {
+                    "name": "DARKNESS RISING B",
+                    "audioId": "9038370167"
+                },
+                {
+                    "name": "GROUND ZERO A",
+                    "audioId": "1848157566"
+                },
+                {
+                    "name": "NO PLACE TO HIDE B",
+                    "audioId": "1846892128"
+                },
+                {
+                    "name": "HALLS OF POWER",
+                    "audioId": "1842923656"
+                },
+                {
+                    "name": "FINAL DAWN B",
+                    "audioId": "1841988856"
+                },
+                {
+                    "name": "HANDS OFF",
+                    "audioId": "1847799835"
+                }
+            ]
+        },
+        {
+            "id": "crescendo",
+            "name": "Crescendo (Build up)",
+            "items": [
+                {
+                    "name": "DERANGER",
+                    "audioId": "1841577075"
+                },
+                {
+                    "name": "MINDWINDER B",
+                    "audioId": "1838075732"
+                },
+                {
+                    "name": "LET ME HELP YOU SURVIVE A WIN",
+                    "audioId": "9044604988"
+                },
+                {
+                    "name": "TERMINAL VELOCITY",
+                    "audioId": "1842802436"
+                },
+                {
+                    "name": "LETHAL CONFLICT",
+                    "audioId": "1842934882"
+                },
+                {
+                    "name": "SKULL OF HATE",
+                    "audioId": "1837307893"
+                },
+                {
+                    "name": "IRON WAR",
+                    "audioId": "1837284759"
+                },
+                {
+                    "name": "HEIST",
+                    "audioId": "1836781594"
+                },
+                {
+                    "name": "INTENSE MOTIVATION",
+                    "audioId": "1839703937"
+                },
+                {
+                    "name": "THERE WILL BE BLOOD",
+                    "audioId": "1843513001"
+                },
+                {
+                    "name": "LASER EYES",
+                    "audioId": "1847800159"
+                },
+                {
+                    "name": "OMINOUS DOOM",
+                    "audioId": "1845844491"
+                },
+                {
+                    "name": "PEDAL TO THE METAL",
+                    "audioId": "1837247191"
+                },
+                {
+                    "name": "RUNNING DARK INSTRUMENTAL",
+                    "audioId": "9045425672"
+                },
+                {
+                    "name": "NECROMANCER MADNESS",
+                    "audioId": "9047441554"
+                },
+                {
+                    "name": "FULL FORCE",
+                    "audioId": "1842802040"
+                },
+                {
+                    "name": "HOT ENERGY",
+                    "audioId": "1847800379"
+                },
+                {
+                    "name": "STUNT ACTION",
+                    "audioId": "1839543168"
+                },
+                {
+                    "name": "OPENING THEME",
+                    "audioId": "132046898251409"
+                }
+            ]
+        },
+        {
+            "id": "mezzo-forte",
+            "name": "Mezzo-forte (Duration)",
+            "items": [
+                {
+                    "name": "TORMENTA DE ACERO",
+                    "audioId": "140036359779458"
+                },
+                {
+                    "name": "TROUBLED",
+                    "audioId": "1847648331"
+                },
+                {
+                    "name": "FUEL FURY",
+                    "audioId": "9042632936"
+                },
+                {
+                    "name": "FIGHT NITE",
+                    "audioId": "9042825174"
+                },
+                {
+                    "name": "FUEL TO THE FIRE",
+                    "audioId": "1837843587"
+                },
+                {
+                    "name": "TOXIC",
+                    "audioId": "1842652230"
+                },
+                {
+                    "name": "ROTTEN FLESH",
+                    "audioId": "1837294017"
+                },
+                {
+                    "name": "METAL SPEED RACE",
+                    "audioId": "9038251495"
+                },
+                {
+                    "name": "UNDERTAKER",
+                    "audioId": "1847016421"
+                },
+                {
+                    "name": "POUND FOR POUND",
+                    "audioId": "1842802203"
+                },
+                {
+                    "name": "DOOM METAL UPGRADE B",
+                    "audioId": "1845819130"
+                },
+                {
+                    "name": "ENERGETIC FPS",
+                    "audioId": "1836137248"
+                },
+                {
+                    "name": "CHAOS",
+                    "audioId": "1843497734"
+                },
+                {
+                    "name": "FIGHT THROUGH ADVERSITY",
+                    "audioId": "9038254260"
+                },
+                {
+                    "name": "METAL STORM BREAKS",
+                    "audioId": "9038254566"
+                },
+                {
+                    "name": "WISE UP",
+                    "audioId": "1837029722"
+                },
+                {
+                    "name": "TROJANS",
+                    "audioId": "9046450992"
+                },
+                {
+                    "name": "EPIC BATTLE SIMULATOR",
+                    "audioId": "1837301451"
+                },
+                {
+                    "name": "UP AND FIGHT",
+                    "audioId": "1848189941"
+                },
+                {
+                    "name": "SONIC WEAPON",
+                    "audioId": "1837301508"
+                },
+                {
+                    "name": "BLOODSUCKER",
+                    "audioId": "1838698413"
+                },
+                {
+                    "name": "EPIC RACE",
+                    "audioId": "1837301393"
+                },
+                {
+                    "name": "SUPERCROSS",
+                    "audioId": "1839543216"
+                },
+                {
+                    "name": "LOGIC BOMB",
+                    "audioId": "9046451359"
+                },
+                {
+                    "name": "SKIES OF FIRE, SEAS OF ICE",
+                    "audioId": "140220541771882"
+                }
+            ]
+        },
+        {
+            "id": "diminuendo",
+            "name": "Diminuendo (Ending)",
+            "items": [
+                {
+                    "name": "DEATH CAR RACING",
+                    "audioId": "9039351799"
+                },
+                {
+                    "name": "SPEED METAL OVERTURE",
+                    "audioId": "9042370693"
+                },
+                {
+                    "name": "TORTURED MINDS",
+                    "audioId": "1837293686"
+                },
+                {
+                    "name": "MADE OF STEEL",
+                    "audioId": "1845850812"
+                },
+                {
+                    "name": "THE WILL TO FIGHT",
+                    "audioId": "1845793864"
+                },
+                {
+                    "name": "WE HAVE THE POWER",
+                    "audioId": "1842113397"
+                },
+                {
+                    "name": "THE HEIST",
+                    "audioId": "1845389634"
+                },
+                {
+                    "name": "BUIA TOSCANA",
+                    "audioId": "139086752529750"
+                },
+                {
+                    "name": "RACING CREW",
+                    "audioId": "1839543339"
+                },
+                {
+                    "name": "REVOLUTION",
+                    "audioId": "138134872089986"
+                }
+            ]
+        },
+        {
+            "id": "casual",
+            "name": "Casual",
+            "items": [
+                {
+                    "name": "BILLBOARD",
+                    "audioId": "1836284412"
+                },
+                {
+                    "name": "SLEEPING GIANT",
+                    "audioId": "9045364139"
+                },
+                {
+                    "name": "MASQUERADE",
+                    "audioId": "80533154694734"
+                },
+                {
+                    "name": "EXPERIMENTS",
+                    "audioId": "1836984809"
+                },
+                {
+                    "name": "TUNE 01",
+                    "audioId": "124896321555868"
+                },
+                {
+                    "name": "FIRELINK SHRINE AMBIENT MIX",
+                    "audioId": "92478502497760"
+                },
+                {
+                    "name": "COMPLEX RESEARCH",
+                    "audioId": "1838661716"
+                },
+                {
+                    "name": "SILENCE AS MEDICINE",
+                    "audioId": "140730781347121"
+                },
+                {
+                    "name": "IN THE SHADOW OF THE VALLEY",
+                    "audioId": "1846422780"
+                },
+                {
+                    "name": "NOCTURNO NO 2",
+                    "audioId": "104270572967194"
+                }
+            ]
+        }
+    ]
 }

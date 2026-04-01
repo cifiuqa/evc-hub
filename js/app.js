@@ -5,6 +5,7 @@ import { initCommandQueuePanel } from './queue.js';
 import { initAethisPanel }       from './aethis-panel.js';
 import { initNav, switchTab }    from './nav.js';
 import { initResizablePanels }   from './resize.js';
+import { initSearch }            from './search.js';
 
 const DATA_FILES = {
   aethis:        'data/aethis.json',
@@ -43,6 +44,7 @@ async function init() {
   initCommandQueuePanel();
   initAethisPanel();
   initResizablePanels();
+  initSearch();
   initNav();
   initLeaveGuard();
   switchTab('audios');
