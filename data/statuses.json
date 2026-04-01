@@ -7,6 +7,7 @@
   "items": [
     {
       "name": "Operational",
+      "description": "No threats have been detected. Operations may continue as usual.",
       "sideinfo": {
         "text": "〔MODE - {mode}〕",
         "gradientLeft":  [0, 170, 0],
@@ -20,6 +21,7 @@
     },
     {
       "name": "Code Yellow",
+      "description": "Potential internal or external threat detected that may impact operations. Non-essential personnel prepare for possible sheltering.",
       "sideinfo": {
         "text": "〔MODE - {mode}〕",
         "gradientLeft":  [252, 186, 3],
@@ -33,6 +35,7 @@
     },
     {
       "name": "Code Blue",
+      "description": "Low-intelligence anomaly containment breach in progress. Combat units respond, others move to shelters.",
       "sideinfo": {
         "text": "〔MODE - {mode}〕",
         "gradientLeft":  [58, 72, 232],
@@ -46,6 +49,7 @@
     },
     {
       "name": "Code Superblue",
+      "description": "High-intelligence anomaly containment breach in progress. Combat units engage, non-combatants evacuate to shelters.",
       "sideinfo": {
         "text": "〔MODE - {mode}〕",
         "gradientLeft":  [17, 35, 204],
@@ -59,6 +63,7 @@
     },
     {
       "name": "Code Red",
+      "description": "Large-scale threat or LSA breach detected. Non-essential personnel evacuate and critical containment protocols activate.",
       "sideinfo": {
         "text": "〔MODE - {mode}〕",
         "gradientLeft":  [232, 15, 56],
@@ -72,6 +77,7 @@
     },
     {
       "name": "Code Orange",
+      "description": "Class-D riot or containment breach underway. Zone lockdown initiated; inmates secured before evacuation.",
       "sideinfo": {
         "text": "〔MODE - {mode}〕",
         "gradientLeft":  [255, 103, 0],
@@ -85,6 +91,7 @@
     },
     {
       "name": "Code Black",
+      "description": "Non-terminable threat or extreme emergency detected. Essential personnel evacuate under priority protocols.",
       "sideinfo": {
         "text": "〔MODE - {mode}〕",
         "gradientLeft":  [0, -50, 0],
@@ -98,6 +105,7 @@
     },
     {
       "name": "Code Green",
+      "description": "Biohazard threat or contaminated anomaly detected. Evacuate affected areas and use hazmat protection.",
       "sideinfo": {
         "text": "〔MODE - {mode}〕",
         "gradientLeft":  [24, 66, 2],
@@ -111,6 +119,7 @@
     },
     {
       "name": "Code White",
+      "description": "Hostile group raid in progress. Combat personnel defend; others seek immediate safety.",
       "sideinfo": {
         "text": "〔MODE - {mode}〕",
         "gradientLeft":  [250, 200, 250],
@@ -124,6 +133,7 @@
     },
     {
       "name": "Code Gray",
+      "description": "Unauthorized or rogue personnel detected inside the facility. Security forces locate and neutralize the threat.",
       "sideinfo": {
         "text": "〔MODE - {mode}〕",
         "gradientLeft":  [79, 44, 88],
@@ -137,6 +147,7 @@
     },
     {
       "name": "Code Silver",
+      "description": "Organized hostile heist detected within the facility. Combat personnel respond and secure critical assets while others evacuate or take cover.",
       "sideinfo": {
         "text": "〔MODE - {mode}〕",
         "gradientLeft":  [59, 16, 63],
@@ -150,6 +161,7 @@
     },
     {
       "name": "Code Magenta",
+      "description": "Dimensional or reality-breaking threat detected. Immediate full evacuation required.",
       "sideinfo": {
         "text": "〔MODE - {mode}〕",
         "gradientLeft":  [99, -1, 95],
@@ -163,6 +175,7 @@
     },
     {
       "name": "Code Purple",
+      "description": "Cognitohazard or infohazard breach confirmed. Avoid perception and suppress sensory input.",
       "sideinfo": {
         "text": "〔MODE - {mode}〕",
         "gradientLeft":  [126, 10, 150],
@@ -176,6 +189,7 @@
     },
     {
       "name": "Code Omni",
+      "description": "Total facility abandonment ordered, overriding all other codes. Full lockdown initiates as final failsafe.",
       "sideinfo": {
         "text": "〔MODE - {mode}〕",
         "gradientLeft":  [80, -41, 156],
@@ -189,6 +203,7 @@
     },
     {
       "name": "Purge Protocol",
+      "description": "Last-resort directive to eliminate all personnel within the facility. Activated only under extreme circumstances to ensure total threat neutralization.",
       "sideinfo": {
         "text": "〔MODE - {mode}〕",
         "gradientLeft":  [999, 444, 999],
@@ -202,6 +217,7 @@
     },
     {
       "name": "Full Site Lockdown",
+      "description": "Entire facility is sealed with all access restricted. Movement is heavily limited while security protocols are enforced.",
       "sideinfo": {
         "text": "〔MODE - {mode}〕",
         "gradientLeft":  [0, -100, 0],
@@ -215,6 +231,7 @@
     },
     {
       "name": "Offline",
+      "description": "Facility systems are non-operational or disconnected. Communication and automated functions are unavailable.",
       "sideinfo": {
         "text": "〔MODE - {mode}〕",
         "gradientLeft":  [200, 150, 200],

@@ -7,7 +7,7 @@
         {
           "name": "Placeholder",
           "audioId": "123456",
-          "defaults": { "volume": 1.0, "range": 1000, "loop": false }
+          "defaults": { "volume": 1.0, "range": 1000, "loop": false, "type": "playsound" }
         }
       ]
     }

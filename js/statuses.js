@@ -1,18 +1,14 @@
 // --- STATUSES TAB ---
-// Renders the Statuses tab. User must select a mode before adding.
-// Each card previews gradient text and generates sideinfo/subsideinfo commands.
 
 import { state }             from './state.js';
 import { copyToClipboard, showToast, gradientStyle } from './utils.js';
 import { addToCommandQueue } from './queue.js';
 
-// Resolves the display text for a status line, inserting the mode prefix.
 function resolveText(template, mode, modeLabels) {
   const prefix = modeLabels[mode] ?? '';
   return template.replace('{mode}', prefix).trim();
 }
 
-// Builds the full two-command output string for a status card.
 function buildStatusCommand(item, mode, modeLabels) {
   const sideText = resolveText(item.sideinfo.text, mode, modeLabels);
   const subText  = resolveText(item.subsideinfo.text, mode, modeLabels);
@@ -28,7 +24,6 @@ function buildStatusCommand(item, mode, modeLabels) {
   return `${sideCmd} & ${subCmd}`;
 }
 
-// Updates preview text in existing cards to reflect the current mode.
 function refreshCardPreviews() {
   if (!state.data.statuses) return;
 
@@ -47,13 +42,8 @@ function refreshCardPreviews() {
         ? resolveText(item.sideinfo.text, mode, modeLabels)
         : item.sideinfo.text.replace('{mode}', '…').trim();
     }
-
     if (subLine) {
-      subLine.textContent = resolveText(
-        item.subsideinfo.text,
-        mode ?? 'CASUAL',
-        modeLabels
-      );
+      subLine.textContent = resolveText(item.subsideinfo.text, mode ?? 'CASUAL', modeLabels);
     }
   });
 }
@@ -78,6 +68,7 @@ export function renderStatusesTab() {
         const subGrad  = gradientStyle(item.subsideinfo.gradientLeft, item.subsideinfo.gradientRight);
         const sideText = escapeHtml(item.sideinfo.text.replace('{mode}', '…').trim());
         const subText  = escapeHtml(item.subsideinfo.text);
+        const desc     = escapeHtml(item.description ?? '');
 
         return `
           <div class="status-card" data-index="${i}">
@@ -91,9 +82,10 @@ export function renderStatusesTab() {
                 ${subText}
               </span>
             </div>
+            ${desc ? `<div class="status-description">${desc}</div>` : ''}
             <div class="status-card-footer">
-              <button class="btn btn-sm" data-copy-index="${i}" title="Copy command">COPY</button>
-              <button class="btn btn-add btn-sm" data-add-index="${i}" title="Add to command queue">+ ADD</button>
+              <button class="btn btn-sm" data-copy-index="${i}">COPY</button>
+              <button class="btn btn-add btn-sm" data-add-index="${i}">+ ADD</button>
             </div>
           </div>
         `;
@@ -101,7 +93,6 @@ export function renderStatusesTab() {
     </div>
   `;
 
-  // Mode selection
   containerEl.querySelectorAll('.mode-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       containerEl.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
@@ -112,14 +103,12 @@ export function renderStatusesTab() {
     });
   });
 
-  // Re-apply mode if already selected
   if (state.statusMode) {
     const activeBtn = containerEl.querySelector(`.mode-btn[data-mode="${state.statusMode}"]`);
     if (activeBtn) activeBtn.classList.add('active');
     refreshCardPreviews();
   }
 
-  // COPY buttons
   containerEl.querySelectorAll('[data-copy-index]').forEach(btn => {
     btn.addEventListener('click', () => {
       if (!state.statusMode) { showModeWarning(); return; }
@@ -129,7 +118,6 @@ export function renderStatusesTab() {
     });
   });
 
-  // ADD buttons
   containerEl.querySelectorAll('[data-add-index]').forEach(btn => {
     btn.addEventListener('click', () => {
       if (!state.statusMode) { showModeWarning(); return; }
@@ -146,9 +134,4 @@ function showModeWarning() {
   showToast('Select a mode first', true);
 }
 
-
-// --- HELPERS ---
-
-function escapeHtml(str) {
-  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-}
+function escapeHtml(str) { return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
