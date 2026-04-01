@@ -1,5 +1,6 @@
 // --- ANNOUNCEMENTS TAB ---
-// Categorised list of pre-made announcements. Each has a command to copy/queue, and optionally a linked audio ID to play alongside it.
+// Categorised list of pre-made announcements. Each has a command to copy/queue,
+// and optionally a linked audio ID to play alongside it.
 
 import { state }                       from './state.js';
 import { copyToClipboard, buildTOC }   from './utils.js';
@@ -7,7 +8,7 @@ import { addToCommandQueue }           from './queue.js';
 import { probeAudioIds, togglePreview } from './audio-preview.js';
 
 export async function renderAnnouncementsTab() {
-  const containerEl = document.getElementById('subtab-announcements');
+  const containerEl = document.getElementById('tab-announcements');
   const tocListEl   = document.getElementById('toc-list');
   const contentEl   = document.getElementById('main-content');
 
@@ -16,7 +17,9 @@ export async function renderAnnouncementsTab() {
   const { categories } = state.data.announcements;
 
   // Probe audio IDs that are non-empty
-  const audioIds = categories.flatMap(c => c.items.map(i => i.audioId)).filter(Boolean);
+  const audioIds = categories
+    .flatMap(c => c.items.map(i => i.audioId))
+    .filter(Boolean);
   const available = await probeAudioIds(audioIds);
 
   containerEl.innerHTML = categories.map(cat => `

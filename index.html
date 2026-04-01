@@ -10,7 +10,6 @@
 </head>
 <body>
 
-  <!-- ── Top Bar: brand + tabs + subtabs all together ──────────── -->
   <div id="top-bar">
     <div id="navbar">
       <div class="nav-brand">
@@ -22,49 +21,36 @@
         <button class="nav-tab active" data-tab="audios">AUDIOS</button>
         <button class="nav-tab"        data-tab="statuses">STATUSES</button>
         <button class="nav-tab"        data-tab="morphs">MORPHS</button>
+        <button class="nav-tab"        data-tab="announcements">ANNOUNCEMENTS</button>
       </div>
       <div id="subtab-bar">
         <button class="subtab active" data-subtab="aethis">AETHIS</button>
         <button class="subtab"        data-subtab="music">MUSIC</button>
         <button class="subtab"        data-subtab="effects">EFFECTS</button>
-        <button class="subtab"        data-subtab="announcements">ANNOUNCEMENTS</button>
       </div>
     </div>
   </div>
 
-  <!-- ── Content Row ───────────────────────────────────────────── -->
   <div id="content-row">
-
-    <!-- TOC Sidebar -->
     <aside id="toc-panel">
       <div class="toc-heading">CATEGORIES</div>
       <nav id="toc-list"></nav>
     </aside>
 
-    <!-- Main scrollable content -->
     <main id="main-content">
-
-      <!-- AUDIOS TAB -->
       <div id="tab-audios" class="tab-panel">
-        <div id="subtab-aethis" class="subtab-panel"></div>
+        <div id="subtab-aethis"  class="subtab-panel"></div>
         <div id="subtab-music"   class="subtab-panel" style="display:none"></div>
         <div id="subtab-effects" class="subtab-panel" style="display:none"></div>
-        <div id="subtab-announcements" class="subtab-panel" style="display:non"></div>
       </div>
-
-      <!-- STATUSES TAB -->
-      <div id="tab-statuses" class="tab-panel" style="display:none"></div>
-
-      <!-- MORPHS TAB -->
-      <div id="tab-morphs" class="tab-panel" style="display:none"></div>
-
+      <div id="tab-statuses"       class="tab-panel" style="display:none"></div>
+      <div id="tab-morphs"         class="tab-panel" style="display:none"></div>
+      <div id="tab-announcements"  class="tab-panel" style="display:none"></div>
     </main>
   </div>
 
-  <!-- ── Vertical resize handle ────────────────────────────────── -->
   <div id="vertical-resize-handle" class="resize-handle-v" title="Drag to resize panels"></div>
 
-  <!-- ── Bottom Panels ─────────────────────────────────────────── -->
   <div id="bottom-panels">
 
     <!-- Command Queue -->
@@ -87,7 +73,6 @@
       </div>
     </div>
 
-    <!-- Horizontal resize handle -->
     <div id="horizontal-resize-handle" class="resize-handle-h" title="Drag to resize"></div>
 
     <!-- AETHIS Queue -->
@@ -96,6 +81,7 @@
         <span class="panel-title">◈ AETHIS QUEUE</span>
         <div class="panel-controls">
           <span id="aethis-count" class="panel-count">empty</span>
+          <button class="btn btn-sm" id="aethis-preview-btn" title="Preview all sounds in order">▶ PREVIEW ALL</button>
           <button class="btn btn-sm" id="aethis-to-queue-btn" title="Add full AETHIS sequence to command queue">→ QUEUE</button>
           <button class="btn btn-sm" id="aethis-copy-btn">COPY</button>
           <button class="btn btn-sm btn-danger" id="aethis-clear-btn">CLEAR</button>
@@ -109,7 +95,6 @@
 
   </div>
 
-  <!-- Toast notification -->
   <div id="toast" aria-live="polite"></div>
 
   <script type="module" src="js/app.js"></script>

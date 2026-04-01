@@ -1,66 +1,66 @@
 // --- NAV CONTROLLER ---
-// Manages tab and subtab switching, panel visibility, and TOC wiring.
 
-import { state }              from './state.js';
-import { renderAethisTab }    from './aethis.js';
-import { renderMusicTab }     from './music.js';
-import { renderEffectsTab }   from './effects.js';
-import { renderStatusesTab }  from './statuses.js';
-import { renderMorphsTab }    from './morphs.js';
+import { state }                    from './state.js';
+import { renderAethisTab }          from './aethis.js';
+import { renderMusicTab }           from './music.js';
+import { renderEffectsTab }         from './effects.js';
+import { renderStatusesTab }        from './statuses.js';
+import { renderMorphsTab }          from './morphs.js';
+import { renderAnnouncementsTab }   from './announcements.js';
 
-// Track which tabs have been initially rendered (avoid unnecessary re-renders).
-// Statuses and Morphs re-render on every visit so mode/person state stays fresh.
+// Audio subtabs render once (inputs persist). Statuses/Morphs/Announcements
+// always re-render on visit so mode/person/data stays current.
 const rendered = {
   aethis:  false,
   music:   false,
   effects: false
 };
 
-// Switches the main tab to the given id.
+const ALL_TABS    = ['audios', 'statuses', 'morphs', 'announcements'];
+const ALL_SUBTABS = ['aethis', 'music', 'effects'];
+
 export function switchTab(tabId) {
   state.currentTab = tabId;
 
-  // Show/hide main panels
-  ['audios', 'statuses', 'morphs'].forEach(id => {
+  ALL_TABS.forEach(id => {
     const el = document.getElementById(`tab-${id}`);
     if (el) el.style.display = id === tabId ? '' : 'none';
   });
 
-  // Subtab bar only visible on Audios
   const subtabBar = document.getElementById('subtab-bar');
   if (subtabBar) subtabBar.classList.toggle('hidden', tabId !== 'audios');
 
-  // Update nav tab active state
   document.querySelectorAll('.nav-tab').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.tab === tabId);
   });
+
+  const mainContent = document.getElementById('main-content');
+  if (mainContent) mainContent.scrollTop = 0;
 
   if (tabId === 'audios') {
     updateTOC(true);
     switchSubtab(state.currentSubtab);
   } else if (tabId === 'statuses') {
     updateTOC(false);
-    // Always re-render statuses so mode state is reflected
     renderStatusesTab();
   } else if (tabId === 'morphs') {
-    // Always rebuild the TOC with morphs categories — regardless of whether
-    // we've visited before. This fixes the stale audio-TOC bug.
     updateTOC(true);
     renderMorphsTab();
     requestAnimationFrame(() => {
       if (state.data.morphs) rebuildTOC(state.data.morphs.categories);
     });
+  } else if (tabId === 'announcements') {
+    updateTOC(true);
+    renderAnnouncementsTab().then(() => {
+      if (state.data.announcements) rebuildTOC(state.data.announcements.categories);
+    });
   }
-
-  const mainContent = document.getElementById('main-content');
-  if (mainContent) mainContent.scrollTop = 0;
 }
 
-// Switches the audio subtab to the given id.
 export function switchSubtab(subtabId) {
   state.currentSubtab = subtabId;
 
-  ['aethis', 'music', 'effects'].forEach(id => {
+  ALL_SUBTABS.forEach(id => {
     const el = document.getElementById(`subtab-${id}`);
     if (el) el.style.display = id === subtabId ? '' : 'none';
   });
@@ -69,37 +69,33 @@ export function switchSubtab(subtabId) {
     btn.classList.toggle('active', btn.dataset.subtab === subtabId);
   });
 
+  // Render-once for audio subtabs (async renderers return promises)
   if (subtabId === 'aethis' && !rendered.aethis) {
-    renderAethisTab();
+    renderAethisTab().then(() => rebuildAudioTOC(subtabId));
     rendered.aethis = true;
   } else if (subtabId === 'music' && !rendered.music) {
-    renderMusicTab();
+    renderMusicTab().then(() => rebuildAudioTOC(subtabId));
     rendered.music = true;
   } else if (subtabId === 'effects' && !rendered.effects) {
-    renderEffectsTab();
+    renderEffectsTab().then(() => rebuildAudioTOC(subtabId));
     rendered.effects = true;
+  } else {
+    // Already rendered — just rebuild the TOC
+    requestAnimationFrame(() => rebuildAudioTOC(subtabId));
   }
-
-  // Always rebuild TOC for the active audio subtab so it's correct after
-  // returning from another main tab.
-  requestAnimationFrame(() => {
-    const dataMap = {
-      aethis:  state.data.aethis,
-      music:   state.data.music,
-      effects: state.data.effects
-    };
-    const data = dataMap[subtabId];
-    if (data) rebuildTOC(data.categories);
-  });
 }
 
-// Shows or hides the TOC sidebar.
+function rebuildAudioTOC(subtabId) {
+  const dataMap = { aethis: state.data.aethis, music: state.data.music, effects: state.data.effects };
+  const data = dataMap[subtabId];
+  if (data) rebuildTOC(data.categories);
+}
+
 function updateTOC(visible) {
   const tocPanel = document.getElementById('toc-panel');
   if (tocPanel) tocPanel.classList.toggle('hidden', !visible);
 }
 
-// Rebuilds the TOC nav list for the given categories array.
 function rebuildTOC(categories) {
   const tocListEl = document.getElementById('toc-list');
   const contentEl = document.getElementById('main-content');
@@ -118,7 +114,9 @@ function rebuildTOC(categories) {
       const target = contentEl.querySelector(`[data-category-id="${cat.id}"]`);
       if (!target) return;
 
-      contentEl.scrollTo({ top: target.offsetTop - 2, behavior: 'smooth' });
+      // scrollIntoView is more reliable than offsetTop arithmetic for nested
+      // sticky headers — it accounts for the actual rendered position.
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
       tocListEl.querySelectorAll('.toc-category').forEach(a => a.classList.remove('active'));
       link.classList.add('active');
@@ -128,7 +126,6 @@ function rebuildTOC(categories) {
   });
 }
 
-// Wires up all nav tab and subtab click handlers.
 export function initNav() {
   document.querySelectorAll('.nav-tab').forEach(btn => {
     btn.addEventListener('click', () => switchTab(btn.dataset.tab));

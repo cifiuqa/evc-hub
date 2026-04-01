@@ -5,9 +5,10 @@
             "name": "Lockdowns",
             "items": [
                 {
-                    "name": "",
-                    "audioId": "",
-                    "content": ""
+                    "name": "Placeholder",
+                    "description": "Placeholder announcement.",
+                    "command": "play 123456",
+                    "audioId": "123456"
                 }
             ]
         }

@@ -1,5 +1,4 @@
 // --- APP ENTRY POINT ---
-// Loads all JSON data, initialises panels, and kicks off navigation.
 
 import { state }                 from './state.js';
 import { initCommandQueuePanel } from './queue.js';
@@ -8,11 +7,12 @@ import { initNav, switchTab }    from './nav.js';
 import { initResizablePanels }   from './resize.js';
 
 const DATA_FILES = {
-  aethis:   'data/aethis.json',
-  music:    'data/music.json',
-  effects:  'data/effects.json',
-  statuses: 'data/statuses.json',
-  morphs:   'data/morphs.json'
+  aethis:        'data/aethis.json',
+  music:         'data/music.json',
+  effects:       'data/effects.json',
+  statuses:      'data/statuses.json',
+  morphs:        'data/morphs.json',
+  announcements: 'data/announcements.json'
 };
 
 async function loadAllData() {
@@ -40,13 +40,11 @@ function initLeaveGuard() {
 
 async function init() {
   await loadAllData();
-
   initCommandQueuePanel();
   initAethisPanel();
   initResizablePanels();
   initNav();
   initLeaveGuard();
-
   switchTab('audios');
 }
 

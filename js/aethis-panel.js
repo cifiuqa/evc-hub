@@ -1,35 +1,33 @@
 // --- AETHIS PANEL ---
-// Bottom-right panel for the AETHIS audio queue.
-// Supports adding (with duplicates), drag-and-drop reorder, remove, clear,
-// copy, and pushing the full sequence into the global command queue.
+// Bottom-right panel. Drag-drop reorder, copy, push to queue, preview all.
 
-import { state }                       from './state.js';
-import { copyToClipboard, showToast }  from './utils.js';
-import { addToCommandQueue }           from './queue.js';
+import { state }                      from './state.js';
+import { copyToClipboard, showToast } from './utils.js';
+import { addToCommandQueue }          from './queue.js';
+import { stopAll }                    from './audio-preview.js';
 
-let dragFromIndex = null;
+const AUDIO_BASE_PATH = 'audios/';
 
-// Builds the AETHIS run command from the current queue.
+let dragFromIndex  = null;
+let previewActive  = false;
+let previewTimeout = null;
+
+// --- OUTPUT ---
+
 function buildAethisCommand(queue) {
   if (queue.length === 0) return '';
 
-  let totalDelay = 0;
-  const parts = [];
-
-  queue.forEach((item, i) => {
-    if (i === 0) {
-      parts.push(`play ${item.audioId}`);
-    } else {
-      parts.push(`& delay ${totalDelay} play ${item.audioId}`);
-    }
-
-    totalDelay += item.delay;
+  const parts = queue.map((item, i) => {
+    if (i < queue.length - 1) return `play ${item.audioId} & delay ${item.delay}`;
+    return `play ${item.audioId}`;
   });
 
   return `run ${parts.join(' ')}`;
 }
 
-// Re-renders the AETHIS queue list.
+
+// --- RENDER ---
+
 export function renderAethisPanel() {
   const listEl  = document.getElementById('aethis-queue-list');
   const countEl = document.getElementById('aethis-count');
@@ -79,15 +77,86 @@ export function renderAethisPanel() {
   });
 }
 
+
+// --- MUTATIONS ---
+
 export function addToAethisQueue(item) {
   state.aethisQueue.push({ name: item.name, audioId: item.audioId, delay: item.delay });
   renderAethisPanel();
 }
 
+
+// --- PREVIEW ALL ---
+
+// Plays each AETHIS sound in sequence using the item's delay value.
+// The delay for item N is how long to wait after item N-1 starts before starting item N.
+function startPreviewAll(previewBtn) {
+  if (state.aethisQueue.length === 0) {
+    showToast('AETHIS queue is empty', true);
+    return;
+  }
+
+  stopPreviewAll(previewBtn);
+  previewActive = true;
+
+  previewBtn.textContent = '■ STOP';
+  previewBtn.classList.add('playing');
+
+  let accumulatedMs = 0;
+
+  state.aethisQueue.forEach((item, i) => {
+    const delayMs = i === 0 ? 0 : state.aethisQueue[i - 1].delay * 1000;
+    accumulatedMs += delayMs;
+
+    const t = setTimeout(() => {
+      if (!previewActive) return;
+
+      // Stop any currently playing preview
+      stopAll();
+
+      const audio = new Audio(`${AUDIO_BASE_PATH}${item.audioId}.ogg`);
+      audio.play().catch(() => {});
+
+      // When this is the last item, reset the button when it ends
+      if (i === state.aethisQueue.length - 1) {
+        audio.addEventListener('ended', () => {
+          previewActive = false;
+          previewBtn.textContent = '▶ PREVIEW ALL';
+          previewBtn.classList.remove('playing');
+        });
+      }
+    }, accumulatedMs);
+
+    // Track all timeouts so we can cancel
+    if (!window._aethisPreviewTimers) window._aethisPreviewTimers = [];
+    window._aethisPreviewTimers.push(t);
+  });
+}
+
+function stopPreviewAll(previewBtn) {
+  previewActive = false;
+
+  if (window._aethisPreviewTimers) {
+    window._aethisPreviewTimers.forEach(t => clearTimeout(t));
+    window._aethisPreviewTimers = [];
+  }
+
+  stopAll();
+
+  if (previewBtn) {
+    previewBtn.textContent = '▶ PREVIEW ALL';
+    previewBtn.classList.remove('playing');
+  }
+}
+
+
+// --- INIT ---
+
 export function initAethisPanel() {
-  const copyBtn       = document.getElementById('aethis-copy-btn');
-  const clearBtn      = document.getElementById('aethis-clear-btn');
-  const toQueueBtn    = document.getElementById('aethis-to-queue-btn');
+  const copyBtn      = document.getElementById('aethis-copy-btn');
+  const clearBtn     = document.getElementById('aethis-clear-btn');
+  const toQueueBtn   = document.getElementById('aethis-to-queue-btn');
+  const previewBtn   = document.getElementById('aethis-preview-btn');
 
   copyBtn.addEventListener('click', () => {
     const output = buildAethisCommand(state.aethisQueue);
@@ -97,19 +166,27 @@ export function initAethisPanel() {
 
   clearBtn.addEventListener('click', () => {
     if (state.aethisQueue.length === 0) return;
+    stopPreviewAll(previewBtn);
     state.aethisQueue = [];
     renderAethisPanel();
   });
 
-  // Push the entire AETHIS sequence as one command into the global queue
+  // Push full AETHIS sequence as a single entry into the command queue.
+  // The inner part (without "run ") is stored, and a null delay means
+  // it runs at t=0 within the run command alongside other entries.
   toQueueBtn.addEventListener('click', () => {
     const output = buildAethisCommand(state.aethisQueue);
     if (!output) { showToast('AETHIS queue is empty', true); return; }
-    // addToCommandQueue strips the leading "run " since the queue wraps it
-    // We store the inner part so the queue can re-wrap it
-    const inner = output.slice(4); // strip "run "
-    addToCommandQueue(inner);
+    addToCommandQueue(output.slice(4)); // strip "run "
     showToast('AETHIS sequence added to queue');
+  });
+
+  previewBtn.addEventListener('click', () => {
+    if (previewActive) {
+      stopPreviewAll(previewBtn);
+    } else {
+      startPreviewAll(previewBtn);
+    }
   });
 
   renderAethisPanel();
@@ -129,13 +206,11 @@ function onDragOver(e) {
   e.preventDefault();
   e.dataTransfer.dropEffect = 'move';
   document.getElementById('aethis-queue-list')
-    .querySelectorAll('.queue-item').forEach(el => el.classList.remove('drag-over'));
+    ?.querySelectorAll('.queue-item').forEach(el => el.classList.remove('drag-over'));
   this.classList.add('drag-over');
 }
 
-function onDragLeave() {
-  this.classList.remove('drag-over');
-}
+function onDragLeave() { this.classList.remove('drag-over'); }
 
 function onDrop(e) {
   e.preventDefault();
@@ -150,17 +225,12 @@ function onDrop(e) {
 function onDragEnd() {
   this.classList.remove('dragging');
   dragFromIndex = null;
-  const listEl = document.getElementById('aethis-queue-list');
-  if (listEl) listEl.querySelectorAll('.queue-item').forEach(el => el.classList.remove('drag-over'));
+  document.getElementById('aethis-queue-list')
+    ?.querySelectorAll('.queue-item').forEach(el => el.classList.remove('drag-over'));
 }
 
 
 // --- HELPERS ---
 
-function escapeHtml(str) {
-  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-}
-
-function escapeAttr(str) {
-  return str.replace(/"/g, '&quot;');
-}
+function escapeHtml(str) { return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+function escapeAttr(str) { return str.replace(/"/g, '&quot;'); }

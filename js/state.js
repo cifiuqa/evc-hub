@@ -1,19 +1,20 @@
 // --- STATE ---
-// Single source of truth for all mutable runtime data.
 
 export const state = {
-  commandQueue: [],   // string[] — raw command strings for the global queue
-  aethisQueue:  [],   // { name, audioId, delay }[] — AETHIS-specific queue
+  // { cmd: string, delay: number|null }[] — delay is seconds before this cmd runs
+  commandQueue: [],
+  aethisQueue:  [],   // { name, audioId, delay }[]
 
   currentTab:    'audios',
   currentSubtab: 'aethis',
-  statusMode:    null,  // 'SERIOUS' | 'SEMI-SERIOUS' | 'CASUAL' | null
+  statusMode:    null,
 
   data: {
-    aethis:   null,
-    music:    null,
-    effects:  null,
-    statuses: null,
-    morphs:   null
+    aethis:        null,
+    music:         null,
+    effects:       null,
+    statuses:      null,
+    morphs:        null,
+    announcements: null
   }
 };

@@ -43,8 +43,8 @@ export function buildTOC(categories, tocListEl, contentEl) {
       const target = contentEl.querySelector(`[data-category-id="${cat.id}"]`);
       if (!target) return;
 
-      // Scroll target into view within the fixed overflow-y container
-      contentEl.scrollTo({ top: target.offsetTop - 4, behavior: 'smooth' });
+      // scrollIntoView accounts for sticky headers; offsetTop arithmetic does not
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
       // Highlight active TOC entry briefly
       tocListEl.querySelectorAll('.toc-category').forEach(a => a.classList.remove('active'));
