@@ -1,10 +1,11 @@
 // --- APP ENTRY POINT ---
 // Loads all JSON data, initialises panels, and kicks off navigation.
 
-import { state }                from './state.js';
+import { state }                 from './state.js';
 import { initCommandQueuePanel } from './queue.js';
-import { initAethisPanel }      from './aethis-panel.js';
-import { initNav, switchTab }   from './nav.js';
+import { initAethisPanel }       from './aethis-panel.js';
+import { initNav, switchTab }    from './nav.js';
+import { initResizablePanels }   from './resize.js';
 
 const DATA_FILES = {
   aethis:   'data/aethis.json',
@@ -13,8 +14,6 @@ const DATA_FILES = {
   statuses: 'data/statuses.json',
   morphs:   'data/morphs.json'
 };
-
-// --- DATA LOADING ---
 
 async function loadAllData() {
   await Promise.all(
@@ -30,33 +29,24 @@ async function loadAllData() {
   );
 }
 
-
-// --- BEFOREUNLOAD GUARD ---
-
 function initLeaveGuard() {
   window.addEventListener('beforeunload', e => {
-    const hasQueue  = state.commandQueue.length > 0;
-    const hasAethis = state.aethisQueue.length > 0;
-
-    if (hasQueue || hasAethis) {
+    if (state.commandQueue.length > 0 || state.aethisQueue.length > 0) {
       e.preventDefault();
       e.returnValue = 'You have unsaved commands in your queue. Leave anyway?';
     }
   });
 }
 
-
-// --- INIT ---
-
 async function init() {
   await loadAllData();
 
   initCommandQueuePanel();
   initAethisPanel();
+  initResizablePanels();
   initNav();
   initLeaveGuard();
 
-  // Start on the AETHIS subtab
   switchTab('audios');
 }
 

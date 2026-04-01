@@ -1,6 +1,6 @@
 // --- MUSIC TAB ---
-// Renders the Music subtab: categorised list of music tracks.
-// "Add to queue" adds a `play <audioId>` command to the global command queue.
+// Renders the Music subtab: categorised list of tracks.
+// Each item has a loop toggle. "Add to queue" generates `play <audioId> [true]`.
 
 import { state }                       from './state.js';
 import { copyToClipboard, buildTOC }   from './utils.js';
@@ -29,8 +29,14 @@ export function renderMusicTab() {
             ${escapeHtml(item.name)}
           </span>
           <span class="audio-id-hint">${item.audioId}</span>
-          <button class="btn btn-sm" title="Preview (stub — no Roblox playback)">▶ PREVIEW</button>
-          <button class="btn btn-add btn-sm"
+          <button class="btn btn-sm" title="Preview (stub)">▶ PREVIEW</button>
+          <div class="effects-controls">
+            <label class="loop-toggle" title="Loop this track">
+              <input type="checkbox" class="loop-input">
+              LOOP
+            </label>
+          </div>
+          <button class="btn btn-add btn-sm music-add-btn"
                   data-audioid="${escapeAttr(item.audioId)}"
                   title="Add play command to queue">+ ADD</button>
         </div>
@@ -43,9 +49,15 @@ export function renderMusicTab() {
     el.addEventListener('click', () => copyToClipboard(el.dataset.audioid));
   });
 
-  // ADD button → push `play <audioId>` to global command queue
-  containerEl.querySelectorAll('.btn-add').forEach(btn => {
-    btn.addEventListener('click', () => addToCommandQueue(`play ${btn.dataset.audioid}`));
+  // ADD → push `play <audioId>` or `play <audioId> true` to global queue
+  containerEl.querySelectorAll('.music-add-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const row     = btn.closest('.audio-item');
+      const loop    = row.querySelector('.loop-input').checked;
+      const audioId = btn.dataset.audioid;
+      const cmd     = loop ? `play ${audioId} true` : `play ${audioId}`;
+      addToCommandQueue(cmd);
+    });
   });
 
   buildTOC(categories, tocListEl, contentEl);

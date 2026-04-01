@@ -1,9 +1,11 @@
 // --- AETHIS PANEL ---
 // Bottom-right panel for the AETHIS audio queue.
-// Supports adding (with duplicates), drag-and-drop reorder, remove, clear, copy.
+// Supports adding (with duplicates), drag-and-drop reorder, remove, clear,
+// copy, and pushing the full sequence into the global command queue.
 
-import { state }           from './state.js';
-import { copyToClipboard, showToast } from './utils.js';
+import { state }                       from './state.js';
+import { copyToClipboard, showToast }  from './utils.js';
+import { addToCommandQueue }           from './queue.js';
 
 let dragFromIndex = null;
 
@@ -25,7 +27,6 @@ function buildAethisCommand(queue) {
 export function renderAethisPanel() {
   const listEl  = document.getElementById('aethis-queue-list');
   const countEl = document.getElementById('aethis-count');
-
   if (!listEl) return;
 
   const count = state.aethisQueue.length;
@@ -50,7 +51,6 @@ export function renderAethisPanel() {
     `)
     .join('');
 
-  // Wire up remove buttons
   listEl.querySelectorAll('.queue-item-remove').forEach(btn => {
     btn.addEventListener('click', e => {
       e.stopPropagation();
@@ -60,12 +60,10 @@ export function renderAethisPanel() {
     });
   });
 
-  // Click item text to copy audio ID
   listEl.querySelectorAll('.queue-item-text').forEach((el, i) => {
     el.addEventListener('click', () => copyToClipboard(state.aethisQueue[i].audioId));
   });
 
-  // Drag-and-drop reorder
   listEl.querySelectorAll('.queue-item[draggable]').forEach(el => {
     el.addEventListener('dragstart', onDragStart);
     el.addEventListener('dragover',  onDragOver);
@@ -75,18 +73,15 @@ export function renderAethisPanel() {
   });
 }
 
-// Appends an item to the AETHIS queue and re-renders.
 export function addToAethisQueue(item) {
   state.aethisQueue.push({ name: item.name, audioId: item.audioId, delay: item.delay });
   renderAethisPanel();
 }
 
-// Initialises panel controls.
 export function initAethisPanel() {
-  const copyBtn     = document.getElementById('aethis-copy-btn');
-  const clearBtn    = document.getElementById('aethis-clear-btn');
-  const collapseBtn = document.getElementById('aethis-collapse-btn');
-  const bodyEl      = document.getElementById('aethis-queue-body');
+  const copyBtn       = document.getElementById('aethis-copy-btn');
+  const clearBtn      = document.getElementById('aethis-clear-btn');
+  const toQueueBtn    = document.getElementById('aethis-to-queue-btn');
 
   copyBtn.addEventListener('click', () => {
     const output = buildAethisCommand(state.aethisQueue);
@@ -100,16 +95,22 @@ export function initAethisPanel() {
     renderAethisPanel();
   });
 
-  collapseBtn.addEventListener('click', () => {
-    const collapsed = bodyEl.classList.toggle('collapsed');
-    collapseBtn.textContent = collapsed ? '▲' : '▼';
+  // Push the entire AETHIS sequence as one command into the global queue
+  toQueueBtn.addEventListener('click', () => {
+    const output = buildAethisCommand(state.aethisQueue);
+    if (!output) { showToast('AETHIS queue is empty', true); return; }
+    // addToCommandQueue strips the leading "run " since the queue wraps it
+    // We store the inner part so the queue can re-wrap it
+    const inner = output.slice(4); // strip "run "
+    addToCommandQueue(inner);
+    showToast('AETHIS sequence added to queue');
   });
 
   renderAethisPanel();
 }
 
 
-// --- DRAG AND DROP HANDLERS ---
+// --- DRAG AND DROP ---
 
 function onDragStart(e) {
   dragFromIndex = parseInt(this.dataset.index, 10);
@@ -121,9 +122,8 @@ function onDragStart(e) {
 function onDragOver(e) {
   e.preventDefault();
   e.dataTransfer.dropEffect = 'move';
-
-  const listEl = document.getElementById('aethis-queue-list');
-  listEl.querySelectorAll('.queue-item').forEach(el => el.classList.remove('drag-over'));
+  document.getElementById('aethis-queue-list')
+    .querySelectorAll('.queue-item').forEach(el => el.classList.remove('drag-over'));
   this.classList.add('drag-over');
 }
 
@@ -134,24 +134,18 @@ function onDragLeave() {
 function onDrop(e) {
   e.preventDefault();
   const toIndex = parseInt(this.dataset.index, 10);
-
   if (dragFromIndex === null || dragFromIndex === toIndex) return;
 
-  // Reorder the queue array
   const moved = state.aethisQueue.splice(dragFromIndex, 1)[0];
   state.aethisQueue.splice(toIndex, 0, moved);
-
   renderAethisPanel();
 }
 
 function onDragEnd() {
   this.classList.remove('dragging');
   dragFromIndex = null;
-
   const listEl = document.getElementById('aethis-queue-list');
-  if (listEl) {
-    listEl.querySelectorAll('.queue-item').forEach(el => el.classList.remove('drag-over'));
-  }
+  if (listEl) listEl.querySelectorAll('.queue-item').forEach(el => el.classList.remove('drag-over'));
 }
 
 

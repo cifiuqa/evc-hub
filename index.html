@@ -3,31 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CMD Builder</title>
+  <title>EVC Hub</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Source+Sans+3:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-  <!-- ── Navbar ────────────────────────────────────────────────── -->
-  <nav id="navbar">
-    <div class="nav-brand">
-      <span class="brand-symbol">▶</span>
-      <span class="brand-text">CMD BUILDER</span>
+  <!-- ── Top Bar: brand + tabs + subtabs all together ──────────── -->
+  <div id="top-bar">
+    <div id="navbar">
+      <div class="nav-brand">
+        <span class="brand-symbol">◈</span>
+        <span class="brand-text">EVC HUB</span>
+      </div>
+      <div class="nav-divider"></div>
+      <div class="nav-tabs">
+        <button class="nav-tab active" data-tab="audios">AUDIOS</button>
+        <button class="nav-tab"        data-tab="statuses">STATUSES</button>
+        <button class="nav-tab"        data-tab="morphs">MORPHS</button>
+      </div>
+      <div id="subtab-bar">
+        <button class="subtab active" data-subtab="aethis">AETHIS</button>
+        <button class="subtab"        data-subtab="music">MUSIC</button>
+        <button class="subtab"        data-subtab="effects">EFFECTS</button>
+      </div>
     </div>
-    <div class="nav-tabs">
-      <button class="nav-tab active" data-tab="audios">AUDIOS</button>
-      <button class="nav-tab"        data-tab="statuses">STATUSES</button>
-      <button class="nav-tab"        data-tab="morphs">MORPHS</button>
-    </div>
-  </nav>
-
-  <!-- ── Subtab Bar (Audios only) ──────────────────────────────── -->
-  <div id="subtab-bar">
-    <button class="subtab active" data-subtab="aethis">AETHIS</button>
-    <button class="subtab"        data-subtab="music">MUSIC</button>
-    <button class="subtab"        data-subtab="effects">EFFECTS</button>
   </div>
 
   <!-- ── Content Row ───────────────────────────────────────────── -->
@@ -58,6 +59,9 @@
     </main>
   </div>
 
+  <!-- ── Vertical resize handle ────────────────────────────────── -->
+  <div id="vertical-resize-handle" class="resize-handle-v" title="Drag to resize panels"></div>
+
   <!-- ── Bottom Panels ─────────────────────────────────────────── -->
   <div id="bottom-panels">
 
@@ -69,7 +73,6 @@
           <span id="cmd-count" class="panel-count">empty</span>
           <button class="btn btn-sm" id="cmd-copy-btn">COPY ALL</button>
           <button class="btn btn-sm btn-danger" id="cmd-clear-btn">CLEAR</button>
-          <button class="btn btn-icon" id="cmd-collapse-btn" title="Toggle">▼</button>
         </div>
       </div>
       <div class="panel-body" id="cmd-queue-body">
@@ -82,20 +85,23 @@
       </div>
     </div>
 
+    <!-- Horizontal resize handle -->
+    <div id="horizontal-resize-handle" class="resize-handle-h" title="Drag to resize"></div>
+
     <!-- AETHIS Queue -->
     <div id="aethis-queue-panel" class="bottom-panel">
       <div class="panel-header">
         <span class="panel-title">◈ AETHIS QUEUE</span>
         <div class="panel-controls">
           <span id="aethis-count" class="panel-count">empty</span>
+          <button class="btn btn-sm" id="aethis-to-queue-btn" title="Add full AETHIS sequence to command queue">→ QUEUE</button>
           <button class="btn btn-sm" id="aethis-copy-btn">COPY</button>
           <button class="btn btn-sm btn-danger" id="aethis-clear-btn">CLEAR</button>
-          <button class="btn btn-icon" id="aethis-collapse-btn" title="Toggle">▼</button>
         </div>
       </div>
       <div class="panel-body" id="aethis-queue-body">
         <div id="aethis-queue-list" class="queue-list draggable-list"></div>
-        <div class="aethis-hint">Drag to reorder · click name to copy audio ID</div>
+        <div class="aethis-hint">Drag to reorder · click name to copy ID</div>
       </div>
     </div>
 

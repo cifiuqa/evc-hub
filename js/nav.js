@@ -1,5 +1,5 @@
 // --- NAV CONTROLLER ---
-// Manages tab and subtab switching; shows/hides the correct panels.
+// Manages tab and subtab switching, panel visibility, and TOC wiring.
 
 import { state }              from './state.js';
 import { renderAethisTab }    from './aethis.js';
@@ -8,38 +8,25 @@ import { renderEffectsTab }   from './effects.js';
 import { renderStatusesTab }  from './statuses.js';
 import { renderMorphsTab }    from './morphs.js';
 
-const TAB_PANELS = {
-  audios:   document.getElementById('tab-audios'),
-  statuses: document.getElementById('tab-statuses'),
-  morphs:   document.getElementById('tab-morphs')
-};
-
-const SUBTAB_PANELS = {
-  aethis:  document.getElementById('subtab-aethis'),
-  music:   document.getElementById('subtab-music'),
-  effects: document.getElementById('subtab-effects')
-};
-
-// Tracks which tabs/subtabs have been rendered so we don't re-render on
-// every switch — only render once on first visit.
+// Track which tabs have been initially rendered (avoid unnecessary re-renders).
+// Statuses and Morphs re-render on every visit so mode/person state stays fresh.
 const rendered = {
-  aethis:   false,
-  music:    false,
-  effects:  false,
-  statuses: false,
-  morphs:   false
+  aethis:  false,
+  music:   false,
+  effects: false
 };
 
 // Switches the main tab to the given id.
 export function switchTab(tabId) {
   state.currentTab = tabId;
 
-  // Show/hide panels
-  Object.entries(TAB_PANELS).forEach(([id, el]) => {
+  // Show/hide main panels
+  ['audios', 'statuses', 'morphs'].forEach(id => {
+    const el = document.getElementById(`tab-${id}`);
     if (el) el.style.display = id === tabId ? '' : 'none';
   });
 
-  // Toggle subtab bar visibility (audios only)
+  // Subtab bar only visible on Audios
   const subtabBar = document.getElementById('subtab-bar');
   if (subtabBar) subtabBar.classList.toggle('hidden', tabId !== 'audios');
 
@@ -48,24 +35,23 @@ export function switchTab(tabId) {
     btn.classList.toggle('active', btn.dataset.tab === tabId);
   });
 
-  // Render tab content if first visit
   if (tabId === 'audios') {
+    updateTOC(true);
     switchSubtab(state.currentSubtab);
   } else if (tabId === 'statuses') {
     updateTOC(false);
-    if (!rendered.statuses) {
-      renderStatusesTab();
-      rendered.statuses = true;
-    }
+    // Always re-render statuses so mode state is reflected
+    renderStatusesTab();
   } else if (tabId === 'morphs') {
+    // Always rebuild the TOC with morphs categories — regardless of whether
+    // we've visited before. This fixes the stale audio-TOC bug.
     updateTOC(true);
-    if (!rendered.morphs) {
-      renderMorphsTab();
-      rendered.morphs = true;
-    }
+    renderMorphsTab();
+    requestAnimationFrame(() => {
+      if (state.data.morphs) rebuildTOC(state.data.morphs.categories);
+    });
   }
 
-  // Scroll main content back to top on tab change
   const mainContent = document.getElementById('main-content');
   if (mainContent) mainContent.scrollTop = 0;
 }
@@ -74,18 +60,14 @@ export function switchTab(tabId) {
 export function switchSubtab(subtabId) {
   state.currentSubtab = subtabId;
 
-  // Show/hide subtab panels
-  Object.entries(SUBTAB_PANELS).forEach(([id, el]) => {
+  ['aethis', 'music', 'effects'].forEach(id => {
+    const el = document.getElementById(`subtab-${id}`);
     if (el) el.style.display = id === subtabId ? '' : 'none';
   });
 
-  // Update subtab button active state
   document.querySelectorAll('.subtab').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.subtab === subtabId);
   });
-
-  // Render and show TOC
-  updateTOC(true);
 
   if (subtabId === 'aethis' && !rendered.aethis) {
     renderAethisTab();
@@ -98,16 +80,16 @@ export function switchSubtab(subtabId) {
     rendered.effects = true;
   }
 
-  // Re-build TOC after render (categories may have just been inserted into DOM)
-  // Slight delay so the DOM has been updated before we query it
+  // Always rebuild TOC for the active audio subtab so it's correct after
+  // returning from another main tab.
   requestAnimationFrame(() => {
-    if (subtabId === 'aethis' && state.data.aethis) {
-      rebuildActiveTOC(state.data.aethis.categories);
-    } else if (subtabId === 'music' && state.data.music) {
-      rebuildActiveTOC(state.data.music.categories);
-    } else if (subtabId === 'effects' && state.data.effects) {
-      rebuildActiveTOC(state.data.effects.categories);
-    }
+    const dataMap = {
+      aethis:  state.data.aethis,
+      music:   state.data.music,
+      effects: state.data.effects
+    };
+    const data = dataMap[subtabId];
+    if (data) rebuildTOC(data.categories);
   });
 }
 
@@ -117,12 +99,10 @@ function updateTOC(visible) {
   if (tocPanel) tocPanel.classList.toggle('hidden', !visible);
 }
 
-// Re-builds the TOC nav list for the given categories.
-// Scrolling is scoped to the main-content overflow container.
-function rebuildActiveTOC(categories) {
-  const tocListEl  = document.getElementById('toc-list');
-  const contentEl  = document.getElementById('main-content');
-
+// Rebuilds the TOC nav list for the given categories array.
+function rebuildTOC(categories) {
+  const tocListEl = document.getElementById('toc-list');
+  const contentEl = document.getElementById('main-content');
   if (!tocListEl || !contentEl) return;
 
   tocListEl.innerHTML = '';
@@ -135,7 +115,6 @@ function rebuildActiveTOC(categories) {
 
     link.addEventListener('click', e => {
       e.preventDefault();
-
       const target = contentEl.querySelector(`[data-category-id="${cat.id}"]`);
       if (!target) return;
 
