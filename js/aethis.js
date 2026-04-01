@@ -48,7 +48,10 @@ export function renderAethisTab() {
   // Preview button — stub
   containerEl.querySelectorAll('[data-audioid].btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      // No Roblox playback available in browser — placeholder only
+      if (item.audioFile) {
+        const a = new Audio(item.audioFile);
+        a.play();
+      }
     });
   });
 

@@ -49,6 +49,16 @@ export function renderMusicTab() {
     el.addEventListener('click', () => copyToClipboard(el.dataset.audioid));
   });
 
+  // Preview button — stub
+  containerEl.querySelectorAll('[data-audioid].btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (item.audioFile) {
+        const a = new Audio(item.audioFile);
+        a.play();
+      }
+    });
+  });
+
   // ADD → push `play <audioId>` or `play <audioId> true` to global queue
   containerEl.querySelectorAll('.music-add-btn').forEach(btn => {
     btn.addEventListener('click', () => {

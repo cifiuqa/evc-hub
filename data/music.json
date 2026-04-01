@@ -1,39 +1,70 @@
 {
   "categories": [
     {
-      "id": "epic",
-      "name": "Epic",
+      "id": "pre_after",
+      "name": "Pre / After (Suspense)",
       "items": [
-        { "name": "Battle March",        "audioId": "1843114698" },
-        { "name": "Hero's Theme",        "audioId": "1842736401" },
-        { "name": "Final Confrontation", "audioId": "1846293847" },
-        { "name": "Victory Fanfare",     "audioId": "1849012345" }
+        { "name": "INSURGENT", "audioId": "1842908121" },
+        { "name": "CHOPPER CHASE", "audioId": "1837226462" },
+        { "name": "DEAD END", "audioId": "1843789930" },
+        { "name": "FACILITY", "audioId": "1843005255" },
+        { "name": "INTO THE MIST", "audioId": "9046928207" }
       ]
     },
     {
-      "id": "ambient",
-      "name": "Ambient",
+      "id": "build_up",
+      "name": "Build Up (Rock/Metal)",
       "items": [
-        { "name": "Peaceful Fields",     "audioId": "1832456012" },
-        { "name": "Misty Hollow",        "audioId": "1836571234" },
-        { "name": "Ancient Library",     "audioId": "1835293847" }
+        { "name": "MINDWINDER B", "audioId": "1838075732" },
+        { "name": "LET ME HELP YOU SURVIVE A WIN", "audioId": "9044604988" },
+        { "name": "TERMINAL VELOCITY", "audioId": "1842802436" },
+        { "name": "LETHAL CONFLICT", "audioId": "1842934882" },
+        { "name": "SKULL OF HATE", "audioId": "1837307893" },
+        { "name": "IRON WAR", "audioId": "1837284759" },
+        { "name": "HEIST", "audioId": "1836781594" },
+        { "name": "INTENSE MOTIVATION", "audioId": "1839703937" },
+        { "name": "THERE WILL BE BLOOD", "audioId": "1843513001" },
+        { "name": "OMINOUS DOOM", "audioId": "1845844491" },
+        { "name": "PEDAL TO THE METAL", "audioId": "1837247191" },
+        { "name": "NECROMANCER MADNESS", "audioId": "9047441554" },
+        { "name": "FULL FORCE", "audioId": "1842802040" }
       ]
     },
     {
-      "id": "dramatic",
-      "name": "Dramatic",
+      "id": "duration",
+      "name": "Duration (Combat Loop)",
       "items": [
-        { "name": "Dark Revelation",     "audioId": "1852341678" },
-        { "name": "Suspense Rising",     "audioId": "1854231789" },
-        { "name": "The Descent",         "audioId": "1856789012" }
+        { "name": "TROUBLED", "audioId": "1847648331" },
+        { "name": "FUEL FURY", "audioId": "9042632936" },
+        { "name": "FIGHT NITE", "audioId": "9042825174" },
+        { "name": "FUEL TO THE FIRE", "audioId": "1837843587" },
+        { "name": "TOXIC", "audioId": "1842652230" },
+        { "name": "ROTTEN FLESH", "audioId": "1837294017" },
+        { "name": "METAL SPEED RACE", "audioId": "9038251495" },
+        { "name": "UNDERTAKER", "audioId": "1847016421" },
+        { "name": "POUND FOR POUND", "audioId": "1842802203" },
+        { "name": "DOOM METAL UPGRADE B", "audioId": "1845819130" },
+        { "name": "ENERGETIC FPS", "audioId": "1836137248" },
+        { "name": "CHAOS", "audioId": "1843497734" },
+        { "name": "FIGHT THROUGH ADVERSITY", "audioId": "9038254260" },
+        { "name": "METAL STORM BREAKS", "audioId": "9038254566" },
+        { "name": "WISE UP", "audioId": "1837029722" },
+        { "name": "EPIC BATTLE SIMULATOR", "audioId": "1837301451" },
+        { "name": "SONIC WEAPON", "audioId": "1837301508" },
+        { "name": "EPIC RACE", "audioId": "1837301393" }
       ]
     },
     {
-      "id": "combat",
-      "name": "Combat",
+      "id": "ending",
+      "name": "Ending",
       "items": [
-        { "name": "Clash of Steel",      "audioId": "1862345678" },
-        { "name": "Into the Fray",       "audioId": "1864567890" }
+        { "name": "DEATH CAR RACING", "audioId": "9039351799" },
+        { "name": "SPEED METAL OVERTURE", "audioId": "9042370693" },
+        { "name": "TORTURED MINDS", "audioId": "1837293686" },
+        { "name": "MADE OF STEEL", "audioId": "1845850812" },
+        { "name": "THE WILL TO FIGHT", "audioId": "1845793864" },
+        { "name": "WE HAVE THE POWER", "audioId": "1842113397" },
+        { "name": "THE HEIST", "audioId": "1845389634" }
       ]
     }
   ]

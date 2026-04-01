@@ -60,6 +60,16 @@ export function renderEffectsTab() {
     el.addEventListener('click', () => copyToClipboard(el.dataset.audioid));
   });
 
+  // Preview button — stub
+  containerEl.querySelectorAll('[data-audioid].btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (item.audioFile) {
+        const a = new Audio(item.audioFile);
+        a.play();
+      }
+    });
+  });
+
   // ADD button → read current inputs and build `playsound me` command
   containerEl.querySelectorAll('.btn-add').forEach(btn => {
     btn.addEventListener('click', () => {
