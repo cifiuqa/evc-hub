@@ -354,8 +354,8 @@ body { display: flex; flex-direction: column; }
 
 .effects-item:hover { background: var(--accent-glow); }
 
-/* Spacer so the type toggle is always at the far right */
-.effects-spacer { flex: 1; }
+/* Pushes the type toggle to the far right without disturbing other controls */
+.effects-spacer { margin-left: auto; }
 
 .effects-controls { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
 
