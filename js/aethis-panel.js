@@ -27,11 +27,12 @@ function buildAethisCommand(queue) {
   let accumulated = 0;
 
   queue.forEach((item, i) => {
+    let result = ""
     if (i > 0) {
       // delay before this sound = sum of all previous items' delays
-      parts.push(`delay ${accumulated}`);
+      result = result+`delay ${accumulated} `
     }
-    parts.push(`play ${item.audioId}`);
+    parts.push(`${result}play ${item.audioId}`);
     accumulated += item.delay;
   });
 
