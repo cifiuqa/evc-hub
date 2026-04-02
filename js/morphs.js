@@ -29,7 +29,7 @@ export function renderMorphsTab() {
     <div class="morphs-header">
       <label for="morph-person-input">TARGET PLAYER:</label>
       <input type="text" id="morph-person-input" class="morph-person-input"
-             placeholder="username or . for self..." value="">
+             placeholder="username or target(s)" value="">
     </div>
     ${categories.map(cat => `
       <div class="morphs-category-section" data-category-id="${cat.id}">
@@ -59,7 +59,7 @@ export function renderMorphsTab() {
                   <button class="btn btn-primary btn-sm copy-morph-btn"
                           data-cat="${escapeAttr(cat.id)}" data-item="${itemIndex}"
                           title="${escapeAttr(cmdTooltip)}">
-                    COPY COMMAND
+                    COPY COMMANDS
                   </button>
                 </div>
               </div>
