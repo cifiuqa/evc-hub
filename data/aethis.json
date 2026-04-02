@@ -98,7 +98,7 @@
       "name": "Instructions",
       "items": [
         { "name": "Await Further Instructions", "audioId": "139456451305280", "delay": 2.9 },
-        { "name": "Report To", "audioId": "95253929731456", "delay": 1.75 },
+        { "name": "Report To", "audioId": "95253929731456", "delay": 1.65 },
         { "name": "Is Undergoing a Lockdown", "audioId": "131587404682399", "delay": 1.45 },
         { "name": "Immediately", "audioId": "83083843706265", "delay": 1.55 },
         { "name": "Have Initiated A Riot", "audioId": "102634724516479", "delay": 1.75 },
