@@ -4,546 +4,170 @@
       "id": "numbers",
       "name": "Numbers",
       "items": [
-        {
-          "name": "Zero",
-          "audioId": "100384048273713",
-          "delay": 1
-        },
-        {
-          "name": "One",
-          "audioId": "127446743483966",
-          "delay": 1
-        },
-        {
-          "name": "Two",
-          "audioId": "124862681721286",
-          "delay": 1
-        },
-        {
-          "name": "Three",
-          "audioId": "127567883448563",
-          "delay": 1
-        },
-        {
-          "name": "Four",
-          "audioId": "93841151205127",
-          "delay": 1
-        },
-        {
-          "name": "Five",
-          "audioId": "113943732675477",
-          "delay": 1
-        },
-        {
-          "name": "Six",
-          "audioId": "133969177128025",
-          "delay": 1
-        },
-        {
-          "name": "Seven",
-          "audioId": "82880899940626",
-          "delay": 1
-        },
-        {
-          "name": "Eight",
-          "audioId": "97593258017971",
-          "delay": 1
-        },
-        {
-          "name": "Nine",
-          "audioId": "135904368249798",
-          "delay": 1
-        },
-        {
-          "name": "T-Minus",
-          "audioId": "78525512706026",
-          "delay": 1.15
-        }
+        { "name": "Zero", "audioId": "100384048273713", "delay": 1 },
+        { "name": "One", "audioId": "127446743483966", "delay": 1 },
+        { "name": "Two", "audioId": "124862681721286", "delay": 1 },
+        { "name": "Three", "audioId": "127567883448563", "delay": 1 },
+        { "name": "Four", "audioId": "93841151205127", "delay": 1 },
+        { "name": "Five", "audioId": "113943732675477", "delay": 1 },
+        { "name": "Six", "audioId": "133969177128025", "delay": 1 },
+        { "name": "Seven", "audioId": "82880899940626", "delay": 1 },
+        { "name": "Eight", "audioId": "97593258017971", "delay": 1 },
+        { "name": "Nine", "audioId": "135904368249798", "delay": 1 },
+        { "name": "T-Minus", "audioId": "78525512706026", "delay": 1.05 }
       ]
     },
     {
       "id": "scp",
       "name": "SCP Related",
       "items": [
-        {
-          "name": "SCP",
-          "audioId": "137865662696185",
-          "delay": 1.6
-        },
-        {
-          "name": "Instances",
-          "audioId": "71420336508485",
-          "delay": 1.85
-        },
-        {
-          "name": "C",
-          "audioId": "78689906959920",
-          "delay": 1.1
-        },
-        {
-          "name": "B",
-          "audioId": "124971968444147",
-          "delay": 1.1
-        },
-        {
-          "name": "A",
-          "audioId": "87325875230624",
-          "delay": 1.1
-        },
-        {
-          "name": "Dash",
-          "audioId": "129723825690755",
-          "delay": 1.1
-        },
-        {
-          "name": "Terminated",
-          "audioId": "81567611186595",
-          "delay": 1.25
-        }
+        { "name": "SCP", "audioId": "137865662696185", "delay": 1.5 },
+        { "name": "Instances", "audioId": "71420336508485", "delay": 1.75 },
+        { "name": "C", "audioId": "78689906959920", "delay": 1 },
+        { "name": "B", "audioId": "124971968444147", "delay": 1 },
+        { "name": "A", "audioId": "87325875230624", "delay": 1 },
+        { "name": "Dash", "audioId": "129723825690755", "delay": 1 },
+        { "name": "Terminated", "audioId": "81567611186595", "delay": 1.15 }
       ]
     },
     {
       "id": "field-codes",
       "name": "Field Codes",
       "items": [
-        {
-          "name": "Yellow",
-          "audioId": "128178776116763",
-          "delay": 1.1
-        },
-        {
-          "name": "White",
-          "audioId": "111153125688514",
-          "delay": 1.1
-        },
-        {
-          "name": "Superblue",
-          "audioId": "98955533775849",
-          "delay": 1.65
-        },
-        {
-          "name": "Silver",
-          "audioId": "71996298092068",
-          "delay": 1.1
-        },
-        {
-          "name": "Red",
-          "audioId": "103924990656218",
-          "delay": 1.1
-        },
-        {
-          "name": "Purple",
-          "audioId": "111930163410655",
-          "delay": 1.1
-        },
-        {
-          "name": "Orange",
-          "audioId": "93767032267059",
-          "delay": 1.1
-        },
-        {
-          "name": "Blue",
-          "audioId": "130356008925264",
-          "delay": 1.1
-        },
-        {
-          "name": "Black",
-          "audioId": "82147115701721",
-          "delay": 1.1
-        },
-        {
-          "name": "Operational",
-          "audioId": "95575245137361",
-          "delay": 1.65
-        },
+        { "name": "Yellow", "audioId": "128178776116763", "delay": 1 },
+        { "name": "White", "audioId": "111153125688514", "delay": 1 },
+        { "name": "Superblue", "audioId": "98955533775849", "delay": 1.55 },
+        { "name": "Silver", "audioId": "71996298092068", "delay": 1 },
+        { "name": "Red", "audioId": "103924990656218", "delay": 1 },
+        { "name": "Purple", "audioId": "111930163410655", "delay": 1 },
+        { "name": "Orange", "audioId": "93767032267059", "delay": 1 },
+        { "name": "Blue", "audioId": "130356008925264", "delay": 1 },
+        { "name": "Black", "audioId": "82147115701721", "delay": 1 },
+        { "name": "Operational", "audioId": "95575245137361", "delay": 1.55 },
         {
           "name": "Is Now in Effect",
           "audioId": "70694631951948",
-          "delay": 1.85
+          "delay": 1.75
         },
         {
           "name": "Full Site Lockdown",
           "audioId": "94904059230000",
-          "delay": 1.85
+          "delay": 1.75
         },
-        {
-          "name": "Code",
-          "audioId": "101457762985005",
-          "delay": 1.1
-        }
+        { "name": "Code", "audioId": "101457762985005", "delay": 1 }
       ]
     },
     {
       "id": "protocols",
       "name": "Protocols",
       "items": [
-        {
-          "name": "Blindeye",
-          "audioId": "75694994301161",
-          "delay": 1.65
-        },
-        {
-          "name": "Bravo",
-          "audioId": "121720682769181",
-          "delay": 1.0
-        },
-        {
-          "name": "Castle",
-          "audioId": "123175445133278",
-          "delay": 1.0
-        },
-        {
-          "name": "Charlie",
-          "audioId": "96727411721969",
-          "delay": 1.0
-        },
-        {
-          "name": "Hayden's Contingency",
-          "audioId": "139918184823974",
-          "delay": 1.85
-        },
-        {
-          "name": "Delta",
-          "audioId": "125716604072952",
-          "delay": 1.1
-        },
-        {
-          "name": "Lima Osprey",
-          "audioId": "86220773056885",
-          "delay": 1.85
-        },
-        {
-          "name": "Protocol",
-          "audioId": "121859193783931",
-          "delay": 0.9
-        },
-        {
-          "name": "Purge",
-          "audioId": "95538363231564",
-          "delay": 1.6
-        },
-        {
-          "name": "Scarlet Armada",
-          "audioId": "128929384510078",
-          "delay": 1.85
-        },
-        {
-          "name": "Silent Night",
-          "audioId": "83656624520354",
-          "delay": 1.85
-        },
-        {
-          "name": "Dead Man's Switch",
-          "audioId": "129605572611454",
-          "delay": 1.85
-        },
-        {
-          "name": "Theta",
-          "audioId": "73217766437008",
-          "delay": 1.0
-        }
+        { "name": "Blindeye", "audioId": "75694994301161", "delay": 1.55 },
+        { "name": "Bravo", "audioId": "121720682769181", "delay": 0.9 },
+        { "name": "Castle", "audioId": "123175445133278", "delay": 0.9 },
+        { "name": "Charlie", "audioId": "96727411721969", "delay": 0.9 },
+        { "name": "Hayden's Contingency", "audioId": "139918184823974", "delay": 1.75},
+        { "name": "Delta", "audioId": "125716604072952", "delay": 1 },
+        { "name": "Lima Osprey", "audioId": "86220773056885", "delay": 1.75 },
+        { "name": "Protocol", "audioId": "121859193783931", "delay": 0.8 },
+        { "name": "Purge", "audioId": "95538363231564", "delay": 1.5 },
+        { "name": "Scarlet Armada", "audioId": "128929384510078", "delay": 1.75 },
+        { "name": "Silent Night", "audioId": "83656624520354", "delay": 1.75 },
+        { "name": "Dead Man's Switch", "audioId": "129605572611454", "delay": 1.75 },
+        { "name": "Theta", "audioId": "73217766437008", "delay": 0.9 }
       ]
     },
     {
       "id": "personnel",
       "name": "Personnel Reference",
       "items": [
-        {
-          "name": "Security",
-          "audioId": "136345561071349",
-          "delay": 1.0
-        },
-        {
-          "name": "Research",
-          "audioId": "91977591917678",
-          "delay": 1.0
-        },
-        {
-          "name": "Mobile Task Force",
-          "audioId": "78097202963810",
-          "delay": 1.6
-        },
-        {
-          "name": "Medical",
-          "audioId": "116392104435814",
-          "delay": 1.0
-        },
-        {
-          "name": "Maintenance",
-          "audioId": "111297342773061",
-          "delay": 1.0
-        },
-        {
-          "name": "Administrative",
-          "audioId": "71133027417954",
-          "delay": 1.0
-        },
-        {
-          "name": "Hostile",
-          "audioId": "77673486879405",
-          "delay": 1.0
-        },
-        {
-          "name": "Class-D",
-          "audioId": "94683267429693",
-          "delay": 1.0
-        },
-        {
-          "name": "Civilian",
-          "audioId": "119218916307693",
-          "delay": 1.0
-        },
-        {
-          "name": "Civil",
-          "audioId": "125349650098158",
-          "delay": 1.0
-        },
-        {
-          "name": "Personnel",
-          "audioId": "88364726385106",
-          "delay": 1.0
-        }
+        { "name": "Security", "audioId": "136345561071349", "delay": 0.9 },
+        { "name": "Research", "audioId": "91977591917678", "delay": 0.9 },
+        { "name": "Mobile Task Force", "audioId": "78097202963810", "delay": 1.5 },
+        { "name": "Medical", "audioId": "116392104435814", "delay": 0.9 },
+        { "name": "Maintenance", "audioId": "111297342773061", "delay": 0.9 },
+        { "name": "Administrative", "audioId": "71133027417954", "delay": 0.9 },
+        { "name": "Hostile", "audioId": "77673486879405", "delay": 0.9 },
+        { "name": "Class-D", "audioId": "94683267429693", "delay": 0.9 },
+        { "name": "Civilian", "audioId": "119218916307693", "delay": 0.9 },
+        { "name": "Civil", "audioId": "125349650098158", "delay": 0.9 },
+        { "name": "Personnel", "audioId": "88364726385106", "delay": 0.9 }
       ]
     },
     {
       "id": "instructions",
       "name": "Instructions",
       "items": [
-        {
-          "name": "Await Further Instructions",
-          "audioId": "139456451305280",
-          "delay": 3.0
-        },
-        {
-          "name": "Report To",
-          "audioId": "95253929731456",
-          "delay": 1.85
-        },
-        {
-          "name": "Is Undergoing a Lockdown",
-          "audioId": "131587404682399",
-          "delay": 1.55
-        },
-        {
-          "name": "Immediately",
-          "audioId": "83083843706265",
-          "delay": 1.65
-        },
-        {
-          "name": "Have Initiated A Riot",
-          "audioId": "102634724516479",
-          "delay": 1.85
-        },
-        {
-          "name": "Has Initiated a Riot",
-          "audioId": "77281264838701",
-          "delay": 1.85
-        },
-        {
-          "name": "Has Breached Containment",
-          "audioId": "131992210684380",
-          "delay": 1.85
-        },
-        {
-          "name": "Exit the Area",
-          "audioId": "83649273479433",
-          "delay": 1.85
-        },
-        {
-          "name": "Evacuate The Site",
-          "audioId": "112806478663843",
-          "delay": 1.85
-        },
-        {
-          "name": "Due For Termination",
-          "audioId": "119100679052991",
-          "delay": 1.85
-        },
-        {
-          "name": "Please report status",
-          "audioId": "84362199641839",
-          "delay": 1.85
-        },
-        {
-          "name": "Lockdown Lifted",
-          "audioId": "70817533743466",
-          "delay": 1.85
-        },
-        {
-          "name": "Has been transported",
-          "audioId": "110472286180376",
-          "delay": 1.85
-        }
+        { "name": "Await Further Instructions", "audioId": "139456451305280", "delay": 2.9 },
+        { "name": "Report To", "audioId": "95253929731456", "delay": 1.75 },
+        { "name": "Is Undergoing a Lockdown", "audioId": "131587404682399", "delay": 1.45 },
+        { "name": "Immediately", "audioId": "83083843706265", "delay": 1.55 },
+        { "name": "Have Initiated A Riot", "audioId": "102634724516479", "delay": 1.75 },
+        { "name": "Has Initiated a Riot", "audioId": "77281264838701", "delay": 1.75 },
+        { "name": "Has Breached Containment", "audioId": "131992210684380", "delay": 1.75 },
+        { "name": "Exit the Area", "audioId": "83649273479433", "delay": 1.75 },
+        { "name": "Evacuate The Site", "audioId": "112806478663843", "delay": 1.75 },
+        { "name": "Due For Termination", "audioId": "119100679052991", "delay": 1.75 },
+        { "name": "Please report status", "audioId": "84362199641839", "delay": 1.75 },
+        { "name": "Lockdown Lifted", "audioId": "70817533743466", "delay": 1.75 },
+        { "name": "Has been transported", "audioId": "110472286180376", "delay": 1.75 }
       ]
     },
     {
       "id": "connectives",
       "name": "Connectives",
       "items": [
-        {
-          "name": "To",
-          "audioId": "108485489789939",
-          "delay": 0.9
-        },
-        {
-          "name": "And",
-          "audioId": "128129561587759",
-          "delay": 0.9
-        },
-        {
-          "name": "In",
-          "audioId": "113432739719105",
-          "delay": 0.9
-        },
-        {
-          "name": "Are",
-          "audioId": "77002017701900",
-          "delay": 0.9
-        }
+        { "name": "To", "audioId": "108485489789939", "delay": 0.8 },
+        { "name": "And", "audioId": "128129561587759", "delay": 0.8 },
+        { "name": "In", "audioId": "113432739719105", "delay": 0.8 },
+        { "name": "Are", "audioId": "77002017701900", "delay": 0.8 }
       ]
     },
     {
       "id": "site",
       "name": "Site Reference",
       "items": [
-        {
-          "name": "Installation-45",
-          "audioId": "88751623701252",
-          "delay": 1.85
-        },
-        {
-          "name": "Detected",
-          "audioId": "133162800335679",
-          "delay": 1.5
-        },
-        {
-          "name": "Attention",
-          "audioId": "81647210216249",
-          "delay": 1.0
-        },
-        {
-          "name": "Alert",
-          "audioId": "84769580662752",
-          "delay": 1.0
-        }
+        { "name": "Installation-45", "audioId": "88751623701252", "delay": 1.75 },
+        { "name": "Detected", "audioId": "133162800335679", "delay": 1.4 },
+        { "name": "Attention", "audioId": "81647210216249", "delay": 0.9 },
+        { "name": "Alert", "audioId": "84769580662752", "delay": 0.9 }
       ]
     },
     {
       "id": "areas",
       "name": "Areas",
       "items": [
-        {
-          "name": "Airspace",
-          "audioId": "133783745177695",
-          "delay": 1.65
-        },
-        {
-          "name": "Blast Shelter",
-          "audioId": "136664648790419",
-          "delay": 1.8
-        },
-        {
-          "name": "Checkpoint",
-          "audioId": "111885096915439",
-          "delay": 1.7
-        },
-        {
-          "name": "Class-D Containment",
-          "audioId": "122726692918785",
-          "delay": 1.85
-        },
-        {
-          "name": "Helipad",
-          "audioId": "134395056856081",
-          "delay": 1.1
-        },
-        {
-          "name": "Outside Sector",
-          "audioId": "97235426590497",
-          "delay": 1.8
-        },
-        {
-          "name": "The Site",
-          "audioId": "119177808023567",
-          "delay": 1.1
-        },
-        {
-          "name": "Sector-4",
-          "audioId": "89993240270138",
-          "delay": 1.75
-        },
-        {
-          "name": "Sector-3",
-          "audioId": "125564916311049",
-          "delay": 1.75
-        },
-        {
-          "name": "Sector-2",
-          "audioId": "87739610551998",
-          "delay": 1.75
-        },
-        {
-          "name": "Sector-1",
-          "audioId": "104989152656607",
-          "delay": 1.75
-        },
-        {
-          "name": "Sector",
-          "audioId": "98395962347743",
-          "delay": 1.65
-        },
-        {
-          "name": "Containment Cell",
-          "audioId": "105477299142979",
-          "delay": 1.6
-        },
-        {
-          "name": "Tesla Activation Zones",
-          "audioId": "71640792990784",
-          "delay": 1.95
-        }
+        { "name": "Airspace", "audioId": "133783745177695", "delay": 1.55 },
+        { "name": "Blast Shelter", "audioId": "136664648790419", "delay": 1.7 },
+        { "name": "Checkpoint", "audioId": "111885096915439", "delay": 1.6 },
+        { "name": "Class-D Containment", "audioId": "122726692918785", "delay": 1.75 },
+        { "name": "Helipad", "audioId": "134395056856081", "delay": 1 },
+        { "name": "Outside Sector", "audioId": "97235426590497", "delay": 1.7 },
+        { "name": "The Site", "audioId": "119177808023567", "delay": 1 },
+        { "name": "Sector-4", "audioId": "89993240270138", "delay": 1.65 },
+        { "name": "Sector-3", "audioId": "125564916311049", "delay": 1.65 },
+        { "name": "Sector-2", "audioId": "87739610551998", "delay": 1.65 },
+        { "name": "Sector-1", "audioId": "104989152656607", "delay": 1.65 },
+        { "name": "Sector", "audioId": "98395962347743", "delay": 1.55 },
+        { "name": "Containment Cell", "audioId": "105477299142979", "delay": 1.5 },
+        { "name": "Tesla Activation Zones", "audioId": "71640792990784", "delay": 1.85 }
       ]
     },
     {
       "id": "aethis",
       "name": "AETHIS System",
       "items": [
-        {
-          "name": "Error",
-          "audioId": "112762776262111",
-          "delay": 1.0
-        },
-        {
-          "name": "Online",
-          "audioId": "92043800744654",
-          "delay": 1.0
-        },
-        {
-          "name": "Offline",
-          "audioId": "84032938479623",
-          "delay": 1.0
-        },
-        {
-          "name": "System",
-          "audioId": "121755407853908",
-          "delay": 1.0
-        },
-        {
-          "name": "AETHIS",
-          "audioId": "138750291915242",
-          "delay": 1.0
-        }
+        { "name": "Error", "audioId": "112762776262111", "delay": 0.9 },
+        { "name": "Online", "audioId": "92043800744654", "delay": 0.9 },
+        { "name": "Offline", "audioId": "84032938479623", "delay": 0.9 },
+        { "name": "System", "audioId": "121755407853908", "delay": 0.9 },
+        { "name": "AETHIS", "audioId": "138750291915242", "delay": 0.9 }
       ]
     },
     {
       "id": "misc",
       "name": "Miscellaneous",
       "items": [
-        {
-          "name": "Silence",
-          "audioId": "95066652766828",
-          "delay": 0.6
-        }
+        { "name": "Silence", "audioId": "95066652766828", "delay": 0.5 }
       ]
     }
   ]
