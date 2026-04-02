@@ -533,26 +533,35 @@ body { display: flex; flex-direction: column; }
 
 .status-card:hover { background: var(--surface2); }
 
-.status-preview { display: flex; flex-direction: column; gap: 3px; margin-bottom: 2px; }
+.status-preview { display: flex; flex-direction: column; gap: 4px; margin-bottom: 2px; }
 
-/* Gradient text. text-stroke + background-clip:text conflict in most browsers,
-   so we use multi-layer drop-shadow to create a dark halo instead — makes even
-   low-contrast gradients (grey, dark red) readable on the dark card surface. */
+/* background-clip:text makes text transparent so shadows/outlines disappear too.
+   Instead: solid readable text with a gradient colour bar on the left as decoration. */
 .status-preview-line {
   font-family: 'Source Sans 3', 'Source Sans Pro', sans-serif;
   font-weight: 700;
-  font-size: 16px;
-  display: block;
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter:
-    drop-shadow(0 0 4px rgba(255, 255, 255, 0.5))
-    drop-shadow(0 0 8px rgba(255, 255, 255, 0.5))
-    drop-shadow(0 1px 3px rgba(255, 255, 255, 0.5));
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text);
 }
 
-.status-preview-line.sub { font-size: 13px; }
+.status-preview-line::before {
+  content: '';
+  display: block;
+  width: 3px;
+  min-width: 3px;
+  height: 1.1em;
+  border-radius: 2px;
+  background: var(--bar-grad);
+}
+
+.status-preview-line.sub {
+  font-size: 12px;
+  color: var(--text-dim);
+  font-weight: 600;
+}
 
 .status-description {
   color: var(--text-muted);

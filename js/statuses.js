@@ -74,11 +74,11 @@ export function renderStatusesTab() {
           <div class="status-card" data-index="${i}">
             <div class="status-preview">
               <span class="status-preview-line"
-                    style="background: ${sideGrad}; background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                    style="--bar-grad: ${sideGrad}">
                 ${sideText}
               </span>
               <span class="status-preview-line sub"
-                    style="background: ${subGrad}; background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                    style="--bar-grad: ${subGrad}">
                 ${subText}
               </span>
             </div>
