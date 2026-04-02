@@ -14,15 +14,28 @@ let previewTimeout = null;
 
 // --- OUTPUT ---
 
+// Builds the AETHIS run command with accumulated delays.
+// In a `run` command all delays start from t=0 simultaneously, so to make
+// sound N start after sounds 0..N-1 have played, its delay must be the sum
+// of all preceding items' delays.
+// e.g. delays [3, 4, 5] → delay 3, delay 7, delay 12
+// Output: run play <a> & delay 3 play <b> & delay 7 play <c> & delay 12 play <d>
 function buildAethisCommand(queue) {
   if (queue.length === 0) return '';
 
-  const parts = queue.map((item, i) => {
-    if (i < queue.length - 1) return `play ${item.audioId} & delay ${item.delay}`;
-    return `play ${item.audioId}`;
+  const parts = [];
+  let accumulated = 0;
+
+  queue.forEach((item, i) => {
+    if (i > 0) {
+      // delay before this sound = sum of all previous items' delays
+      parts.push(`delay ${accumulated}`);
+    }
+    parts.push(`play ${item.audioId}`);
+    accumulated += item.delay;
   });
 
-  return `run ${parts.join(' ')}`;
+  return `run ${parts.join(' & ')}`;
 }
 
 
