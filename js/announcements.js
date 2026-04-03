@@ -8,7 +8,7 @@ import { addToCommandQueue }           from './queue.js';
 import { probeAudioIds, togglePreview } from './audio-preview.js';
 
 export async function renderAnnouncementsTab() {
-  const containerEl = document.getElementById('tab-announcements');
+  const containerEl = document.getElementById('subtab-announcements');
   const tocListEl   = document.getElementById('toc-list');
   const contentEl   = document.getElementById('main-content');
 
@@ -43,7 +43,7 @@ export async function renderAnnouncementsTab() {
                         data-audioid="${escapeAttr(item.audioId)}"
                         ${hasAudio ? '' : 'disabled'}
                         title="${hasAudio ? 'Preview audio' : 'No audio file'}">
-                  ▶ AUDIO
+                  ▶ PREVIEW
                 </button>
               ` : ''}
               <button class="btn btn-sm ann-copy-btn"

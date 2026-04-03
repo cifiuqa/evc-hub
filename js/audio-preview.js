@@ -32,6 +32,9 @@ export async function probeAudioIds(audioIds) {
 export function togglePreview(audioId) {
   if (!audioCache.has(audioId)) {
     const audio = new Audio(`${AUDIO_BASE_PATH}${audioId}.ogg`);
+
+    audio.volume = 0.25;
+
     audio.addEventListener('ended', () => {
       const entry = audioCache.get(audioId);
       if (entry) entry.playing = false;

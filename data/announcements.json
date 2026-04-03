@@ -1,14 +1,56 @@
 {
     "categories": [
         {
-            "id": "lockdowns",
-            "name": "Lockdowns",
+            "id": "announcements",
+            "name": "Announcements",
             "items": [
                 {
-                    "name": "Placeholder",
-                    "description": "Placeholder announcement.",
-                    "command": "play 123456",
-                    "audioId": "123456"
+                    "name": "Group of Interest Warning",
+                    "description": "Attention all relevant groups of interest. You are advised to cease violation of protocol or usage of force will be exercised.",
+                    "command": "play 111921572309464",
+                    "audioId": "111921572309464"
+                },
+                {
+                    "name": "Group of Interest KOS Order",
+                    "description": "Attention, a group of interest has been declared hostile, and outlawed by the foundation. Personnel may fire at will.",
+                    "command": "play 123696852179529",
+                    "audioId": "123696852179529"
+                },
+                {
+                    "name": "SCP Breach Announcement",
+                    "description": "Attention all Installation-45 personnel, an anomaly has been reported outside the heavy containment zone. Go to the shelters immediately.",
+                    "command": "play 108803646371207",
+                    "audioId": "108803646371207"
+                },
+                {
+                    "name": "Medical Assistance Alert",
+                    "description": "Attention any available medical personnel, please report to ######## for medical assistance.",
+                    "command": "play 117223377836731",
+                    "audioId": "117223377836731"
+                },
+                {
+                    "name": "Incursion Announcement",
+                    "description": "Attention all Installation-45 personnel, a hostile break-in has been reported in deadzone 1. Enact raid protocol immediately.",
+                    "command": "play 90665891707265",
+                    "audioId": "90665891707265"
+                },
+                {
+                    "name": "Protocol Scarlet Armada",
+                    "description": "Attention all Installation-45 security, special protocol Scarlet Armada is now active. Refer to the defense protocol document for more information.",
+                    "command": "play 85301555714014",
+                    "audioId": "85301555714014"
+                },
+                {
+                    "name": "Ethics Committee Alert",
+                    "description": "Attention, Ethics Committee presence requested at #######, please respond in a timely manner.",
+                    "command": "play 80979591488646",
+                    "audioId": "80979591488646"
+                },
+                {
+                    "name": "Combative Status Report",
+                    "description": "Attention Installation-45 Combatants, please report your status immediately. Failure to respond may result in a false alarm.",
+                    "command": "play 122047739727125",
+                    "audioId": "122047739727125"
                 }
             ]
         }
