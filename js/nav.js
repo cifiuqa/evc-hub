@@ -50,9 +50,6 @@ export function switchTab(tabId) {
   } else if (tabId === 'morphs') {
     updateTOC(true);
     renderMorphsTab();
-    requestAnimationFrame(() => {
-      if (state.data.morphs) rebuildTOC(state.data.morphs.categories);
-    });
   } else if (tabId === 'credits') {
     updateTOC(false);
     renderCreditsTab();

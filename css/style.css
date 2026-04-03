@@ -170,13 +170,13 @@ body { display: flex; flex-direction: column; }
 .search-wrapper {
   display: flex;
   align-items: center;
-  background: var(--bg);
-  border: 1px solid var(--border);
+  background: var(--surface2);
+  border: 1px solid var(--border2);
   border-radius: var(--radius);
   padding: 0 6px;
   gap: 4px;
   transition: border-color 0.15s;
-  height: 28px;
+  height: 30px;
 }
 
 .search-wrapper:focus-within {
@@ -199,7 +199,7 @@ body { display: flex; flex-direction: column; }
   color: var(--text);
   font-family: var(--font);
   font-size: 13px;
-  width: 160px;
+  width: 180px;
   padding: 0;
 }
 
@@ -967,11 +967,24 @@ body { display: flex; flex-direction: column; }
 /* Pin the credits nav button to the far right of the navbar */
 .nav-tab-credits {
   margin-left: 0;
-  color: var(--text-muted);
+  border: 1px solid var(--accent-dim);
+  color: var(--accent2);
+  border-radius: var(--radius);
+  padding: 4px 14px;
+  transition: all 0.15s;
 }
-
-.nav-tab-credits:hover { color: var(--text-dim); }
-.nav-tab-credits.active { color: var(--accent); }
+ 
+.nav-tab-credits:hover {
+  background: var(--accent-glow);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+ 
+.nav-tab-credits.active {
+  background: var(--accent-glow);
+  border-color: var(--accent);
+  color: var(--accent);
+}
 
 /* Empty state */
 .credits-empty {
@@ -1378,20 +1391,80 @@ body { display: flex; flex-direction: column; }
 .morphs-subcategory-header {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 8px 20px 6px;
-  margin-top: 4px;
-  border-top: 1px solid var(--border);
-  border-bottom: 1px dashed var(--border2);
-  background: var(--surface);
+  gap: 12px;
+  padding: 10px 20px;
+  margin: 0;
+  background: linear-gradient(to right, rgba(245,160,32,0.08), transparent);
+  border-top: 2px solid var(--accent-dim);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 52px;
+  z-index: 8;
+  cursor: pointer;
+  user-select: none;
+}
+
+.morphs-subcategory-header::before {
+  content: '◈';
+  color: var(--accent-dim);
+  font-size: 10px;
+  flex-shrink: 0;
+}
+
+.morphs-subcategory-header:hover {
+  background: linear-gradient(to right, rgba(245,160,32,0.13), transparent);
 }
 
 .morphs-subcategory-name {
-  color: var(--accent2);
+  color: var(--accent);
   font-size: 11px;
   font-weight: 700;
-  letter-spacing: 2px;
+  letter-spacing: 3px;
   text-transform: uppercase;
+  flex: 1;
+}
+
+/* Collapse chevron */
+.morphs-subcategory-chevron {
+  color: var(--accent-dim);
+  font-size: 11px;
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.morphs-subcategory-header.collapsed .morphs-subcategory-chevron {
+  transform: rotate(-90deg);
+}
+
+/* Grid collapse */
+.morphs-grid.subcategory-grid {
+  background: rgba(245, 160, 32, 0.03);
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+  transition: max-height 0.25s ease, padding 0.25s ease, opacity 0.2s ease;
+  max-height: 2000px;
+  opacity: 1;
+}
+
+.morphs-grid.subcategory-grid.collapsed {
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  opacity: 0;
+  border-bottom: none;
+  pointer-events: none;
+}
+
+/* Parity — all morph cards use surface2 */
+.morph-card {
+  background: var(--surface2) !important;
+  border-color: var(--border2) !important;
+}
+
+.morph-card:hover {
+  border-color: var(--accent-dim) !important;
+  box-shadow: 0 0 14px rgba(245, 160, 32, 0.1) !important;
 }
 
 /* Indented subcategory link in the TOC */
@@ -1408,7 +1481,6 @@ body { display: flex; flex-direction: column; }
   position: relative;
 }
 
-/* Subtle connecting line from parent to child */
 .toc-subcategory::before {
   content: '╴';
   position: absolute;

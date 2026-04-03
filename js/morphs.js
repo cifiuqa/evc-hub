@@ -176,9 +176,9 @@ function getItemBlocks(cat) {
 }
 
 // Renders the morph grid for a list of items, returning HTML string.
-function renderMorphGrid(items, catId) {
+function renderMorphGrid(items, catId, isSubcategory = false) {
   return `
-    <div class="morphs-grid">
+    <div class="morphs-grid ${isSubcategory ? 'subcategory-grid' : ''}">
       ${items.map((item, itemIndex) => {
         const imgPath = `${IMAGE_BASE_PATH}/${catId}/${item.imageFile}`;
         return `
@@ -238,9 +238,10 @@ export function renderMorphsTab() {
               <div class="morphs-subcategory-header" data-subcategory-id="${escapeAttr(block.catId + '-' + block.subId)}">
                 <span class="morphs-subcategory-name">${escapeHtml(block.subName)}</span>
                 <span class="item-count">${block.items.length} morph${block.items.length !== 1 ? 's' : ''}</span>
+                <span class="morphs-subcategory-chevron">▾</span>
               </div>
             ` : ''}
-            ${renderMorphGrid(block.items, block.catId)}
+            ${renderMorphGrid(block.items, block.catId, !!block.subName)}
           `).join('')}
         </div>
       `;
@@ -256,6 +257,16 @@ export function renderMorphsTab() {
       const allItems = getAllItemsForCategory(cat);
       const item     = allItems.find(i => i.name === card.dataset.name);
       if (item) openPanel(card, item, categories);
+    });
+  });
+
+  // Subcategory collapse toggle
+  containerEl.querySelectorAll('.morphs-subcategory-header').forEach(header => {
+    header.addEventListener('click', () => {
+      const grid = header.nextElementSibling;
+      if (!grid) return;
+      header.classList.toggle('collapsed');
+      grid.classList.toggle('collapsed');
     });
   });
 
@@ -288,6 +299,19 @@ function getAllItemsForCategory(cat) {
 
 // --- TOC ---
 
+// Scrolls contentEl so that target lands just below all sticky headers.
+// We measure each sticky layer's rendered height at click time rather than
+// hardcoding values, so layout changes don't break this.
+function scrollToTarget(target, contentEl, extraOffset = 0) {
+  const topBar       = document.getElementById("top-bar");
+  const morphsHeader = contentEl.querySelector(".morphs-header");
+  const topBarH      = topBar?.getBoundingClientRect().height ?? 0;
+  const morphsH      = morphsHeader?.getBoundingClientRect().height ?? 0;
+  const stickyOffset = topBarH + morphsH + extraOffset;
+  const delta        = target.getBoundingClientRect().top - stickyOffset;
+  contentEl.scrollBy({ top: delta, behavior: "smooth" });
+}
+
 // Builds a two-level TOC: categories at top level, subcategories indented below.
 function buildMorphsTOC(categories, tocListEl, contentEl) {
   tocListEl.innerHTML = '';
@@ -302,7 +326,7 @@ function buildMorphsTOC(categories, tocListEl, contentEl) {
       e.preventDefault();
       const target = contentEl.querySelector(`[data-category-id="${cat.id}"]`);
       if (!target) return;
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      scrollToTarget(target, contentEl);
       clearTOCActive(tocListEl);
       catLink.classList.add('active');
     });
@@ -322,7 +346,9 @@ function buildMorphsTOC(categories, tocListEl, contentEl) {
           const subId = `${cat.id}-${sub.id}`;
           const target = contentEl.querySelector(`[data-subcategory-id="${subId}"]`);
           if (!target) return;
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          // Extra offset for the sticky category section-header sitting above subcategory headers
+          const catHeader = contentEl.querySelector(`[data-category-id="${cat.id}"] .section-header`);
+          scrollToTarget(target, contentEl, catHeader?.offsetHeight ?? 0);
           clearTOCActive(tocListEl);
           subLink.classList.add('active');
         });
