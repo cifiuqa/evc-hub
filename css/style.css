@@ -1372,3 +1372,51 @@ body { display: flex; flex-direction: column; }
 }
 
 .mcp-footer .btn { flex: 1; text-align: center; }
+
+/* ── Morph Subcategories ─────────────────────────────────────── */
+
+.morphs-subcategory-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 20px 6px;
+  margin-top: 4px;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px dashed var(--border2);
+  background: var(--surface);
+}
+
+.morphs-subcategory-name {
+  color: var(--accent2);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* Indented subcategory link in the TOC */
+.toc-subcategory {
+  display: block;
+  padding: 4px 16px 4px 28px;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 400;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.1s;
+  border-left: 2px solid transparent;
+  position: relative;
+}
+
+/* Subtle connecting line from parent to child */
+.toc-subcategory::before {
+  content: '╴';
+  position: absolute;
+  left: 16px;
+  color: var(--text-muted);
+  opacity: 0.4;
+  font-size: 11px;
+}
+
+.toc-subcategory:hover  { color: var(--accent2); border-left-color: var(--accent-dim); background: var(--accent-glow); }
+.toc-subcategory.active { color: var(--accent);  border-left-color: var(--accent);     background: var(--accent-glow); }

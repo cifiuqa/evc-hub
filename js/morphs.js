@@ -1,6 +1,8 @@
 // --- MORPHS TAB ---
 // Clicking a morph card opens a floating command panel to its right.
 // Commands are shown with {person} resolved from the target input.
+// Categories may optionally contain `subcategories` — each with their own
+// id, name, and items array. If absent, items sit directly on the category.
 
 import { state }                     from './state.js';
 import { copyToClipboard, buildTOC } from './utils.js';
@@ -19,6 +21,7 @@ function buildMorphCopyString(item, person) {
   const resolved = item.commands.map(c => resolveCommand(c, person));
   return `run ${resolved.join(' & ')}`;
 }
+
 
 // --- COMMAND PANEL ---
 
@@ -66,7 +69,6 @@ function onKeyDown(e) {
 }
 
 function openPanel(card, item, categories) {
-  // Deactivate previous card
   if (activeMorphCard && activeMorphCard !== card) {
     activeMorphCard.classList.remove('morph-card-active');
   }
@@ -95,7 +97,6 @@ function openPanel(card, item, categories) {
     </div>
   `).join('');
 
-  // Per-command actions
   panel.querySelectorAll('.mcp-cmd-copy').forEach(btn => {
     btn.addEventListener('click', e => {
       e.stopPropagation();
@@ -110,7 +111,6 @@ function openPanel(card, item, categories) {
     });
   });
 
-  // Footer actions — re-resolve at click time so input changes are respected
   const copyAllBtn = panel.querySelector('.mcp-copy-all-btn');
   const addAllBtn  = panel.querySelector('.mcp-add-all-btn');
 
@@ -124,7 +124,6 @@ function openPanel(card, item, categories) {
     item.commands.map(c => resolveCommand(c, p)).forEach(cmd => addToCommandQueue(cmd));
   };
 
-  // Position panel to the right of the card
   positionPanel(panel, card);
   panel.classList.remove('mcp-hiding');
   panel.classList.add('mcp-visible');
@@ -135,30 +134,73 @@ function positionPanel(panel, card) {
   const cardRect    = card.getBoundingClientRect();
   const mainRect    = mainContent.getBoundingClientRect();
 
-  const PANEL_W   = 300;
-  const GAP       = 8;
+  const PANEL_W    = 300;
+  const GAP        = 8;
   const spaceRight = mainRect.right - cardRect.right;
 
   let left, top;
 
   if (spaceRight >= PANEL_W + GAP) {
-    // Fits to the right of the card
     left = cardRect.right + GAP;
     top  = cardRect.top;
   } else {
-    // Not enough room — anchor to right edge of main content
     left = mainRect.right - PANEL_W - 8;
     top  = cardRect.top;
   }
 
-  // Clamp vertically so panel doesn't overflow below viewport
-  const viewH      = window.innerHeight;
-  const panelH     = Math.min(400, viewH - top - 16);
-  top              = Math.max(mainRect.top + 8, Math.min(top, viewH - panelH - 16));
+  const viewH   = window.innerHeight;
+  const panelH  = Math.min(400, viewH - top - 16);
+  top           = Math.max(mainRect.top + 8, Math.min(top, viewH - panelH - 16));
 
   panel.style.left      = `${left}px`;
   panel.style.top       = `${top}px`;
   panel.style.maxHeight = `${panelH}px`;
+}
+
+
+// --- HELPERS ---
+
+// Returns a flat list of { catId, subId, subName, items } blocks for rendering.
+// If a category has subcategories, each sub becomes a block.
+// If not, the category's own items form a single block with subId/subName null.
+function getItemBlocks(cat) {
+  if (cat.subcategories && cat.subcategories.length > 0) {
+    return cat.subcategories.map(sub => ({
+      catId:   cat.id,
+      subId:   sub.id,
+      subName: sub.name,
+      items:   sub.items
+    }));
+  }
+  return [{ catId: cat.id, subId: null, subName: null, items: cat.items }];
+}
+
+// Renders the morph grid for a list of items, returning HTML string.
+function renderMorphGrid(items, catId) {
+  return `
+    <div class="morphs-grid">
+      ${items.map((item, itemIndex) => {
+        const imgPath = `${IMAGE_BASE_PATH}/${catId}/${item.imageFile}`;
+        return `
+          <div class="morph-card" data-cat="${escapeAttr(catId)}"
+               data-name="${escapeAttr(item.name)}"
+               title="Click to view commands">
+            <img class="morph-image" src="${imgPath}" alt="${escapeAttr(item.name)}"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+            <div class="morph-image-placeholder" style="display:none;">NO IMAGE</div>
+            <div class="morph-info">
+              <div class="morph-name">${escapeHtml(item.name)}</div>
+              <div class="morph-description">${escapeHtml(item.description)}</div>
+            </div>
+            <div class="morph-card-footer">
+              <span class="morph-cmd-count">${item.commands.length} cmd${item.commands.length !== 1 ? 's' : ''}</span>
+              <span class="morph-card-hint">click to expand ›</span>
+            </div>
+          </div>
+        `;
+      }).join('')}
+    </div>
+  `;
 }
 
 
@@ -171,7 +213,6 @@ export function renderMorphsTab() {
 
   if (!containerEl || !state.data.morphs) return;
 
-  // Close any open panel when re-rendering
   closePanel();
 
   const { categories } = state.data.morphs;
@@ -182,47 +223,42 @@ export function renderMorphsTab() {
       <input type="text" id="morph-person-input" class="morph-person-input"
              placeholder="username or target(s)" value="">
     </div>
-    ${categories.map(cat => `
-      <div class="morphs-category-section" data-category-id="${cat.id}">
-        <div class="section-header">
-          <h2>${escapeHtml(cat.name)}</h2>
-          <span class="item-count">${cat.items.length} morph${cat.items.length !== 1 ? 's' : ''}</span>
-        </div>
-        <div class="morphs-grid">
-          ${cat.items.map((item, itemIndex) => {
-            const imgPath = `${IMAGE_BASE_PATH}/${cat.id}/${item.imageFile}`;
-            return `
-              <div class="morph-card" data-cat="${escapeAttr(cat.id)}" data-item="${itemIndex}"
-                   title="Click to view commands">
-                <img class="morph-image" src="${imgPath}" alt="${escapeAttr(item.name)}"
-                     onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-                <div class="morph-image-placeholder" style="display:none;">NO IMAGE</div>
-                <div class="morph-info">
-                  <div class="morph-name">${escapeHtml(item.name)}</div>
-                  <div class="morph-description">${escapeHtml(item.description)}</div>
-                </div>
-                <div class="morph-card-footer">
-                  <span class="morph-cmd-count">${item.commands.length} cmd${item.commands.length !== 1 ? 's' : ''}</span>
-                  <span class="morph-card-hint">click to expand ›</span>
-                </div>
+    ${categories.map(cat => {
+      const blocks = getItemBlocks(cat);
+      const totalItems = blocks.reduce((sum, b) => sum + b.items.length, 0);
+
+      return `
+        <div class="morphs-category-section" data-category-id="${cat.id}">
+          <div class="section-header">
+            <h2>${escapeHtml(cat.name)}</h2>
+            <span class="item-count">${totalItems} morph${totalItems !== 1 ? 's' : ''}</span>
+          </div>
+          ${blocks.map(block => `
+            ${block.subName ? `
+              <div class="morphs-subcategory-header" data-subcategory-id="${escapeAttr(block.catId + '-' + block.subId)}">
+                <span class="morphs-subcategory-name">${escapeHtml(block.subName)}</span>
+                <span class="item-count">${block.items.length} morph${block.items.length !== 1 ? 's' : ''}</span>
               </div>
-            `;
-          }).join('')}
+            ` : ''}
+            ${renderMorphGrid(block.items, block.catId)}
+          `).join('')}
         </div>
-      </div>
-    `).join('')}
+      `;
+    }).join('')}
   `;
 
-  // Card click → open panel
+  // Wire up card clicks — look up item by name across all items in the category
   containerEl.querySelectorAll('.morph-card').forEach(card => {
     card.addEventListener('click', () => {
       const cat  = categories.find(c => c.id === card.dataset.cat);
-      const item = cat?.items[parseInt(card.dataset.item, 10)];
+      if (!cat) return;
+
+      const allItems = getAllItemsForCategory(cat);
+      const item     = allItems.find(i => i.name === card.dataset.name);
       if (item) openPanel(card, item, categories);
     });
   });
 
-  // Close panel when clicking outside
   contentEl.addEventListener('click', e => {
     const panel = document.getElementById('morph-cmd-panel');
     if (!panel?.classList.contains('mcp-visible')) return;
@@ -231,7 +267,6 @@ export function renderMorphsTab() {
     }
   }, { capture: false });
 
-  // Re-position panel if content scrolls
   contentEl.addEventListener('scroll', () => {
     const panel = document.getElementById('morph-cmd-panel');
     if (panel?.classList.contains('mcp-visible') && activeMorphCard) {
@@ -239,8 +274,71 @@ export function renderMorphsTab() {
     }
   }, { passive: true });
 
-  buildTOC(categories, tocListEl, contentEl);
+  buildMorphsTOC(categories, tocListEl, contentEl);
 }
+
+// Flattens all items across subcategories (or direct items) for a category.
+function getAllItemsForCategory(cat) {
+  if (cat.subcategories && cat.subcategories.length > 0) {
+    return cat.subcategories.flatMap(sub => sub.items);
+  }
+  return cat.items;
+}
+
+
+// --- TOC ---
+
+// Builds a two-level TOC: categories at top level, subcategories indented below.
+function buildMorphsTOC(categories, tocListEl, contentEl) {
+  tocListEl.innerHTML = '';
+
+  categories.forEach(cat => {
+    const catLink = document.createElement('a');
+    catLink.className   = 'toc-category';
+    catLink.textContent = cat.name;
+    catLink.href        = '#';
+
+    catLink.addEventListener('click', e => {
+      e.preventDefault();
+      const target = contentEl.querySelector(`[data-category-id="${cat.id}"]`);
+      if (!target) return;
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      clearTOCActive(tocListEl);
+      catLink.classList.add('active');
+    });
+
+    tocListEl.appendChild(catLink);
+
+    // Subcategory entries — indented, only if present
+    if (cat.subcategories && cat.subcategories.length > 0) {
+      cat.subcategories.forEach(sub => {
+        const subLink = document.createElement('a');
+        subLink.className   = 'toc-subcategory';
+        subLink.textContent = sub.name;
+        subLink.href        = '#';
+
+        subLink.addEventListener('click', e => {
+          e.preventDefault();
+          const subId = `${cat.id}-${sub.id}`;
+          const target = contentEl.querySelector(`[data-subcategory-id="${subId}"]`);
+          if (!target) return;
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          clearTOCActive(tocListEl);
+          subLink.classList.add('active');
+        });
+
+        tocListEl.appendChild(subLink);
+      });
+    }
+  });
+}
+
+function clearTOCActive(tocListEl) {
+  tocListEl.querySelectorAll('.toc-category, .toc-subcategory').forEach(a => a.classList.remove('active'));
+}
+
+
+// --- HELPERS ---
 
 function escapeHtml(str) { return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
 function escapeAttr(str) { return str.replace(/"/g, '&quot;'); }
