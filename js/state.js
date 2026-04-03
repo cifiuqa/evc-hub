@@ -15,6 +15,7 @@ export const state = {
     effects:       null,
     statuses:      null,
     morphs:        null,
-    announcements: null
+    announcements: null,
+    credits:       null
   }
 };

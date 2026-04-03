@@ -961,3 +961,414 @@ body { display: flex; flex-direction: column; }
   text-align: center;
   letter-spacing: 0.5px;
 }
+
+/* ── Credits Tab ─────────────────────────────────────────────── */
+
+/* Pin the credits nav button to the far right of the navbar */
+.nav-tab-credits {
+  margin-left: 0;
+  color: var(--text-muted);
+}
+
+.nav-tab-credits:hover { color: var(--text-dim); }
+.nav-tab-credits.active { color: var(--accent); }
+
+/* Empty state */
+.credits-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 300px;
+  padding: 40px;
+  text-align: center;
+}
+
+.credits-empty-icon {
+  font-size: 36px;
+  color: var(--accent-dim);
+  opacity: 0.4;
+}
+
+.credits-empty-text {
+  color: var(--text-dim);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.credits-empty-sub {
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.credits-empty-sub code {
+  font-family: var(--mono);
+  color: var(--accent-dim);
+  background: var(--surface2);
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+
+/* Header banner */
+.credits-header {
+  padding: 28px 32px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.credits-title-block {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.credits-title-symbol {
+  color: var(--accent);
+  font-size: 20px;
+  line-height: 1;
+}
+
+.credits-title-text {
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 4px;
+}
+
+.credits-subtitle {
+  color: var(--text-muted);
+  font-size: 12px;
+  padding-left: 30px;
+}
+
+/* Grid of cards */
+.credits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1px;
+  background: var(--border);
+  padding: 1px;
+}
+
+/* Individual card */
+.credits-card {
+  background: var(--surface);
+  padding: 22px 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  transition: background 0.15s;
+  animation: credits-fadein 0.3s ease both;
+  animation-delay: calc(var(--card-index) * 0.04s);
+}
+
+@keyframes credits-fadein {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.credits-card:hover { background: var(--surface2); }
+
+/* Profile picture */
+.credits-card-pfp-wrap {
+  position: relative;
+  flex-shrink: 0;
+  width: 58px;
+  height: 58px;
+}
+
+.credits-pfp {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  background: var(--surface2);
+}
+
+.credits-pfp-fallback {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-dim);
+  font-size: 22px;
+}
+
+/* Subtle glowing ring around the pfp */
+.credits-pfp-ring {
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  border: 1.5px solid var(--accent-dim);
+  opacity: 0.4;
+  pointer-events: none;
+  transition: opacity 0.2s, border-color 0.2s;
+}
+
+.credits-card:hover .credits-pfp-ring {
+  opacity: 1;
+  border-color: var(--accent);
+}
+
+/* Card body */
+.credits-card-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.credits-codename {
+  color: var(--accent);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.credits-role {
+  color: var(--text-muted);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.credits-aliases {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.credits-alias {
+  color: var(--text-dim);
+  font-size: 10px;
+  font-family: var(--mono);
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  padding: 1px 6px;
+  border-radius: 3px;
+}
+
+/* Social rows */
+.credits-socials {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.credits-social-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.credits-social-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  line-height: 1;
+}
+
+.credits-discord-icon { color: #5865F2; }
+.credits-roblox-icon  { color: var(--text-muted); font-size: 13px; }
+
+.credits-social-value {
+  color: var(--text-dim);
+  font-size: 12px;
+  font-family: var(--mono);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Morph Command Panel ─────────────────────────────────────── */
+
+/* Card active state */
+.morph-card-active {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 1px var(--accent), 0 0 18px rgba(245, 160, 32, 0.12) !important;
+}
+
+.morph-card-hint {
+  color: var(--text-muted);
+  font-size: 10px;
+  font-style: italic;
+  letter-spacing: 0.5px;
+  margin-left: auto;
+}
+
+/* Floating panel */
+.morph-cmd-panel {
+  position: fixed;
+  z-index: 100;
+  width: 300px;
+  background: var(--surface);
+  border: 1px solid var(--accent-dim);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(245, 160, 32, 0.06);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-6px);
+  transition: none;
+}
+
+.morph-cmd-panel.mcp-visible {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateX(0);
+  animation: mcp-slidein 0.15s ease both;
+}
+
+.morph-cmd-panel.mcp-hiding {
+  animation: mcp-slideout 0.12s ease both;
+}
+
+@keyframes mcp-slidein {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes mcp-slideout {
+  from { opacity: 1; transform: translateX(0); }
+  to   { opacity: 0; transform: translateX(-8px); }
+}
+
+/* Panel header */
+.mcp-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 12px;
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.mcp-title {
+  color: var(--accent2);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+
+.mcp-close {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius);
+  transition: color 0.1s, background 0.1s;
+}
+
+.mcp-close:hover { color: var(--danger); background: rgba(255, 51, 68, 0.1); }
+
+/* Morph name inside panel */
+.mcp-morph-name {
+  padding: 10px 12px 6px;
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+/* Scrollable command list */
+.mcp-cmd-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 4px 0;
+}
+
+.mcp-cmd-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-bottom: 1px solid rgba(42, 30, 14, 0.5);
+  transition: background 0.1s;
+}
+
+.mcp-cmd-row:last-child { border-bottom: none; }
+.mcp-cmd-row:hover { background: var(--accent-glow); }
+
+.mcp-cmd-index {
+  color: var(--text-muted);
+  font-size: 10px;
+  font-family: var(--mono);
+  min-width: 14px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.mcp-cmd-text {
+  flex: 1;
+  font-size: 11px;
+  font-family: var(--mono);
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mcp-cmd-copy,
+.mcp-cmd-add {
+  background: none;
+  border: 1px solid transparent;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: var(--radius);
+  transition: all 0.12s;
+  line-height: 1;
+}
+
+.mcp-cmd-copy { color: var(--text-muted); }
+.mcp-cmd-copy:hover { color: var(--accent2); border-color: var(--accent-dim); background: var(--accent-glow); }
+
+.mcp-cmd-add { color: var(--text-muted); font-size: 15px; }
+.mcp-cmd-add:hover { color: var(--accent); border-color: var(--accent-dim); background: var(--accent-glow); }
+
+/* Footer */
+.mcp-footer {
+  display: flex;
+  gap: 6px;
+  padding: 8px 10px;
+  border-top: 1px solid var(--border);
+  background: var(--surface2);
+  flex-shrink: 0;
+}
+
+.mcp-footer .btn { flex: 1; text-align: center; }

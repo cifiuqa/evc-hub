@@ -7,6 +7,7 @@ import { renderEffectsTab }         from './effects.js';
 import { renderAnnouncementsTab }   from './announcements.js';
 import { renderStatusesTab }        from './statuses.js';
 import { renderMorphsTab }          from './morphs.js';
+import { renderCreditsTab }         from './credits.js';
 import { clearSearch }              from './search.js';
 
 // Audio subtabs render once so input state (vol, range, loop) is preserved.
@@ -17,7 +18,7 @@ const rendered = {
   announcements: false
 };
 
-const ALL_TABS    = ['audios', 'statuses', 'morphs'];
+const ALL_TABS    = ['audios', 'statuses', 'morphs', 'credits'];
 const ALL_SUBTABS = ['aethis', 'music', 'effects', 'announcements'];
 
 export function switchTab(tabId) {
@@ -52,6 +53,9 @@ export function switchTab(tabId) {
     requestAnimationFrame(() => {
       if (state.data.morphs) rebuildTOC(state.data.morphs.categories);
     });
+  } else if (tabId === 'credits') {
+    updateTOC(false);
+    renderCreditsTab();
   }
 }
 

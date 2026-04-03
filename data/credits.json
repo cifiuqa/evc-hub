@@ -1,0 +1,27 @@
+{
+  "contributors": [
+    {
+        "codename": "AQUA",
+        "aliases": ["Aquific", "Shot"],
+        "robloxUsername": "shotpaper7",
+        "discordUsername": "aquific",
+        "profilePicture": "aquific.png",
+        "role": "Website creator, Music provider"
+    },
+    {
+        "codename": "ENTROPY",
+        "aliases": ["feveromia", "Cruddy", "ULIMINATIKILLER"],
+        "robloxUsername": "feveromia",
+        "discordUsername": "crvddy",
+        "profilePicture": "entropy.png",
+        "role": "AETHIS system creator"
+    },
+    {
+        "codename": "TUFF",
+        "robloxUsername": "cyanchaniseu",
+        "discordUsername": "cyanchaniseu",
+        "profilePicture": "tuff.png",
+        "role": "Music provider"
+    }
+  ]
+}

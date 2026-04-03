@@ -13,7 +13,8 @@ const DATA_FILES = {
   effects:       'data/effects.json',
   statuses:      'data/statuses.json',
   morphs:        'data/morphs.json',
-  announcements: 'data/announcements.json'
+  announcements: 'data/announcements.json',
+  credits:       'data/credits.json'
 };
 
 async function loadAllData() {
