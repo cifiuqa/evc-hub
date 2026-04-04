@@ -20,7 +20,9 @@
                 "maxhealth {person} 2000",
                 "rtag {person} [[ CLASS-D JUGGERNAUT ]]",
                 "scale {person} 1.3",
-                "heal {person}"
+                "heal {person}",
+                "cntag {person} 255 255 255",
+                "crtag {person} 255 176 0"
               ]
             }
           ]
@@ -40,6 +42,7 @@
               "description": "A low ranking official within Cyrus Corp. Relatively well equipped.",
               "imageFile": "pathfinder.png",
               "commands": [
+                "morph {person} remove",
                 "skin {person} 0",
                 "shirt {person} 15084144184 5460942973",
                 "hat {person} 14525344449 10238081607 15676662762 17844405680 106659590452017 140271675550210 8263401404 15565160006 15330922823 13770147630 138643272080828 109583924826513",
@@ -54,11 +57,28 @@
               "description": "A high ranking official within Cyrus Corp, comparable to an officer. More vulnerable.",
               "imageFile": "arbiter.png",
               "commands": [
+                "morph {person} remove",
                 "shirt {person} 121928681798788 80501841964666",
                 "hat {person} 15175258142 13462890800 13569618532 6965285615 13306658552 13861367658 13861376844 12813788637 7267406867 15175066101 18767117568 15175200979",
                 "cntag {person} inf inf inf",
                 "crtag {person} inf inf inf",
                 "ntag {person} 「Arbiter」",
+                "rtag {person} |•| Cyrus Corporation |•|"
+              ]
+            },
+            {
+              "name": "Enforcer",
+              "description": "idk yet",
+              "imageFile": "enforcer.png",
+              "commands": [
+                "skin {person} 0",
+                "scale {person} 1 1.04 1.04 1.04",
+                "shirt {person} 11564964635 11564970212",
+                "morph {person} remove",
+                "hat {person} 13946942845 16097497458 13153035481 13496371448 6965290725 13511950833 17844729457 17844724180 10552302419 6564270890 15502307704 15502357433 13794660764 14805325559 12497663033 12497669884",
+                "cntag {person} inf inf inf",
+                "crtag {person} inf inf inf",
+                "ntag {person} 「Enforcer」",
                 "rtag {person} |•| Cyrus Corporation |•|"
               ]
             }
@@ -67,7 +87,14 @@
         {
           "id": "e",
           "name": "test",
-          "items": []
+          "items": [
+            {
+              "name": "e",
+              "description": "e",
+              "imageFile": "e.png",
+              "commands": []
+            }
+          ]
         }
       ]
     }
