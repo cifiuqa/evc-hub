@@ -1575,27 +1575,11 @@ body { display: flex; flex-direction: column; }
 .mm-card-actions { display: flex; gap: 4px; }
 
 /* Variable inputs */
-.mm-vars {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  padding: 10px 14px;
-  border-bottom: 1px solid var(--border);
-  background: rgba(245, 160, 32, 0.03);
-}
 
 .mm-var-row {
   display: flex;
   align-items: center;
   gap: 6px;
-}
-
-.mm-var-label {
-  color: var(--accent-dim);
-  font-size: 11px;
-  font-family: var(--mono);
-  font-weight: 600;
-  white-space: nowrap;
 }
 
 .mm-var-input {
@@ -1871,6 +1855,7 @@ body { display: flex; flex-direction: column; }
   flex-direction: column;
   gap: 6px;
   transition: border-color 0.15s;
+  justify-content: space-between;  /* ADD */
 }
 
 .mm-preset-card:hover { border-color: var(--accent-dim); }
@@ -1904,6 +1889,46 @@ body { display: flex; flex-direction: column; }
 }
 
 .mm-preset-use-btn {
-  align-self: flex-end;
-  margin-top: 4px;
+  align-self: stretch;
+  margin-top: auto;   /* ADD — pushes button to bottom regardless of card height */
+  padding: 7px 12px;
+  font-size: 12px;
+  letter-spacing: 1px;
+  border-color: var(--accent-dim);
+  color: var(--accent2);
+}
+
+.mm-preset-use-btn:hover {
+  background: var(--accent2);
+  border-color: var(--accent2);
+  color: var(--bg);
+}
+
+/* Variable sections inside modal */
+
+.mm-vars {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(245, 160, 32, 0.03);
+}
+
+.mm-vars:last-child {
+  border-bottom: none;
+}
+
+.mm-var-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mm-var-label {
+  color: var(--accent-dim);
+  font-size: 11px;
+  font-family: var(--mono);
+  font-weight: 600;
+  white-space: nowrap;
 }

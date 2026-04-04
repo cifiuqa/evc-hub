@@ -14,7 +14,8 @@ const DATA_FILES = {
   statuses:      'data/statuses.json',
   morphs:        'data/morphs.json',
   announcements: 'data/announcements.json',
-  credits:       'data/credits.json'
+  credits:       'data/credits.json',
+  myMorphs:      'data/my-morphs.json',
 };
 
 async function loadAllData() {

@@ -16,6 +16,7 @@ export const state = {
     statuses:      null,
     morphs:        null,
     announcements: null,
-    credits:       null
+    credits:       null,
+    myMorphs:      null
   }
 };

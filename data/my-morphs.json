@@ -1,0 +1,12 @@
+{
+  "presets": [
+    {
+      "id": "preset_standard",
+      "name": "Standard Staff Morph",
+      "description": "Basic, no nonsense morph.",
+      "commands": [
+        "permntag me {!codename}"
+      ]
+    }
+  ]
+}

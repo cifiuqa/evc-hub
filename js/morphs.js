@@ -185,8 +185,7 @@ function renderMorphGrid(items, catId, isSubcategory = false) {
           <div class="morph-card" data-cat="${escapeAttr(catId)}"
                data-name="${escapeAttr(item.name)}"
                title="Click to view commands">
-            <img class="morph-image morph-image-pending" src="" alt="${escapeAttr(item.name)}"
-              data-src="${imgPath}"
+            <img class="morph-image" src="${imgPath}" alt="${escapeAttr(item.name)}"
               onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
             <div class="morph-image-placeholder" style="display:none;">NO IMAGE</div>
             <div class="morph-info">
