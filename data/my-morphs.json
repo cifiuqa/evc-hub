@@ -5,7 +5,8 @@
       "name": "Standard Staff Morph",
       "description": "Basic, no nonsense morph.",
       "commands": [
-        "permntag me {!codename}"
+        "permntag me <font face=\"{!font}\">{!codename}</font>",
+        "permrtag me <font face=\"{!font}\">{rank} | OoRP | Godded</font>"
       ]
     }
   ]

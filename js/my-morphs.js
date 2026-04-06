@@ -1,6 +1,7 @@
 // --- MY MORPHS TAB ---
 
-import { copyToClipboard } from './utils.js';
+import { state }             from './state.js';
+import { copyToClipboard }   from './utils.js';
 import { addToCommandQueue } from './queue.js';
 
 const STORAGE_KEY = 'evc_my_morphs';
@@ -21,28 +22,32 @@ function generateId() {
 }
 
 // --- VARIABLES ---
+// {!varname} = constant (set once, saved with the morph — e.g. your own codename)
+// {varname}  = dynamic  (filled in each time you use the morph — e.g. a target player)
 
 function extractVariables(commands) {
   const constant = new Set();
-  const dynamic = new Set();
-
+  const dynamic  = new Set();
   commands.forEach(cmd => {
-    (cmd.match(/\{\!([a-zA-Z0-9_]+)\}/g) || []).forEach(v => {
-      constant.add(v.slice(2, -1));
-    });
-
-    (cmd.match(/\{([a-zA-Z0-9_]+)\}/g) || []).forEach(v => {
-      if (!v.startsWith('{!')) dynamic.add(v.slice(1, -1));
-    });
+    (cmd.match(/\{\!([a-zA-Z0-9_]+)\}/g) ?? []).forEach(v => constant.add(v.slice(2, -1)));
+    (cmd.match(/\{([^!][a-zA-Z0-9_]*)\}/g) ?? []).forEach(v => dynamic.add(v.slice(1, -1)));
   });
-
   return { constant: [...constant], dynamic: [...dynamic] };
 }
 
 function applyVars(cmd, vars) {
-  return cmd.replace(/\{!?([a-zA-Z0-9_]+)\}/g, (_, key) => {
-    return vars[key]?.trim() || `{${key}}`;
+  return cmd.replace(/\{!?([a-zA-Z0-9_]+)\}/g, (_, key) => vars[key]?.trim() || `{${key}}`);
+}
+
+function collectVarInputs(container, constantKeys, dynamicKeys) {
+  const constantVars = {};
+  const dynamicVars  = {};
+  container.querySelectorAll('.mm-var-input').forEach(input => {
+    const key = input.dataset.var;
+    if (constantKeys.includes(key)) constantVars[key] = input.value;
+    else dynamicVars[key] = input.value;
   });
+  return { constantVars, dynamicVars };
 }
 
 // --- RENDER ---
@@ -51,219 +56,312 @@ export function renderMyMorphsTab() {
   const container = document.getElementById('tab-my-morphs');
   if (!container) return;
 
-  const morphs = loadMorphs();
+  const morphs  = loadMorphs();
+  const presets = state.data.myMorphs?.presets ?? [];
 
   container.innerHTML = `
     <div class="my-morphs-toolbar">
       <button class="btn btn-primary btn-sm" id="mm-new-btn">+ NEW MORPH</button>
-      <span>${morphs.length} morph${morphs.length !== 1 ? 's' : ''}</span>
+      <span class="my-morphs-hint">${morphs.length} saved morph${morphs.length !== 1 ? 's' : ''}</span>
     </div>
+
+    ${presets.length ? `
+      <div class="mm-presets-section">
+        <div class="mm-presets-header">
+          <span class="mm-presets-title">PRESETS</span>
+          <span class="mm-presets-sub">Click USE to load a preset into a new morph</span>
+        </div>
+        <div class="mm-presets-grid">
+          ${presets.map(p => `
+            <div class="mm-preset-card">
+              <div class="mm-preset-name">${escHtml(p.name)}</div>
+              <div class="mm-preset-desc">${escHtml(p.description ?? '')}</div>
+              <div class="mm-preset-cmds">
+                ${p.commands.map(c => `<div class="mm-preset-cmd">${escHtml(c)}</div>`).join('')}
+              </div>
+              <button class="btn btn-sm mm-preset-use-btn" data-preset-id="${escHtml(p.id)}">USE PRESET</button>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    ` : ''}
 
     <div class="my-morphs-list">
-      ${morphs.length ? morphs.map(renderMorphCard).join('') : `<div>No morphs yet</div>`}
+      ${morphs.length ? morphs.map(renderMorphCard).join('') : `
+        <div class="mm-empty">
+          <div class="mm-empty-icon">◈</div>
+          <div class="mm-empty-title">NO MORPHS SAVED</div>
+          <div class="mm-empty-sub">
+            Click <strong>+ NEW MORPH</strong> or use a preset above.<br>
+            Use <code>{varname}</code> for dynamic inputs (e.g. target player)
+            and <code>{!varname}</code> for constants saved with the morph (e.g. your codename).
+          </div>
+        </div>
+      `}
     </div>
 
-    ${renderEditorModal()}
+    <div class="mm-modal-backdrop hidden" id="mm-modal-backdrop">
+      <div class="mm-modal">
+        <div class="mm-modal-header">
+          <span class="mm-modal-title" id="mm-modal-title">NEW MORPH</span>
+          <button class="mcp-close" id="mm-modal-close">×</button>
+        </div>
+        <div class="mm-modal-body">
+          <div class="mm-field-label">NAME</div>
+          <input class="mm-field-input" id="mm-name-input" placeholder="Morph name…">
+
+          <div class="mm-field-label" style="margin-top:16px">
+            COMMANDS
+            <span class="mm-field-hint">one per line · use {variable} or {!constant}</span>
+          </div>
+          <textarea class="mm-field-textarea" id="mm-cmds-input"
+                    placeholder="morph {person} remove&#10;hat {person} 12345&#10;permntag me {!codename}"></textarea>
+
+          <div id="mm-var-preview-area"></div>
+        </div>
+        <div class="mm-modal-footer">
+          <button class="btn btn-danger btn-sm" id="mm-cancel-btn">CANCEL</button>
+          <button class="btn btn-primary btn-sm" id="mm-save-btn" style="margin-left:auto">SAVE</button>
+        </div>
+      </div>
+    </div>
   `;
 
+  // Toolbar
   document.getElementById('mm-new-btn').onclick = () => openEditor(null);
 
-  wireCardEvents(container);
+  // Preset USE buttons
+  container.querySelectorAll('.mm-preset-use-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const preset = presets.find(p => p.id === btn.dataset.presetId);
+      if (preset) openEditor(null, preset);
+    });
+  });
+
+  wireCardEvents(container, morphs);
   wireModal();
 }
 
-// --- CARD ---
 
-function renderCommandPreview(cmds) {
-  return cmds.map((cmd, i) => `
-    <div class="mm-cmd-line">
-      <span class="mm-cmd-index">${i + 1}</span>
-      <span class="mm-cmd-text">${cmd}</span>
-    </div>
-  `).join('');
-}
+// --- CARD RENDER ---
 
 function renderMorphCard(morph) {
-  const vars = { ...(morph.constantVars || {}), ...(morph.dynamicVars || {}) };
-
-  const preview = morph.commands.map(cmd => applyVars(cmd, vars));
+  const allVars = { ...morph.constantVars, ...morph.dynamicVars };
+  const hasDynamic = Object.keys(morph.dynamicVars ?? {}).length > 0;
 
   return `
     <div class="mm-card" data-id="${morph.id}">
       <div class="mm-card-header">
-        <span>${escHtml(morph.name)}</span>
+        <span class="mm-card-name">${escHtml(morph.name)}</span>
+        <div class="mm-card-actions">
+          <button class="btn btn-sm mm-edit-btn">EDIT</button>
+          <button class="btn btn-sm btn-danger mm-delete-btn">DEL</button>
+        </div>
       </div>
+
+      ${hasDynamic ? `
+        <div class="mm-vars">
+          ${Object.keys(morph.dynamicVars).map(v => `
+            <div class="mm-var-row">
+              <span class="mm-var-label">{${v}}</span>
+              <input class="mm-var-input" data-var="${escHtml(v)}"
+                     value="${escHtml(morph.dynamicVars[v] ?? '')}"
+                     placeholder="${escHtml(v)}">
+            </div>
+          `).join('')}
+        </div>
+      ` : ''}
 
       <div class="mm-cmd-preview">
-        ${renderCommandPreview(preview)}
+        ${morph.commands.map((cmd, i) => {
+          const rendered = applyVars(cmd, allVars);
+          return `
+            <div class="mm-cmd-line">
+              <span class="mm-cmd-index">${i + 1}</span>
+              <span class="mm-cmd-text" title="${escHtml(rendered)}">${escHtml(rendered)}</span>
+            </div>
+          `;
+        }).join('')}
       </div>
 
-      <div class="mm-card-actions">
-        <button class="mm-copy-btn">COPY</button>
-        <button class="mm-add-btn">ADD</button>
-        <button class="mm-edit-btn">EDIT</button>
-        <button class="mm-delete-btn">DELETE</button>
+      <div class="mm-card-footer">
+        <span class="mm-cmd-count">${morph.commands.length} cmd${morph.commands.length !== 1 ? 's' : ''}</span>
+        <button class="btn btn-sm mm-copy-btn">COPY</button>
+        <button class="btn btn-add btn-sm mm-add-btn">+ ADD</button>
       </div>
     </div>
   `;
 }
 
-// --- EVENTS ---
 
-function wireCardEvents(container) {
-  const morphs = loadMorphs();
+// --- CARD EVENTS ---
 
+function wireCardEvents(container, morphs) {
   container.querySelectorAll('.mm-card').forEach(card => {
-    const id = card.dataset.id;
+    const id    = card.dataset.id;
     const morph = morphs.find(m => m.id === id);
+    if (!morph) return;
+
+    // Dynamic var inputs update the preview live and persist to storage
+    card.querySelectorAll('.mm-var-input').forEach(input => {
+      input.addEventListener('input', () => {
+        morph.dynamicVars[input.dataset.var] = input.value;
+        saveMorphs(morphs);
+        refreshCardPreview(card, morph);
+      });
+    });
 
     card.querySelector('.mm-copy-btn').onclick = () => {
-      const vars = { ...morph.constantVars, ...morph.dynamicVars };
+      const vars     = getLiveVars(card, morph);
       const resolved = morph.commands.map(c => applyVars(c, vars));
       copyToClipboard(`run ${resolved.join(' & ')}`);
     };
 
     card.querySelector('.mm-add-btn').onclick = () => {
-      const vars = { ...morph.constantVars, ...morph.dynamicVars };
+      const vars = getLiveVars(card, morph);
       morph.commands.forEach(c => addToCommandQueue(applyVars(c, vars)));
     };
 
-    card.querySelector('.mm-edit-btn').onclick = () => openEditor(morph);
-
-    card.querySelector('.mm-delete-btn').onclick = () => {
+    card.querySelector('.mm-edit-btn').onclick   = () => openEditor(morph);
+    card.querySelector('.mm-delete-btn').onclick  = () => {
       if (!confirm(`Delete "${morph.name}"?`)) return;
-
-      const newMorphs = morphs.filter(m => m.id !== id);
-      saveMorphs(newMorphs);
+      saveMorphs(morphs.filter(m => m.id !== id));
       renderMyMorphsTab();
     };
   });
 }
 
+function getLiveVars(card, morph) {
+  const vars = { ...morph.constantVars };
+  card.querySelectorAll('.mm-var-input').forEach(input => {
+    vars[input.dataset.var] = input.value;
+  });
+  return vars;
+}
+
+function refreshCardPreview(card, morph) {
+  const vars    = getLiveVars(card, morph);
+  const preview = card.querySelector('.mm-cmd-preview');
+  if (!preview) return;
+  preview.innerHTML = morph.commands.map((cmd, i) => {
+    const rendered = applyVars(cmd, vars);
+    return `
+      <div class="mm-cmd-line">
+        <span class="mm-cmd-index">${i + 1}</span>
+        <span class="mm-cmd-text" title="${escHtml(rendered)}">${escHtml(rendered)}</span>
+      </div>
+    `;
+  }).join('');
+}
+
+
 // --- MODAL ---
 
 let editingId = null;
 
-function renderEditorModal() {
-  return `
-    <div class="mm-modal-backdrop hidden" id="mm-modal-backdrop">
-      <div class="mm-modal">
-        <div class="mm-modal-header">
-          <span>MORPH</span>
-          <button id="mm-modal-close">×</button>
-        </div>
-
-        <input id="mm-name-input" placeholder="Name">
-
-        <div id="mm-var-container"></div>
-
-        <textarea id="mm-cmds-input" placeholder="Commands..."></textarea>
-
-        <div class="mm-modal-footer">
-          <button id="mm-cancel-btn">Cancel</button>
-          <button id="mm-save-btn">Save</button>
-        </div>
-      </div>
-    </div>
-  `;
-}
-
-function openEditor(morph) {
+function openEditor(morph, preset = null) {
   editingId = morph?.id ?? null;
 
-  document.getElementById('mm-modal-backdrop').classList.remove('hidden');
+  const backdrop = document.getElementById('mm-modal-backdrop');
+  backdrop.classList.remove('hidden');
 
-  document.getElementById('mm-name-input').value = morph?.name ?? '';
-  document.getElementById('mm-cmds-input').value = morph?.commands.join('\n') ?? '';
+  document.getElementById('mm-modal-title').textContent = morph ? 'EDIT MORPH' : 'NEW MORPH';
+  document.getElementById('mm-name-input').value  = morph?.name ?? preset?.name ?? '';
+  document.getElementById('mm-cmds-input').value  = (morph?.commands ?? preset?.commands ?? []).join('\n');
 
-  updateVarUI(morph);
+  updateVarPreview(morph ?? { constantVars: {}, dynamicVars: {} });
 }
 
 function closeEditor() {
   document.getElementById('mm-modal-backdrop').classList.add('hidden');
+  editingId = null;
 }
 
-function updateVarUI(morph = null) {
-  const cmds = document.getElementById('mm-cmds-input').value.split('\n');
-  const vars = extractVariables(cmds);
+function updateVarPreview(existingMorph = null) {
+  const cmds = document.getElementById('mm-cmds-input').value
+    .split('\n').filter(Boolean);
+  const { constant, dynamic } = extractVariables(cmds);
 
-  const values = {
-    ...(morph?.constantVars || {}),
-    ...(morph?.dynamicVars || {})
+  const existing = {
+    ...(existingMorph?.constantVars ?? {}),
+    ...(existingMorph?.dynamicVars  ?? {})
   };
 
-  const container = document.getElementById('mm-var-container');
+  const area = document.getElementById('mm-var-preview-area');
+  if (!area) return;
 
-  container.innerHTML = `
-    ${renderVarInputs('CONSTANT', vars.constant, values)}
-    ${renderVarInputs('DYNAMIC', vars.dynamic, values)}
-  `;
-}
+  if (!constant.length && !dynamic.length) { area.innerHTML = ''; return; }
 
-function renderVarInputs(label, vars, values) {
-  if (!vars.length) return '';
-
-  return `
-    <div>
-      <div>${label}</div>
-      <div class="mm-vars">
-        ${vars.map(v => `
-          <input class="mm-var-input" data-var="${v}" value="${values[v] || ''}" placeholder="${v}">
-        `).join('')}
+  area.innerHTML = `
+    ${constant.length ? `
+      <div style="margin-top:14px">
+        <div class="mm-field-label">
+          CONSTANTS
+          <span class="mm-field-hint">saved with the morph — set once</span>
+        </div>
+        <div class="mm-vars">
+          ${constant.map(v => `
+            <div class="mm-var-row">
+              <span class="mm-var-label">{!${v}}</span>
+              <input class="mm-var-input mm-modal-var" data-var="${escHtml(v)}"
+                     value="${escHtml(existing[v] ?? '')}" placeholder="${escHtml(v)}">
+            </div>
+          `).join('')}
+        </div>
       </div>
-    </div>
+    ` : ''}
+    ${dynamic.length ? `
+      <div style="margin-top:10px">
+        <div class="mm-field-label">
+          DYNAMIC
+          <span class="mm-field-hint">filled in each time you use the morph</span>
+        </div>
+        <div class="mm-vars">
+          ${dynamic.map(v => `
+            <div class="mm-var-row">
+              <span class="mm-var-label">{${v}}</span>
+              <input class="mm-var-input mm-modal-var" data-var="${escHtml(v)}"
+                     value="${escHtml(existing[v] ?? '')}" placeholder="${escHtml(v)}">
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    ` : ''}
   `;
 }
-
-// --- MODAL EVENTS ---
 
 function wireModal() {
-  const backdrop = document.getElementById('mm-modal-backdrop');
+  document.getElementById('mm-modal-close').onclick  = closeEditor;
+  document.getElementById('mm-cancel-btn').onclick   = closeEditor;
 
-  document.getElementById('mm-modal-close').onclick = closeEditor;
-  document.getElementById('mm-cancel-btn').onclick = closeEditor;
-
-  backdrop.onclick = (e) => {
-    if (e.target === backdrop) closeEditor();
+  document.getElementById('mm-modal-backdrop').onclick = e => {
+    if (e.target.id === 'mm-modal-backdrop') closeEditor();
   };
 
-  document.getElementById('mm-cmds-input').oninput = () => updateVarUI();
+  document.getElementById('mm-cmds-input').oninput = () => updateVarPreview();
 
   document.getElementById('mm-save-btn').onclick = () => {
-    const name = document.getElementById('mm-name-input').value.trim();
-    const commands = document.getElementById('mm-cmds-input').value.split('\n').filter(Boolean);
+    const name     = document.getElementById('mm-name-input').value.trim();
+    const commands = document.getElementById('mm-cmds-input').value
+      .split('\n').map(l => l.trim()).filter(Boolean);
 
-    const vars = extractVariables(commands);
+    if (!name)          { alert('Please enter a name.'); return; }
+    if (!commands.length) { alert('Please enter at least one command.'); return; }
 
-    const inputs = document.querySelectorAll('.mm-var-input');
-
-    const constantVars = {};
-    const dynamicVars = {};
-
-    inputs.forEach(input => {
-      const key = input.dataset.var;
-      if (vars.constant.includes(key)) constantVars[key] = input.value;
-      else dynamicVars[key] = input.value;
-    });
+    const { constant, dynamic } = extractVariables(commands);
+    const { constantVars, dynamicVars } = collectVarInputs(
+      document.getElementById('mm-var-preview-area'),
+      constant,
+      dynamic
+    );
 
     const morphs = loadMorphs();
 
     if (editingId) {
       const m = morphs.find(x => x.id === editingId);
-      if (m) {
-        m.name = name;
-        m.commands = commands;
-        m.constantVars = constantVars;
-        m.dynamicVars = dynamicVars;
-      }
+      if (m) Object.assign(m, { name, commands, constantVars, dynamicVars });
     } else {
-      morphs.push({
-        id: generateId(),
-        name,
-        commands,
-        constantVars,
-        dynamicVars
-      });
+      morphs.push({ id: generateId(), name, commands, constantVars, dynamicVars });
     }
 
     saveMorphs(morphs);
@@ -275,5 +373,9 @@ function wireModal() {
 // --- HELPERS ---
 
 function escHtml(str) {
-  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
 }
