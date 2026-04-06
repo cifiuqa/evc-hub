@@ -6,6 +6,7 @@ import { addToCommandQueue } from './queue.js';
 
 const STORAGE_KEY = 'evc_my_morphs';
 
+
 // --- STORAGE ---
 
 function loadMorphs() {
@@ -20,6 +21,76 @@ function saveMorphs(morphs) {
 function generateId() {
   return `m_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
 }
+
+
+// --- DIALOG ---
+// Custom replacements for alert() and confirm() that match the site theme.
+
+function showAlert(message) {
+  return new Promise(resolve => {
+    const backdrop = _createDialogBackdrop(`
+      <div class="mm-dialog-message">${escHtml(message)}</div>
+      <div class="mm-dialog-footer">
+        <button class="btn btn-primary btn-sm mm-dialog-ok">OK</button>
+      </div>
+    `);
+
+    backdrop.querySelector('.mm-dialog-ok').onclick = () => {
+      backdrop.remove();
+      resolve();
+    };
+  });
+}
+
+// Returns true if confirmed, false if cancelled.
+function showConfirm(message) {
+  return new Promise(resolve => {
+    const backdrop = _createDialogBackdrop(`
+      <div class="mm-dialog-message">${escHtml(message)}</div>
+      <div class="mm-dialog-footer">
+        <button class="btn btn-danger btn-sm mm-dialog-cancel">CANCEL</button>
+        <button class="btn btn-primary btn-sm mm-dialog-ok">CONFIRM</button>
+      </div>
+    `);
+
+    backdrop.querySelector('.mm-dialog-ok').onclick = () => {
+      backdrop.remove();
+      resolve(true);
+    };
+
+    backdrop.querySelector('.mm-dialog-cancel').onclick = () => {
+      backdrop.remove();
+      resolve(false);
+    };
+
+    backdrop.onclick = e => {
+      if (e.target === backdrop) {
+        backdrop.remove();
+        resolve(false);
+      }
+    };
+  });
+}
+
+function _createDialogBackdrop(innerHtml) {
+  const backdrop = document.createElement('div');
+  backdrop.className = 'mm-modal-backdrop mm-dialog-backdrop';
+  backdrop.innerHTML = `
+    <div class="mm-modal mm-dialog">
+      <div class="mm-modal-header">
+        <span class="mm-modal-title">EVC HUB</span>
+      </div>
+      <div class="mm-modal-body mm-dialog-body">
+        ${innerHtml}
+      </div>
+    </div>
+  `;
+  document.body.appendChild(backdrop);
+  // Remove 'hidden' class if present (the main modal uses it)
+  backdrop.classList.remove('hidden');
+  return backdrop;
+}
+
 
 // --- VARIABLES ---
 // {!varname} = constant (set once, saved with the morph — e.g. your own codename)
@@ -49,6 +120,7 @@ function collectVarInputs(container, constantKeys, dynamicKeys) {
   });
   return { constantVars, dynamicVars };
 }
+
 
 // --- RENDER ---
 
@@ -127,10 +199,8 @@ export function renderMyMorphsTab() {
     </div>
   `;
 
-  // Toolbar
   document.getElementById('mm-new-btn').onclick = () => openEditor(null);
 
-  // Preset USE buttons
   container.querySelectorAll('.mm-preset-use-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const preset = presets.find(p => p.id === btn.dataset.presetId);
@@ -146,7 +216,7 @@ export function renderMyMorphsTab() {
 // --- CARD RENDER ---
 
 function renderMorphCard(morph) {
-  const allVars = { ...morph.constantVars, ...morph.dynamicVars };
+  const allVars    = { ...morph.constantVars, ...morph.dynamicVars };
   const hasDynamic = Object.keys(morph.dynamicVars ?? {}).length > 0;
 
   return `
@@ -202,7 +272,6 @@ function wireCardEvents(container, morphs) {
     const morph = morphs.find(m => m.id === id);
     if (!morph) return;
 
-    // Dynamic var inputs update the preview live and persist to storage
     card.querySelectorAll('.mm-var-input').forEach(input => {
       input.addEventListener('input', () => {
         morph.dynamicVars[input.dataset.var] = input.value;
@@ -222,9 +291,10 @@ function wireCardEvents(container, morphs) {
       morph.commands.forEach(c => addToCommandQueue(applyVars(c, vars)));
     };
 
-    card.querySelector('.mm-edit-btn').onclick   = () => openEditor(morph);
-    card.querySelector('.mm-delete-btn').onclick  = () => {
-      if (!confirm(`Delete "${morph.name}"?`)) return;
+    card.querySelector('.mm-edit-btn').onclick  = () => openEditor(morph);
+    card.querySelector('.mm-delete-btn').onclick = async () => {
+      const confirmed = await showConfirm(`Delete "${morph.name}"?`);
+      if (!confirmed) return;
       saveMorphs(morphs.filter(m => m.id !== id));
       renderMyMorphsTab();
     };
@@ -257,26 +327,33 @@ function refreshCardPreview(card, morph) {
 
 // --- MODAL ---
 
-let editingId = null;
+let editingId    = null;
+// Holds the active preset's variable metadata map while the editor is open.
+// Shape: { [varName]: { description?: string, default?: string } }
+let activeVarMeta = {};
 
 function openEditor(morph, preset = null) {
-  editingId = morph?.id ?? null;
+  editingId    = morph?.id ?? null;
+  activeVarMeta = preset?.variables ?? {};
 
   const backdrop = document.getElementById('mm-modal-backdrop');
   backdrop.classList.remove('hidden');
 
   document.getElementById('mm-modal-title').textContent = morph ? 'EDIT MORPH' : 'NEW MORPH';
-  document.getElementById('mm-name-input').value  = morph?.name ?? preset?.name ?? '';
-  document.getElementById('mm-cmds-input').value  = (morph?.commands ?? preset?.commands ?? []).join('\n');
+  document.getElementById('mm-name-input').value = morph?.name ?? preset?.name ?? '';
+  document.getElementById('mm-cmds-input').value = (morph?.commands ?? preset?.commands ?? []).join('\n');
 
   updateVarPreview(morph ?? { constantVars: {}, dynamicVars: {} });
 }
 
 function closeEditor() {
   document.getElementById('mm-modal-backdrop').classList.add('hidden');
-  editingId = null;
+  editingId     = null;
+  activeVarMeta = {};
 }
 
+// Renders the variable input rows inside the modal.
+// Merges existing saved values with preset defaults and descriptions from activeVarMeta.
 function updateVarPreview(existingMorph = null) {
   const cmds = document.getElementById('mm-cmds-input').value
     .split('\n').filter(Boolean);
@@ -300,13 +377,7 @@ function updateVarPreview(existingMorph = null) {
           <span class="mm-field-hint">saved with the morph — set once</span>
         </div>
         <div class="mm-vars">
-          ${constant.map(v => `
-            <div class="mm-var-row">
-              <span class="mm-var-label">{!${v}}</span>
-              <input class="mm-var-input mm-modal-var" data-var="${escHtml(v)}"
-                     value="${escHtml(existing[v] ?? '')}" placeholder="${escHtml(v)}">
-            </div>
-          `).join('')}
+          ${constant.map(v => renderVarInput(v, existing[v], true)).join('')}
         </div>
       </div>
     ` : ''}
@@ -317,22 +388,35 @@ function updateVarPreview(existingMorph = null) {
           <span class="mm-field-hint">filled in each time you use the morph</span>
         </div>
         <div class="mm-vars">
-          ${dynamic.map(v => `
-            <div class="mm-var-row">
-              <span class="mm-var-label">{${v}}</span>
-              <input class="mm-var-input mm-modal-var" data-var="${escHtml(v)}"
-                     value="${escHtml(existing[v] ?? '')}" placeholder="${escHtml(v)}">
-            </div>
-          `).join('')}
+          ${dynamic.map(v => renderVarInput(v, existing[v], false)).join('')}
         </div>
       </div>
     ` : ''}
   `;
 }
 
+// Renders a single variable input row, pulling description/default from activeVarMeta.
+// Layout: label → input → description
+function renderVarInput(varName, savedValue, isConstant) {
+  const meta        = activeVarMeta[varName] ?? {};
+  const displayName = isConstant ? `{!${varName}}` : `{${varName}}`;
+
+  // Saved value wins over preset default; preset default wins over empty string.
+  const inputValue = savedValue ?? meta.default ?? '';
+
+  return `
+    <div class="mm-var-row">
+      <span class="mm-var-label">${escHtml(displayName)}</span>
+      <input class="mm-var-input mm-modal-var" data-var="${escHtml(varName)}"
+             value="${escHtml(inputValue)}" placeholder="${escHtml(varName)}">
+      ${meta.description ? `<span class="mm-var-meta-desc">${parseDescriptionHtml(meta.description)}</span>` : ''}
+    </div>
+  `;
+}
+
 function wireModal() {
-  document.getElementById('mm-modal-close').onclick  = closeEditor;
-  document.getElementById('mm-cancel-btn').onclick   = closeEditor;
+  document.getElementById('mm-modal-close').onclick = closeEditor;
+  document.getElementById('mm-cancel-btn').onclick  = closeEditor;
 
   document.getElementById('mm-modal-backdrop').onclick = e => {
     if (e.target.id === 'mm-modal-backdrop') closeEditor();
@@ -340,13 +424,13 @@ function wireModal() {
 
   document.getElementById('mm-cmds-input').oninput = () => updateVarPreview();
 
-  document.getElementById('mm-save-btn').onclick = () => {
+  document.getElementById('mm-save-btn').onclick = async () => {
     const name     = document.getElementById('mm-name-input').value.trim();
     const commands = document.getElementById('mm-cmds-input').value
       .split('\n').map(l => l.trim()).filter(Boolean);
 
-    if (!name)          { alert('Please enter a name.'); return; }
-    if (!commands.length) { alert('Please enter at least one command.'); return; }
+    if (!name)            { await showAlert('Please enter a name.'); return; }
+    if (!commands.length) { await showAlert('Please enter at least one command.'); return; }
 
     const { constant, dynamic } = extractVariables(commands);
     const { constantVars, dynamicVars } = collectVarInputs(
@@ -358,8 +442,8 @@ function wireModal() {
     const morphs = loadMorphs();
 
     if (editingId) {
-      const m = morphs.find(x => x.id === editingId);
-      if (m) Object.assign(m, { name, commands, constantVars, dynamicVars });
+      const morph = morphs.find(x => x.id === editingId);
+      if (morph) Object.assign(morph, { name, commands, constantVars, dynamicVars });
     } else {
       morphs.push({ id: generateId(), name, commands, constantVars, dynamicVars });
     }
@@ -370,6 +454,7 @@ function wireModal() {
   };
 }
 
+
 // --- HELPERS ---
 
 function escHtml(str) {
@@ -378,4 +463,14 @@ function escHtml(str) {
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
+}
+
+// Escapes a description string for safe HTML injection, then converts
+// [text](url) markdown links into <a> tags. Only http/https URLs are allowed.
+function parseDescriptionHtml(str) {
+  return escHtml(String(str)).replace(
+    /\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g,
+    (_, text, url) =>
+      `<a href="${url}" target="_blank" rel="noopener" class="mm-var-desc-link">${text}</a>`
+  );
 }

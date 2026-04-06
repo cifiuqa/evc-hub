@@ -5,9 +5,26 @@
       "name": "Standard Staff Morph",
       "description": "Basic, no nonsense morph.",
       "commands": [
+        "team me dep",
+        "ref me",
         "permntag me <font face=\"{!font}\">{!codename}</font>",
-        "permrtag me <font face=\"{!font}\">{rank} | OoRP | Godded</font>"
-      ]
+        "permrtag me <font face=\"{!font}\">{rank} | OoRP | Godded</font>",
+        "permcntag me {nameColor}",
+        "permcrtag me {rankColor}",
+        "delay 10 god me"
+      ],
+      "variables": {
+        "font": {
+          "description": "Use a default Roblox font from [here](https://create.roblox.com/docs/reference/engine/enums/Font)",
+          "default": "Michroma"
+        },
+        "codename": {
+          "description": "Your staff codename"
+        },
+        "rank": {
+          "description": "Your rank title or abbreviation e.g. VEvC or Veteran Event Coordinator"
+        }
+      }
     }
   ]
 }

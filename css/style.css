@@ -1932,3 +1932,80 @@ body { display: flex; flex-direction: column; }
   font-weight: 600;
   white-space: nowrap;
 }
+
+.mm-var-meta-desc a.mm-var-desc-link {
+  color: var(--accent2);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.1s;
+}
+
+.mm-var-meta-desc a.mm-var-desc-link:hover {
+  color: var(--accent);
+}
+
+/* ── Custom Dialog (alert / confirm) ────────────────────────── */
+
+.mm-dialog-backdrop {
+  /* Sits above everything, including the editor modal */
+  z-index: 300;
+}
+
+.mm-dialog {
+  width: 380px;
+  max-width: 92vw;
+}
+
+.mm-dialog-body {
+  gap: 0;
+  padding: 20px 18px 4px;
+}
+
+.mm-dialog-message {
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+
+.mm-dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 14px 0 4px;
+}
+
+/* ── Preset variable metadata description ────────────────────── */
+
+.mm-var-meta-desc {
+  color: var(--text-muted);
+  font-size: 10px;
+  font-style: italic;
+  letter-spacing: 0.3px;
+  white-space: normal;
+  max-width: 220px;
+  line-height: 1.5;
+}
+
+/* Allow var rows to wrap so long descriptions don't overflow */
+.mm-vars .mm-var-row {
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.mm-vars .mm-var-label {
+  padding-top: 3px;
+}
+
+/* Variable inputs grow to fit content rather than being fixed width */
+.mm-var-input {
+  width: auto;
+  min-width: 140px;
+  flex: 1;
+}
+
+/* Description sits after the input, takes remaining space, wraps naturally */
+.mm-var-meta-desc {
+  max-width: none;
+  flex: 1;
+}
